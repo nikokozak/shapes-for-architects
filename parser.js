@@ -3,6 +3,7 @@
 export default (function () {
 
     const bindings = {}
+    const resolution = 400 
 
     // ----------------- GRAMMAR ------------------------ //
    
@@ -11,18 +12,18 @@ export default (function () {
             Program = Ranges Formula+
             Ranges = "{" Identifiers "|" Bounds "}"
             Formula = Axis "=" Expression
-            Expression = lower+ "(" Expression ")" -- fn
-                        | Expression "*" Expression -- mult
+            Expression =  Expression "*" Expression -- mult
                         | Expression "/" Expression -- div
                         | Expression "+" Expression -- plus
                         | Expression "-" Expression -- minus
                         | Expression "^" Expression -- power
+                        | lower+ "(" Expression ")" -- fn
                         | Constant
                         | number
                         | identifier -- ident
             Constant = "PI"
             Bounds = NonemptyListOf<Bound, ",">
-            Bound = number Rule identifier Rule number 
+            Bound = Expression Rule identifier Rule Expression 
             Rule = "<=" | ">=" | "<" | ">"
             Identifiers = NonemptyListOf<identifier, ",">
             Axis = "x" | "y" | "z" 
@@ -223,7 +224,6 @@ export default (function () {
     // Ensures range identifiers have been populated in the global bindings
     // with their respective arrays of values.
     {
-        const resolution = 20
         // The number of steps between low/high vals in range.
         bindings.resolution = resolution
 
@@ -275,6 +275,7 @@ export default (function () {
     
     return {
         
+        resolution,
         grammar,
         semantics,
         match: (str) => grammar.match(str),
