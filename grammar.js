@@ -22,7 +22,20 @@ Shape {
     number = digit+
 }`)
 
-const makeRangeForBinding = (low, high, resolution) =>
+function populateBindingsFor(identifiers, bounds, bindings)
+{
+    const resolution = 20
+    bindings.resolution = resolution
+
+    identifiers.forEach(i => {
+        const bound = getBoundsCorrespondingToIdentifier(i, bounds)
+        if (bound == undefined) { throw "Ident not in Bounds" }
+        bindings[i] = makeRangeValuesForBinding(bound.low, bound.high, resolution)
+    })
+
+}
+
+function makeRangeValuesForBinding(low, high, resolution)
 {
     const step = (high - low) / resolution
     const result = Array(resolution)
@@ -32,41 +45,52 @@ const makeRangeForBinding = (low, high, resolution) =>
     return result
 }
 
-const getBoundsForIdentifier = (identifier, bounds) =>
+function getBoundsCorrespondingToIdentifier(identifier, bounds)
 {
     return bounds.find(b => b.identifier == identifier)
 }
 
+function parseFormulasIntoPoints(raw_formulas, bindings)
+{
+    const result = {}
+    raw_formulas.children.forEach(rf => {
+        const axis = rf.parse().axis
+        const iterations = bindings.resolution
+        result[axis] = Array(iterations)
+        for (let idx = 0; idx < iterations; idx++) {
+            result[axis][idx] = rf.parse_w_idx(idx)
+        }
+    })
+    return result
+}
+
 const bindings = {}
+let current_index = 0
 
 const shapeActions = 
     {
         Program(ranges, formulas) {
-            return { ranges: ranges.parse(),
-                formulas: formulas.children.map(c => c.parse()) 
+            ranges = ranges.parse() // populates bindings
+            const formula_results = parseFormulasIntoPoints(formulas, bindings)
+
+            return { 
+                ranges,
+                formula_values: formula_results
             }
         },
         Formula(axis, _, exp) {
             return { 
                 axis: axis.sourceString,
-                exp: exp.parse()
+                exp: exp.parse_w_idx(this.args.curr_idx)
             }
         },
         Ranges(_a, idents, _b, bounds, _c) {
-            idents = idents.parse()
+            identifiers = idents.parse()
             bounds = bounds.parse()
             
-            idents.forEach(i => {
-                const bound = getBoundsForIdentifier(i, bounds)
-                if (bound == undefined) { throw "Ident not in Bounds" }
-                bindings[i] = makeRangeForBinding(bound.low, bound.high, 20)
-                console.log(bindings)
-            })
+            populateBindingsFor(identifiers, bounds, bindings)
 
-            return { 
-                identifiers: idents,
-                bounds
-            }
+            return { identifiers, bounds }
         },
         Identifiers(list) {
             console.log("vals: ")
@@ -90,70 +114,86 @@ const shapeActions =
             }
         },
         Expression_plus(expr_left, _, expr_right) {
-            return {
+            const token = {
                 type: "arithmetic-token",
                 op: (a, b) => a + b, 
-                args: [expr_left.parse(), expr_right.parse()]
+                args: [expr_left.parse_w_idx(this.args.curr_idx),
+                    expr_right.parse_w_idx(this.args.curr_idx)]
             }
+            return token.op.apply(null, token.args)
         },
         Expression_minus(expr_left, _, expr_right) {
-            return {
+            const token = {
                 type: "arithmetic-token",
                 op: (a, b) => a - b,
-                args: [expr_left.parse(), expr_right.parse()]
+                args: [expr_left.parse_w_idx(this.args.curr_idx),
+                    expr_right.parse_w_idx(this.args.curr_idx)]
             }
+            return token.op.apply(null, token.args)
         },
         Expression_mult(expr_left, _, expr_right) {
-            return {
+            const token = {
                 type: "arithmetic-token",
                 op: (a, b) => a * b,
-                args: [expr_left.parse(), expr_right.parse()]
+                args: [expr_left.parse_w_idx(this.args.curr_idx),
+                    expr_right.parse_w_idx(this.args.curr_idx)]
             }
+            return token.op.apply(null, token.args)
         },
         Expression_div(expr_left, _, expr_right) {
-            return {
+            const token = {
                 type: "arithmetic-token",
                 op: (a, b) => a / b,
-                args: [expr_left.parse(), expr_right.parse()]
+                args: [expr_left.parse_w_idx(this.args.curr_idx),
+                    expr_right.parse_w_idx(this.args.curr_idx)]
             }
+            return token.op.apply(null, token.args)
         },
         Expression_power(expr_left, _, expr_right) {
-            return {
+            const token = {
                 type: "arithmetic-token",
                 op: (a, b) => Math.pow(a, b),
-                args: [expr_left.parse(), expr_right.parse()]
+                args: [expr_left.parse_w_idx(this.args.curr_idx),
+                    expr_right.parse_w_idx(this.args.curr_idx)]
             }
+            return token.op.apply(null, token.args)
         },
         Expression_fn(fn, _a, expr, _b) {
             fn = fn.sourceString
+            let token
             switch (fn) {
                 case "cos":
-                    return {
+                    token = {
                         type: "util-token",
                         op: (a) => Math.cos(a),
-                        args: [expr.parse()]
+                        args: [expr.parse_w_idx(this.args.curr_idx)]
                     }
+                    return token.op.apply(null, token.args)
                 case "sin":
-                    return {
+                    token = {
                         type: "util-token",
                         op: (a) => Math.sin(a),
-                        args: [expr.parse()]
+                        args: [expr.parse_w_idx(this.args.curr_idx)]
                     }
+                    return token.op.apply(null, token.args)
                 case "atan":
-                    return {
+                    token = {
                         type: "util-token",
                         op: (a) => Math.sin(a),
-                        args: [expr.parse()]
+                        args: [expr.parse_w_idx(this.args.curr_idx)]
                     }
+                    return token.op.apply(null, token.args)
                 default:
-                    return expr.parse()
+                    throw `Unknown function \"${fn}\"`
             }
         },
         Expression_ident(ident) {
-            return {
+            const token = {
                 type: "ident-token",
-                name: ident.sourceString
+                name: ident.sourceString,
+                val: bindings[ident.sourceString][this.args.curr_idx]
             }
+            return token.val
         },
         Constant(_pi) {
             return Math.PI
@@ -164,5 +204,6 @@ const shapeActions =
     }
 
 const shapeSemantics = shapeGrammar.createSemantics()
-shapeSemantics.addOperation('parse', shapeActions)
+shapeSemantics.addOperation('parse()', shapeActions)
+shapeSemantics.addOperation('parse_w_idx(curr_idx)', shapeActions)
 
