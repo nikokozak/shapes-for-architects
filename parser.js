@@ -9,7 +9,8 @@ export default (function () {
    
     const grammar = ohm.grammar(`
         Shape {
-            Program = Ranges Formula+
+            Program = Option? Ranges Formula+
+            Option = "#" lower+
             Ranges = "{" Identifiers "|" Bounds "}"
             Formula = Axis "=" Expression
             Expression =  "(" Expression ")"        -- bracketed
@@ -28,6 +29,7 @@ export default (function () {
             Rule = "<=" | ">=" | "<" | ">"
             Identifiers = NonemptyListOf<identifier, ",">
             Axis = "x" | "y" | "z" 
+            word = lower+
             identifier = lower
             number = digit+
     }`)
@@ -43,15 +45,22 @@ export default (function () {
         // grammar is further processed. Each function matches a grammar rule
         // and receives as many arguments.
 
-        Program(ranges, formulas)
+        Program(option, ranges, formulas)
         {
+            option = option.children.map(o => o.parse())[0]
             ranges = ranges.parse() // Populates bindings as a side effect
             const formula_results = parseFormulasIntoPointValues(formulas, bindings)
 
             return { 
+                option,
                 ranges,
                 formula_values: formula_results
             }
+        },
+
+        Option(_, option)
+        {
+            return option.sourceString.split(" ")
         },
 
         Formula(axis, _, exp) 

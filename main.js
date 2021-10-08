@@ -21,6 +21,7 @@ document.body.appendChild(renderer.domElement)
 
 
 let to_match = `
+# flat world
 { u, v | 0 <= u <= PI^5, 0 <= v <= PI }
 
 x = sin(sin(sin(sin(v) * cos(u))))
