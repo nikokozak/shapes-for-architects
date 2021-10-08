@@ -1,5 +1,5 @@
 // Makes an Iterator that will spit out <resolution> values from <lowBound> to <highBound>
-class Range {
+export class Range {
     constructor(resolution, ...bound_pairs) {
         this.resolution = resolution + 1
         this.bounds = this.injectStepSizeInto(this.makeBoundObjectsFrom(bound_pairs))
@@ -48,7 +48,7 @@ class Range {
 
 }
 
-function makeCurvePoints(rangeObj, xFn, yFn, zFn = false) {
+export function makeCurvePoints(rangeObj, xFn, yFn, zFn = false) {
     let points = []
     for (const range of rangeObj) {
         points.push(zFn ? new THREE.Vector3(xFn(range), yFn(range), zFn(range))
