@@ -1,8 +1,38 @@
 <!doctype html>
 <html>
     <head>
+<style type="text/css">
+    *:focus {
+        outline: none;
+    }
+    #container {
+        display: flex;
+        width: 1000px;
+    }
+    #three {
+        width: 520px;
+    }
+    #input {
+        width: 500px;
+        height: 300px;
+        background-color: gray;
+        color: white;
+        display: block;
+        font-size: 15px;
+        font-family: monospace;
+        font-weight: 800;
+    }
+
+</style>
     </head>
     <body>
+        <div id="container">
+        <div id="three"></div>
+        <div id="text">
+            <textarea id="input">
+            </textarea>
+        </div>
+        </div>
         <script src="./lib/ohm.min.js"></script>
         <script src="./lib/three.min.js"></script>
         <script src="./lib/OrbitControls.js"></script>

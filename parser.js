@@ -3,7 +3,7 @@
 export default (function () {
 
     const bindings = {}
-    const resolution = 800 
+    const resolution = 100 
 
     // ----------------- GRAMMAR ------------------------ //
    
@@ -47,14 +47,14 @@ export default (function () {
 
         Program(option, ranges, formulas)
         {
-            option = option.children.map(o => o.parse())[0]
+            option = option.children.map(o => o.parse()).flat()
             ranges = ranges.parse() // Populates bindings as a side effect
             const formula_results = parseFormulasIntoPointValues(formulas, bindings)
 
             return { 
                 option,
                 ranges,
-                formula_values: formula_results
+                values: formula_results
             }
         },
 
