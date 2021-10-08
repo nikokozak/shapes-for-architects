@@ -3,7 +3,7 @@
 export default (function () {
 
     const bindings = {}
-    const resolution = 400 
+    const resolution = 800 
 
     // ----------------- GRAMMAR ------------------------ //
    
@@ -12,11 +12,12 @@ export default (function () {
             Program = Ranges Formula+
             Ranges = "{" Identifiers "|" Bounds "}"
             Formula = Axis "=" Expression
-            Expression =  Expression "*" Expression -- mult
+            Expression =  "(" Expression ")"        -- bracketed
+                        | Expression "^" Expression -- power
+                        | Expression "*" Expression -- mult
                         | Expression "/" Expression -- div
                         | Expression "+" Expression -- plus
                         | Expression "-" Expression -- minus
-                        | Expression "^" Expression -- power
                         | lower+ "(" Expression ")" -- fn
                         | Constant
                         | number
@@ -156,6 +157,11 @@ export default (function () {
                     expr_right.parse_w_idx(this.args.curr_idx)]
             }
             return token.op.apply(null, token.args)
+        },
+
+        Expression_bracketed(_a, expr, _b)
+        {
+            return expr.parse_w_idx(this.args.curr_idx)
         },
 
         Expression_fn(fn, _a, expr, _b) 
