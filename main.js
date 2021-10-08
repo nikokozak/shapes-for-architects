@@ -50,7 +50,7 @@ console.log(matched)
 //       )
 //   })
 
-const lines = expander.makeLinesFromParse(matched, {sample_rate: 100})
+const lines = expander.makeLinesFromParse(matched, {sample_rate: 20})
 
 // const parse_curve = new THREE.CatmullRomCurve3(parse_points)
 //   const sample_points = parse_curve.getPoints(1000)

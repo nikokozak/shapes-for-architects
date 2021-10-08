@@ -3,7 +3,7 @@
 export default (function () {
 
     const bindings = {}
-    const resolution = 100 
+    const resolution = 20
 
     // ----------------- GRAMMAR ------------------------ //
    
@@ -13,16 +13,28 @@ export default (function () {
             Option = "#" lower+
             Ranges = "{" Identifiers "|" Bounds "}"
             Formula = Axis "=" Expression
-            Expression =  "(" Expression ")"        -- bracketed
-                        | Expression "^" Expression -- power
-                        | Expression "*" Expression -- mult
-                        | Expression "/" Expression -- div
-                        | Expression "+" Expression -- plus
-                        | Expression "-" Expression -- minus
-                        | lower+ "(" Expression ")" -- fn
-                        | Constant
-                        | number
-                        | identifier -- ident
+            Expression = AddExpression
+            AddExpression 
+                = AddExpression "+" MultExpression -- plus
+                | AddExpression "-" MultExpression -- minus
+                | MultExpression 
+            MultExpression
+                = MultExpression "*" ExpExpression -- times
+                | MultExpression "/" ExpExpression -- divide
+                | ExpExpression
+            ExpExpression
+                = PriExpression "^" ExpExpression -- power
+                | PriExpression
+            PriExpression
+                = "(" Expression ")" -- paren
+                | "+" PriExpression -- pos
+                | "-" PriExpression -- neg
+                | FnExpression
+                | Constant
+                | number
+                | identifier -- ident
+            FnExpression
+                = lower+ "(" Expression ")"
             Constant = "PI"
             Bounds = NonemptyListOf<Bound, ",">
             Bound = Expression Rule identifier Rule Expression 
@@ -49,6 +61,7 @@ export default (function () {
         {
             option = option.children.map(o => o.parse()).flat()
             ranges = ranges.parse() // Populates bindings as a side effect
+            console.log(bindings)
             const formula_results = parseFormulasIntoPointValues(formulas, bindings)
 
             return { 
@@ -113,7 +126,7 @@ export default (function () {
             }
         },
 
-        Expression_plus(expr_left, _, expr_right) 
+        AddExpression_plus(expr_left, _, expr_right) 
         {
             const token = {
                 type: "arithmetic-token",
@@ -124,7 +137,7 @@ export default (function () {
             return token.op.apply(null, token.args)
         },
 
-        Expression_minus(expr_left, _, expr_right) 
+        AddExpression_minus(expr_left, _, expr_right) 
         {
             const token = {
                 type: "arithmetic-token",
@@ -135,7 +148,7 @@ export default (function () {
             return token.op.apply(null, token.args)
         },
 
-        Expression_mult(expr_left, _, expr_right) 
+        MultExpression_times(expr_left, _, expr_right) 
         {
             const token = {
                 type: "arithmetic-token",
@@ -146,7 +159,7 @@ export default (function () {
             return token.op.apply(null, token.args)
         },
 
-        Expression_div(expr_left, _, expr_right) 
+        MultExpression_divide(expr_left, _, expr_right) 
         {
             const token = {
                 type: "arithmetic-token",
@@ -157,7 +170,7 @@ export default (function () {
             return token.op.apply(null, token.args)
         },
 
-        Expression_power(expr_left, _, expr_right) 
+        ExpExpression_power(expr_left, _, expr_right) 
         {
             const token = {
                 type: "arithmetic-token",
@@ -168,12 +181,22 @@ export default (function () {
             return token.op.apply(null, token.args)
         },
 
-        Expression_bracketed(_a, expr, _b)
+        PriExpression_paren(_l, expr, _r)
         {
             return expr.parse_w_idx(this.args.curr_idx)
         },
 
-        Expression_fn(fn, _a, expr, _b) 
+        PriExpression_pos(_, expr)
+        {
+            return expr.parse_w_idx(this.args.curr_idx)
+        },
+
+        PriExpression_neg(_, expr)
+        {
+            return -1 * expr.parse_w_idx(this.args.curr_idx)
+        },
+
+        FnExpression(fn, _a, expr, _b) 
         {
             fn = fn.sourceString
             let token
@@ -204,7 +227,7 @@ export default (function () {
             }
         },
 
-        Expression_ident(ident) 
+        PriExpression_ident(ident) 
         // Identifiers found inside an expression
         // These pull their values from the global bindings,
         // according to the current iteration passed through `parse(idx)`
@@ -214,6 +237,7 @@ export default (function () {
                 name: ident.sourceString,
                 val: bindings[ident.sourceString][this.args.curr_idx]
             }
+            console.log(token)
             return token.val
         },
 
@@ -260,7 +284,7 @@ export default (function () {
         const result = {}
         raw_formulas.children.forEach(rf => {
             const xyz_axis = rf.parse().axis
-            const iterations = bindings.resolution
+            const iterations = bindings.resolution + 1
             result[xyz_axis] = Array(iterations)
             for (let idx = 0; idx < iterations; idx++) {
                 result[xyz_axis][idx] = rf.parse_w_idx(idx).exp
