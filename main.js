@@ -1,4 +1,4 @@
-import { grammar, semantics } from './grammar.js'
+import parser from './parser.js'
 import { makeCurvePoints, Range } from './generator.js'
 // --------------------  SCENE SETUP
 
@@ -49,6 +49,6 @@ run()
 
 //console.log("It's working?")
 let to_match = "{ u, d | 0 <= u <= 9, 0 <= d <= 20 } \n x = 2 + u \n y = cos(d)"
-console.log(grammar.match(to_match))
-console.log(grammar.match(to_match).succeeded())
-console.log(semantics(grammar.match(to_match)).parse())
+console.log(parser.match(to_match))
+console.log(parser.match(to_match).succeeded())
+console.log(parser.parse(to_match))
