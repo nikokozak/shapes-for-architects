@@ -22,6 +22,23 @@ Shape {
     number = digit+
 }`)
 
+const makeRangeForBinding = (low, high, resolution) =>
+{
+    const step = (high - low) / resolution
+    const result = Array(resolution)
+    for (let val = low, i = 0; val <= high; val += step, i++) {
+        result[i] = val
+    }
+    return result
+}
+
+const getBoundsForIdentifier = (identifier, bounds) =>
+{
+    return bounds.find(b => b.identifier == identifier)
+}
+
+const bindings = {}
+
 const shapeActions = 
     {
         Program(ranges, formulas) {
@@ -36,8 +53,20 @@ const shapeActions =
             }
         },
         Ranges(_a, idents, _b, bounds, _c) {
-            return { identifiers: idents.parse(),
-            bounds: bounds.parse()}
+            idents = idents.parse()
+            bounds = bounds.parse()
+            
+            idents.forEach(i => {
+                const bound = getBoundsForIdentifier(i, bounds)
+                if (bound == undefined) { throw "Ident not in Bounds" }
+                bindings[i] = makeRangeForBinding(bound.low, bound.high, 20)
+                console.log(bindings)
+            })
+
+            return { 
+                identifiers: idents,
+                bounds
+            }
         },
         Identifiers(list) {
             console.log("vals: ")
@@ -49,7 +78,7 @@ const shapeActions =
         },
         Bounds(list) {
             const bounds = list.asIteration().children.map(c => c.parse())
-            return { bounds }
+            return bounds
         },
         Bound(lower, ruleLower, identifier, ruleUpper, upper) {
             return {
@@ -57,40 +86,73 @@ const shapeActions =
                 ruleLower: ruleLower.sourceString,
                 identifier: identifier.parse()[0],
                 ruleUpper: ruleUpper.sourceString,
-                upper: upper.parse()
+                high: upper.parse()
             }
         },
         Expression_plus(expr_left, _, expr_right) {
-            return expr_left.parse() + expr_right.parse()
+            return {
+                type: "arithmetic-token",
+                op: (a, b) => a + b, 
+                args: [expr_left.parse(), expr_right.parse()]
+            }
         },
         Expression_minus(expr_left, _, expr_right) {
-            return expr_left.parse() - expr_right.parse()
+            return {
+                type: "arithmetic-token",
+                op: (a, b) => a - b,
+                args: [expr_left.parse(), expr_right.parse()]
+            }
         },
         Expression_mult(expr_left, _, expr_right) {
-            return expr_left.parse() * expr_right.parse()
+            return {
+                type: "arithmetic-token",
+                op: (a, b) => a * b,
+                args: [expr_left.parse(), expr_right.parse()]
+            }
         },
         Expression_div(expr_left, _, expr_right) {
-            return expr_left.parse() / expr_right.parse()
+            return {
+                type: "arithmetic-token",
+                op: (a, b) => a / b,
+                args: [expr_left.parse(), expr_right.parse()]
+            }
         },
         Expression_power(expr_left, _, expr_right) {
-            return Math.pow(expr_left.parse(), expr_right.parse())
+            return {
+                type: "arithmetic-token",
+                op: (a, b) => Math.pow(a, b),
+                args: [expr_left.parse(), expr_right.parse()]
+            }
         },
         Expression_fn(fn, _a, expr, _b) {
             fn = fn.sourceString
             switch (fn) {
                 case "cos":
-                    return Math.cos(expr.parse())
+                    return {
+                        type: "util-token",
+                        op: (a) => Math.cos(a),
+                        args: [expr.parse()]
+                    }
                 case "sin":
-                    return Math.sin(expr.parse())
+                    return {
+                        type: "util-token",
+                        op: (a) => Math.sin(a),
+                        args: [expr.parse()]
+                    }
                 case "atan":
-                    return Math.atan(expr.parse())
+                    return {
+                        type: "util-token",
+                        op: (a) => Math.sin(a),
+                        args: [expr.parse()]
+                    }
                 default:
                     return expr.parse()
             }
         },
-        Expression_ident(_ident) {
+        Expression_ident(ident) {
             return {
-                
+                type: "ident-token",
+                name: ident.sourceString
             }
         },
         Constant(_pi) {

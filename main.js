@@ -46,7 +46,7 @@ function run() {
 run()
 
 //console.log("It's working?")
-let to_match = "{ u, x, z | 0 <= u <= 9, 0 <= x <= 20 } \n x = 2 + u"
+let to_match = "{ u, x | 0 <= u <= 9, 0 <= x <= 20 } \n x = 2 + u"
 console.log(shapeGrammar.match(to_match))
 console.log(shapeGrammar.match(to_match).succeeded())
 console.log(shapeSemantics(shapeGrammar.match(to_match)).parse())
