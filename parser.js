@@ -48,6 +48,20 @@ export default (function () {
 
 
     // ----------------- ACTIONS ------------------------ //
+    
+    const env = { 
+        range_bindings: {}, 
+        range_values: [],
+        local_bindings: {} 
+    }
+
+    function initEnvironment(options, ranges)
+    {
+        const result = {}
+        result.options = options
+        result.range_bindings = ranges.identifiers
+
+    }
 
     const actions = {
         // These actions define how the parse tree emitted by the above
@@ -56,21 +70,28 @@ export default (function () {
 
         Program(options, ranges, formulas)
         {
-            options = options.children.map(o => o.parse())
-            ranges = ranges.parse() // Populates bindings as a side effect
+            options = parseOptions(options)
+            // env.options = options
+
+            ranges = ranges.parse()
+
+            // Nested arrays of values from our ranges:
+            const sagara = genRangeValuesFrom(ranges) 
+            
             formulas = formulas.children.map(f => f.parse())
 
             return { 
                 options,
                 ranges,
                 formulas,
+                sagara
             }
         },
 
         Options(_, option, number)
         {
             return { 
-                type: "OPTION-TOKEN",
+                // type: "OPTION-TOKEN",
                 option: option.parse(),
                 value: number.child(0)?.parse()
             }
@@ -79,7 +100,7 @@ export default (function () {
         Formula(axis, _, exp) 
         {
             return { 
-                type: "FORMULA-TOKEN",
+                // type: "FORMULA-TOKEN",
                 axis: axis.sourceString,
                 exp: exp.parse()
             }
@@ -87,17 +108,22 @@ export default (function () {
 
         Ranges(_a, identifiers, _b, bounds, _c) 
         {
-            identifiers = 
-                extractRangeIdentifiers(identifiers.parse())
-            bounds = 
-                bounds.parse()
+            identifiers = extractRangeIdentifiers(identifiers.parse())
+            bounds = bounds.parse()
 
+            // Ensures variables in { u, v | ... }
+            // match variables in declared bounds.
             ensureIdentifierParity(identifiers, bounds)
 
-            return { 
-                type: "RANGES-TOKEN",
-                identifiers, 
-                bounds }
+
+            // We return an array instead of an object because we need
+            // a guarantee that order is maintained according to the declaration.
+            return bounds.map(b => {
+                b.identifier = b.identifier.value
+                b.values = generateRangeValues(b)
+                b.named_values = generateNamedRangeValues(b)
+                return b
+            })
         },
 
         Identifiers(list) 
@@ -126,7 +152,7 @@ export default (function () {
         Bound(lower, ruleLeft, identifier, ruleRight, upper) 
         {
             return {
-                type: "BOUND-TOKEN",
+                // type: "BOUND-TOKEN",
                 low: lower.parse(),
                 ruleLeft: ruleLeft.sourceString,
                 identifier: identifier.parse(),
@@ -143,7 +169,8 @@ export default (function () {
                 args: [expr_left.parse(),
                     expr_right.parse()]
             }
-            return token
+            // return token
+            return token.op.apply(null, token.args)
         },
 
         AddExpression_minus(expr_left, _, expr_right) 
@@ -154,7 +181,8 @@ export default (function () {
                 args: [expr_left.parse(),
                     expr_right.parse()]
             }
-            return token
+            // return token
+            return token.op.apply(null, token.args)
         },
 
         MultExpression_times(expr_left, _, expr_right) 
@@ -165,7 +193,8 @@ export default (function () {
                 args: [expr_left.parse(),
                     expr_right.parse()]
             }
-            return token
+            // return token
+            return token.op.apply(null, token.args)
         },
 
         MultExpression_divide(expr_left, _, expr_right) 
@@ -176,7 +205,8 @@ export default (function () {
                 args: [expr_left.parse(),
                     expr_right.parse()]
             }
-            return token
+            // return token
+            return token.op.apply(null, token.args)
         },
 
         ExpExpression_power(expr_left, _, expr_right) 
@@ -187,7 +217,8 @@ export default (function () {
                 args: [expr_left.parse(),
                     expr_right.parse()]
             }
-            return token
+            // return token
+            return token.op.apply(null, token.args)
         },
 
         PriExpression_paren(_l, expr, _r)
@@ -218,7 +249,7 @@ export default (function () {
                     token = {
                         type: "FUN-TOKEN",
                         op: (a) => Math.cos(a),
-                        args: [expr.parse_w_idx(this.args.curr_idx)]
+                        args: [expr.parse()]
                     }
                     //return token.op.apply(null, token.args)
                     return token
@@ -226,7 +257,7 @@ export default (function () {
                     token = {
                         type: "FUN-TOKEN",
                         op: (a) => Math.sin(a),
-                        args: [expr.parse_w_idx(this.args.curr_idx)]
+                        args: [expr.parse()]
                     }
                     //return token.op.apply(null, token.args)
                     return token
@@ -234,7 +265,7 @@ export default (function () {
                     token = {
                         type: "FUN-TOKEN",
                         op: (a) => Math.sin(a),
-                        args: [expr.parse_w_idx(this.args.curr_idx)]
+                        args: [expr.parse()]
                     }
                     //return token.op.apply(null, token.args)
                     return token
@@ -262,9 +293,71 @@ export default (function () {
     // Bind our actions to internal methods
     semantics.addOperation('parse()', actions)
     // This method carries an argument, used to pass down an index value
-    semantics.addOperation('parse_w_idx(curr_idx)', actions)
+    semantics.addOperation('parse_w_env(env)', actions)
+    semantics.addOperation('parse_w_args(args)', actions)
 
     // ----------------- ACTION HELPERS ------------------------ //
+    
+    function parseOptions(options)
+    {
+        return options.children.reduce((result, curr, i) => {
+            const option_token = curr.parse()
+            result[option_token.option] = option_token.value || true
+            return result
+        }, {})
+    }
+
+    function generateRangeValues(bound)
+    {
+        const resolution = 20
+        const step = (bound.high - bound.low) / resolution
+
+        const result = Array(resolution)
+        
+        for (let val = bound.low, i = 0; i < resolution; val += step, i++)
+        {
+            result[i] = val;
+        }
+
+        return result
+    }
+
+    function generateNamedRangeValues(bound)
+    {
+        const resolution = 20
+        const step = (bound.high - bound.low) / resolution
+
+        const result = Array(resolution)
+        
+        for (let val = bound.low, i = 0; i < resolution; val += step, i++)
+        {
+            result[i] = { [bound.identifier]: val }
+        }
+
+        return result
+    }
+
+    function genRangeValuesFrom(parsed_ranges)
+    {
+        function combine([car, ...[cadr, ...cddr]])
+        {
+            if (!cadr || cadr.length == 0) { return car }
+
+            const combined = cadr.named_values.map(cadr_v => {
+                return [ car.named_values.map(car_v => { return { ...car_v, ...cadr_v } }) ]
+            })
+            return combine([combined, cddr])
+        }
+
+        return combine(parsed_ranges)
+    }
+
+    function assocValuesWithIdentifier(bound)
+    {
+        return bound.values.map(v => { 
+            return { [bound.identifier]: v }
+        })
+    }
 
     function ensureIdentifierParity(identifiers, bounds_array)
     {
