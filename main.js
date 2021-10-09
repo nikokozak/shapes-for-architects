@@ -32,6 +32,8 @@ z = sin(sin(sin(cos(v))))
 `
 
 let to_match2 = `
+    # option
+    # option 20
     { u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
 
     x = cos(u)

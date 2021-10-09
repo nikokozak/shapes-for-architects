@@ -9,8 +9,8 @@ export default (function () {
    
     const grammar = ohm.grammar(`
         Shape {
-            Program = Option? Ranges Formula+
-            Option = "#" lower+
+            Program = Options* Ranges Formula+
+            Options = "#" word number?
             Ranges = "{" Identifiers "|" Bounds "}"
             Formula = Axis "=" Expression
             Expression = AddExpression
@@ -32,7 +32,7 @@ export default (function () {
                 | FnExpression
                 | Constant
                 | number
-                | identifier -- ident
+                | identifier
             FnExpression
                 = lower+ "(" Expression ")"
             Constant = "PI"
@@ -57,30 +57,32 @@ export default (function () {
         // grammar is further processed. Each function matches a grammar rule
         // and receives as many arguments.
 
-        Program(option, ranges, formulas)
+        Program(options, ranges, formulas)
         {
-            option = option.children.map(o => o.parse()).flat()
+            options = options.children.map(o => o.parse())
             ranges = ranges.parse() // Populates bindings as a side effect
-            console.log(bindings)
-            const formula_results = parseFormulasIntoPointValues(formulas, bindings)
+            formulas = formulas.children.map(f => f.parse())
 
             return { 
-                option,
+                options,
                 ranges,
-                values: formula_results
+                formulas,
             }
         },
 
-        Option(_, option)
+        Options(_, option, number)
         {
-            return option.sourceString.split(" ")
+            return { 
+                option: option.parse(),
+                value: number.child(0)?.parse()
+            }
         },
 
         Formula(axis, _, exp) 
         {
             return { 
                 axis: axis.sourceString,
-                exp: exp.parse_w_idx(this.args.curr_idx)
+                exp: exp.parse()
             }
         },
 
@@ -91,7 +93,7 @@ export default (function () {
            
             // Ensure that our global bindings are populated by any range
             // variables declared by the user.
-            populateBindingsFor(identifiers, bounds, bindings)
+            // populateBindingsFor(identifiers, bounds, bindings)
 
             return { identifiers, bounds }
         },
@@ -106,7 +108,11 @@ export default (function () {
         identifier(val) 
         // All identifiers
         {
-            return val.sourceString
+            return {
+                type: "IDENTIFIER",
+                value: val.sourceString
+            }
+            // return val.sourceString
         },
 
         Bounds(list) 
@@ -129,116 +135,109 @@ export default (function () {
         AddExpression_plus(expr_left, _, expr_right) 
         {
             const token = {
-                type: "arithmetic-token",
+                type: "ARITHMETIC",
                 op: (a, b) => a + b, 
-                args: [expr_left.parse_w_idx(this.args.curr_idx),
-                    expr_right.parse_w_idx(this.args.curr_idx)]
+                args: [expr_left.parse(),
+                    expr_right.parse()]
             }
-            return token.op.apply(null, token.args)
+            return token
         },
 
         AddExpression_minus(expr_left, _, expr_right) 
         {
             const token = {
-                type: "arithmetic-token",
+                type: "ARITHMETIC",
                 op: (a, b) => a - b,
-                args: [expr_left.parse_w_idx(this.args.curr_idx),
-                    expr_right.parse_w_idx(this.args.curr_idx)]
+                args: [expr_left.parse(),
+                    expr_right.parse()]
             }
-            return token.op.apply(null, token.args)
+            return token
         },
 
         MultExpression_times(expr_left, _, expr_right) 
         {
             const token = {
-                type: "arithmetic-token",
+                type: "ARITHMETIC",
                 op: (a, b) => a * b,
-                args: [expr_left.parse_w_idx(this.args.curr_idx),
-                    expr_right.parse_w_idx(this.args.curr_idx)]
+                args: [expr_left.parse(),
+                    expr_right.parse()]
             }
-            return token.op.apply(null, token.args)
+            return token
         },
 
         MultExpression_divide(expr_left, _, expr_right) 
         {
             const token = {
-                type: "arithmetic-token",
+                type: "ARITHMETIC",
                 op: (a, b) => a / b,
-                args: [expr_left.parse_w_idx(this.args.curr_idx),
-                    expr_right.parse_w_idx(this.args.curr_idx)]
+                args: [expr_left.parse(),
+                    expr_right.parse()]
             }
-            return token.op.apply(null, token.args)
+            return token
         },
 
         ExpExpression_power(expr_left, _, expr_right) 
         {
             const token = {
-                type: "arithmetic-token",
+                type: "ARITHMETIC",
                 op: (a, b) => Math.pow(a, b),
-                args: [expr_left.parse_w_idx(this.args.curr_idx),
-                    expr_right.parse_w_idx(this.args.curr_idx)]
+                args: [expr_left.parse(),
+                    expr_right.parse()]
             }
-            return token.op.apply(null, token.args)
+            return token
         },
 
         PriExpression_paren(_l, expr, _r)
         {
-            return expr.parse_w_idx(this.args.curr_idx)
+            return expr.parse()
         },
 
         PriExpression_pos(_, expr)
         {
-            return expr.parse_w_idx(this.args.curr_idx)
+            return expr.parse()
         },
 
         PriExpression_neg(_, expr)
         {
-            return -1 * expr.parse_w_idx(this.args.curr_idx)
+            return {
+                type: "ARITHMETIC",
+                op: (a, b) => a * b,
+                args: [-1, expr.parse()]
+            }
         },
 
         FnExpression(fn, _a, expr, _b) 
         {
-            fn = fn.sourceString
+            const fn_name = fn.sourceString
             let token
-            switch (fn) {
+            switch (fn_name) {
                 case "cos":
                     token = {
-                        type: "util-token",
+                        type: "FUNCTIONCALL",
                         op: (a) => Math.cos(a),
                         args: [expr.parse_w_idx(this.args.curr_idx)]
                     }
-                    return token.op.apply(null, token.args)
+                    //return token.op.apply(null, token.args)
+                    return token
                 case "sin":
                     token = {
-                        type: "util-token",
+                        type: "FUNCTIONCALL",
                         op: (a) => Math.sin(a),
                         args: [expr.parse_w_idx(this.args.curr_idx)]
                     }
-                    return token.op.apply(null, token.args)
+                    //return token.op.apply(null, token.args)
+                    return token
                 case "atan":
                     token = {
-                        type: "util-token",
+                        type: "FUNCTIONCALL",
                         op: (a) => Math.sin(a),
                         args: [expr.parse_w_idx(this.args.curr_idx)]
                     }
-                    return token.op.apply(null, token.args)
+                    //return token.op.apply(null, token.args)
+                    return token
                 default:
                     throw `Unknown function \"${fn}\"`
             }
-        },
-
-        PriExpression_ident(ident) 
-        // Identifiers found inside an expression
-        // These pull their values from the global bindings,
-        // according to the current iteration passed through `parse(idx)`
-        {
-            const token = {
-                type: "ident-token",
-                name: ident.sourceString,
-                val: bindings[ident.sourceString][this.args.curr_idx]
-            }
-            console.log(token)
-            return token.val
         },
 
         Constant(_pi) 
@@ -249,6 +248,11 @@ export default (function () {
         number(_) 
         {
             return parseInt(this.sourceString)
+        },
+
+        word(_)
+        {
+            return this.sourceString
         }
     }
 
@@ -275,6 +279,7 @@ export default (function () {
 
     }
 
+    // Into lines now, for every v, u
     function parseFormulasIntoPointValues(raw_formulas, bindings)
     // Based on the current resolution (number of available "step" values),
     // iterate as many times, allowing the parsed formulas to return values
