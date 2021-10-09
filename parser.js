@@ -341,7 +341,10 @@ export default (function () {
     {
         function combine([car, ...[cadr, ...cddr]])
         {
-            if (!cadr || cadr.length == 0) { return car }
+            if (!cadr || cadr.length == 0) {
+                if (Array.isArray(car)) { return car }
+                else { return car.named_values }
+            }
 
             const combined = cadr.named_values.map(cadr_v => {
                 return [ car.named_values.map(car_v => { return { ...car_v, ...cadr_v } }) ]
