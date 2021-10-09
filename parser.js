@@ -2,9 +2,6 @@
 
 export default (function () {
 
-    const bindings = {}
-    const resolution = 20
-
     // ----------------- GRAMMAR ------------------------ //
    
     const grammar = ohm.grammar(`
@@ -73,6 +70,7 @@ export default (function () {
         Options(_, option, number)
         {
             return { 
+                type: "OPTION-TOKEN",
                 option: option.parse(),
                 value: number.child(0)?.parse()
             }
@@ -81,6 +79,7 @@ export default (function () {
         Formula(axis, _, exp) 
         {
             return { 
+                type: "FORMULA-TOKEN",
                 axis: axis.sourceString,
                 exp: exp.parse()
             }
@@ -88,14 +87,17 @@ export default (function () {
 
         Ranges(_a, identifiers, _b, bounds, _c) 
         {
-            identifiers = identifiers.parse()
-            bounds = bounds.parse()
-           
-            // Ensure that our global bindings are populated by any range
-            // variables declared by the user.
-            // populateBindingsFor(identifiers, bounds, bindings)
+            identifiers = 
+                extractRangeIdentifiers(identifiers.parse())
+            bounds = 
+                bounds.parse()
 
-            return { identifiers, bounds }
+            ensureIdentifierParity(identifiers, bounds)
+
+            return { 
+                type: "RANGES-TOKEN",
+                identifiers, 
+                bounds }
         },
 
         Identifiers(list) 
@@ -109,7 +111,7 @@ export default (function () {
         // All identifiers
         {
             return {
-                type: "IDENTIFIER",
+                type: "IDENTIFIER-TOKEN",
                 value: val.sourceString
             }
             // return val.sourceString
@@ -124,9 +126,10 @@ export default (function () {
         Bound(lower, ruleLeft, identifier, ruleRight, upper) 
         {
             return {
+                type: "BOUND-TOKEN",
                 low: lower.parse(),
                 ruleLeft: ruleLeft.sourceString,
-                identifier: identifier.parse()[0],
+                identifier: identifier.parse(),
                 ruleRight: ruleRight.sourceString,
                 high: upper.parse()
             }
@@ -135,7 +138,7 @@ export default (function () {
         AddExpression_plus(expr_left, _, expr_right) 
         {
             const token = {
-                type: "ARITHMETIC",
+                type: "PLUS-TOKEN",
                 op: (a, b) => a + b, 
                 args: [expr_left.parse(),
                     expr_right.parse()]
@@ -146,7 +149,7 @@ export default (function () {
         AddExpression_minus(expr_left, _, expr_right) 
         {
             const token = {
-                type: "ARITHMETIC",
+                type: "MINUS-TOKEN",
                 op: (a, b) => a - b,
                 args: [expr_left.parse(),
                     expr_right.parse()]
@@ -157,7 +160,7 @@ export default (function () {
         MultExpression_times(expr_left, _, expr_right) 
         {
             const token = {
-                type: "ARITHMETIC",
+                type: "TIMES-TOKEN",
                 op: (a, b) => a * b,
                 args: [expr_left.parse(),
                     expr_right.parse()]
@@ -168,7 +171,7 @@ export default (function () {
         MultExpression_divide(expr_left, _, expr_right) 
         {
             const token = {
-                type: "ARITHMETIC",
+                type: "DIVIDE-TOKEN",
                 op: (a, b) => a / b,
                 args: [expr_left.parse(),
                     expr_right.parse()]
@@ -179,7 +182,7 @@ export default (function () {
         ExpExpression_power(expr_left, _, expr_right) 
         {
             const token = {
-                type: "ARITHMETIC",
+                type: "POWER-TOKEN",
                 op: (a, b) => Math.pow(a, b),
                 args: [expr_left.parse(),
                     expr_right.parse()]
@@ -200,7 +203,7 @@ export default (function () {
         PriExpression_neg(_, expr)
         {
             return {
-                type: "ARITHMETIC",
+                type: "NEG-TOKEN",
                 op: (a, b) => a * b,
                 args: [-1, expr.parse()]
             }
@@ -213,7 +216,7 @@ export default (function () {
             switch (fn_name) {
                 case "cos":
                     token = {
-                        type: "FUNCTIONCALL",
+                        type: "FUN-TOKEN",
                         op: (a) => Math.cos(a),
                         args: [expr.parse_w_idx(this.args.curr_idx)]
                     }
@@ -221,7 +224,7 @@ export default (function () {
                     return token
                 case "sin":
                     token = {
-                        type: "FUNCTIONCALL",
+                        type: "FUN-TOKEN",
                         op: (a) => Math.sin(a),
                         args: [expr.parse_w_idx(this.args.curr_idx)]
                     }
@@ -229,7 +232,7 @@ export default (function () {
                     return token
                 case "atan":
                     token = {
-                        type: "FUNCTIONCALL",
+                        type: "FUN-TOKEN",
                         op: (a) => Math.sin(a),
                         args: [expr.parse_w_idx(this.args.curr_idx)]
                     }
@@ -262,6 +265,34 @@ export default (function () {
     semantics.addOperation('parse_w_idx(curr_idx)', actions)
 
     // ----------------- ACTION HELPERS ------------------------ //
+
+    function ensureIdentifierParity(identifiers, bounds_array)
+    {
+        const bounds_identifiers = 
+            bounds_array.map(b => extractIdentifier(b.identifier))
+        
+        const b1 = identifiers.sort().join('')
+        const b2 = bounds_identifiers.sort().join('')
+
+        if (b1 !== b2) { throw "Identifiers and Bound Identifiers do not match!" }
+    }
+
+    function extractRangeIdentifiers (range_identifiers)
+    {
+        return range_identifiers.map(i => extractIdentifier(i))
+    }
+
+    function extractIdentifier (identifier_token)
+    {
+        if (identifier_token.type != "IDENTIFIER-TOKEN") {
+            throw "Expected an Identifier"
+        } else if (identifier_token.value == undefined) {
+            throw "Undefined identifier"
+        }
+
+        return identifier_token.value
+    }
+
 
     function populateBindingsFor(identifiers, bounds, bindings)
     // Ensures range identifiers have been populated in the global bindings
@@ -319,7 +350,6 @@ export default (function () {
     
     return {
         
-        resolution,
         grammar,
         semantics,
         match: (str) => grammar.match(str),
