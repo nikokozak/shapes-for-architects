@@ -16,7 +16,7 @@ export default (function () {
         const sample_rate = defaultOr('sample_rate', options)
         const material = defaultOr('material', options)
         const lines = makeCRomCurvesFromParse(parse_result)
-    
+
         return lines.map((line) => {
             const sample_points = line.getPoints(sample_rate)
             const geometry = new THREE.BufferGeometry().setFromPoints(sample_points)
@@ -26,14 +26,16 @@ export default (function () {
 
     function makeCRomCurvesFromParse(parse_result)
     {
-        const { option, values, _ranges } = parse_result
+        const { options, test } = parse_result
 
-        switch (option[0]) {
-            case "continuous":
-                return [ makeContinuousLine(values) ]
-            default:
-                return makePermutedLines(values)
-        }
+       // switch (option[0]) {
+       //     case "continuous":
+       //         return [ makeContinuousLine(values) ]
+       //     default:
+       //         return makePermutedLines(values)
+       // }
+        
+        return makePermutedLines(test)
     }
 
     function makeContinuousLine(axis_values)
@@ -54,24 +56,13 @@ export default (function () {
 
     function makePermutedLines(axis_values)
     {
-        const default_z = 0
-        const has_z_values = axis_values.z ? true : false
-        const z_values = has_z_values ? axis_values.z : [ default_z ]
-
-        console.log(z_values)
-
-        const curves = z_values.map((z_val) => {
-            const points = axis_values.x.map((x_val, i) => {
-                return new THREE.Vector3(
-                    x_val,
-                    axis_values.y[i],
-                    z_val
-                )
-            })
-            return new THREE.CatmullRomCurve3(points)
-        })
-
-        return curves
+        if (Array.isArray(axis_values[0])) {
+            return axis_values.map(v => {
+                return makePermutedLines(v)
+            }).flat()
+        } else {
+            return [ new THREE.CatmullRomCurve3(axis_values) ]
+        }
     }
 
     return {

@@ -48,20 +48,6 @@ export default (function () {
 
 
     // ----------------- ACTIONS ------------------------ //
-    
-    const env = { 
-        range_bindings: {}, 
-        range_values: [],
-        local_bindings: {} 
-    }
-
-    function initEnvironment(options, ranges)
-    {
-        const result = {}
-        result.options = options
-        result.range_bindings = ranges.identifiers
-
-    }
 
     const actions = {
         // These actions define how the parse tree emitted by the above
@@ -72,19 +58,20 @@ export default (function () {
         {
             options = parseOptions(options)
             // env.options = options
-
             ranges = ranges.parse()
 
             // Nested arrays of values from our ranges:
             const sagara = genRangeValuesFrom(ranges) 
             
+            const test = evalFormulas(formulas, {}, sagara)
             formulas = formulas.children.map(f => f.parse())
 
             return { 
                 options,
                 ranges,
                 formulas,
-                sagara
+                sagara,
+                test
             }
         },
 
@@ -102,13 +89,13 @@ export default (function () {
             return { 
                 // type: "FORMULA-TOKEN",
                 axis: axis.sourceString,
-                exp: exp.parse()
+                value: exp.parse_w_args(this.args.args)
             }
         },
 
         Ranges(_a, identifiers, _b, bounds, _c) 
         {
-            identifiers = extractRangeIdentifiers(identifiers.parse())
+            identifiers = identifiers.parse()
             bounds = bounds.parse()
 
             // Ensures variables in { u, v | ... }
@@ -119,7 +106,6 @@ export default (function () {
             // We return an array instead of an object because we need
             // a guarantee that order is maintained according to the declaration.
             return bounds.map(b => {
-                b.identifier = b.identifier.value
                 b.values = generateRangeValues(b)
                 b.named_values = generateNamedRangeValues(b)
                 return b
@@ -136,10 +122,16 @@ export default (function () {
         identifier(val) 
         // All identifiers
         {
-            return {
-                type: "IDENTIFIER-TOKEN",
-                value: val.sourceString
+           //return {
+           //    type: "IDENTIFIER-TOKEN",
+           //    value: val.sourceString
+           //}
+            if (this.args.args) {
+               return this.args.args[val.sourceString]
+            } else {
+                return val.sourceString
             }
+
             // return val.sourceString
         },
 
@@ -152,7 +144,7 @@ export default (function () {
         Bound(lower, ruleLeft, identifier, ruleRight, upper) 
         {
             return {
-                // type: "BOUND-TOKEN",
+                //type: "BOUND-TOKEN",
                 low: lower.parse(),
                 ruleLeft: ruleLeft.sourceString,
                 identifier: identifier.parse(),
@@ -166,8 +158,8 @@ export default (function () {
             const token = {
                 type: "PLUS-TOKEN",
                 op: (a, b) => a + b, 
-                args: [expr_left.parse(),
-                    expr_right.parse()]
+                args: [expr_left.parse_w_args(this.args.args),
+                    expr_right.parse_w_args(this.args.args)]
             }
             // return token
             return token.op.apply(null, token.args)
@@ -178,8 +170,8 @@ export default (function () {
             const token = {
                 type: "MINUS-TOKEN",
                 op: (a, b) => a - b,
-                args: [expr_left.parse(),
-                    expr_right.parse()]
+                args: [expr_left.parse_w_args(this.args.args),
+                    expr_right.parse_w_args(this.args.args)]
             }
             // return token
             return token.op.apply(null, token.args)
@@ -190,8 +182,8 @@ export default (function () {
             const token = {
                 type: "TIMES-TOKEN",
                 op: (a, b) => a * b,
-                args: [expr_left.parse(),
-                    expr_right.parse()]
+                args: [expr_left.parse_w_args(this.args.args),
+                    expr_right.parse_w_args(this.args.args)]
             }
             // return token
             return token.op.apply(null, token.args)
@@ -202,8 +194,8 @@ export default (function () {
             const token = {
                 type: "DIVIDE-TOKEN",
                 op: (a, b) => a / b,
-                args: [expr_left.parse(),
-                    expr_right.parse()]
+                args: [expr_left.parse_w_args(this.args.args),
+                    expr_right.parse_w_args(this.args.args)]
             }
             // return token
             return token.op.apply(null, token.args)
@@ -214,8 +206,8 @@ export default (function () {
             const token = {
                 type: "POWER-TOKEN",
                 op: (a, b) => Math.pow(a, b),
-                args: [expr_left.parse(),
-                    expr_right.parse()]
+                args: [expr_left.parse_w_args(this.args.args),
+                    expr_right.parse_w_args(this.args.args)]
             }
             // return token
             return token.op.apply(null, token.args)
@@ -223,12 +215,12 @@ export default (function () {
 
         PriExpression_paren(_l, expr, _r)
         {
-            return expr.parse()
+            return expr.parse_w_args(this.args.args)
         },
 
         PriExpression_pos(_, expr)
         {
-            return expr.parse()
+            return expr.parse_w_args(this.args.args)
         },
 
         PriExpression_neg(_, expr)
@@ -236,7 +228,7 @@ export default (function () {
             return {
                 type: "NEG-TOKEN",
                 op: (a, b) => a * b,
-                args: [-1, expr.parse()]
+                args: [-1, expr.parse_w_args(this.args.args)]
             }
         },
 
@@ -249,26 +241,26 @@ export default (function () {
                     token = {
                         type: "FUN-TOKEN",
                         op: (a) => Math.cos(a),
-                        args: [expr.parse()]
+                        args: [expr.parse_w_args(this.args.args)]
                     }
                     //return token.op.apply(null, token.args)
-                    return token
+                    return token.op.apply(null, token.args)
                 case "sin":
                     token = {
                         type: "FUN-TOKEN",
                         op: (a) => Math.sin(a),
-                        args: [expr.parse()]
+                        args: [expr.parse_w_args(this.args.args)]
                     }
                     //return token.op.apply(null, token.args)
-                    return token
+                    return token.op.apply(null, token.args)
                 case "atan":
                     token = {
                         type: "FUN-TOKEN",
                         op: (a) => Math.sin(a),
-                        args: [expr.parse()]
+                        args: [expr.parse_w_args(this.args.args)]
                     }
                     //return token.op.apply(null, token.args)
-                    return token
+                    return token.op.apply(null, token.args)
                 default:
                     throw `Unknown function \"${fn}\"`
             }
@@ -297,6 +289,31 @@ export default (function () {
     semantics.addOperation('parse_w_args(args)', actions)
 
     // ----------------- ACTION HELPERS ------------------------ //
+    
+    function evalFormulas(formulas, options, sagara)
+    {
+        function applyFormulasTo(arr)
+        {
+            return arr.map(range_value => {
+                if (Array.isArray(range_value)) { return applyFormulasTo(range_value) }
+
+                let formula_results = formulas.children.map(f => f.parse_w_args(range_value))
+                formula_results = {
+                    x: formula_results.find(v => v.axis == 'x')?.value,
+                    y: formula_results.find(v => v.axis == 'y')?.value,
+                    z: formula_results.find(v => v.axis == 'z')?.value
+                }
+
+                return new THREE.Vector3 (
+                    formula_results.x,
+                    formula_results.y,
+                    formula_results.z || 0
+                )
+            })
+        }
+
+        return applyFormulasTo(sagara)
+    }
     
     function parseOptions(options)
     {
@@ -347,7 +364,7 @@ export default (function () {
             }
 
             const combined = cadr.named_values.map(cadr_v => {
-                return [ car.named_values.map(car_v => { return { ...car_v, ...cadr_v } }) ]
+                return car.named_values.map(car_v => { return { ...car_v, ...cadr_v } })
             })
             return combine([combined, cddr])
         }
@@ -365,8 +382,8 @@ export default (function () {
     function ensureIdentifierParity(identifiers, bounds_array)
     {
         const bounds_identifiers = 
-            bounds_array.map(b => extractIdentifier(b.identifier))
-        
+            bounds_array.map(b => b.identifier)
+
         const b1 = identifiers.sort().join('')
         const b2 = bounds_identifiers.sort().join('')
 
@@ -375,7 +392,7 @@ export default (function () {
 
     function extractRangeIdentifiers (range_identifiers)
     {
-        return range_identifiers.map(i => extractIdentifier(i))
+        return range_identifiers.map(i => i)
     }
 
     function extractIdentifier (identifier_token)
