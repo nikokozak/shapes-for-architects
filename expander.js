@@ -26,7 +26,7 @@ export default (function () {
 
     function makeCRomCurvesFromParse(parse_result)
     {
-        const { options, test } = parse_result
+        const { options, points } = parse_result
 
        // switch (option[0]) {
        //     case "continuous":
@@ -35,7 +35,7 @@ export default (function () {
        //         return makePermutedLines(values)
        // }
         
-        return makePermutedLines(test)
+        return makePermutedLines(points)
     }
 
     function makeContinuousLine(axis_values)

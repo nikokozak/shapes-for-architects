@@ -4,8 +4,8 @@ import expander from './expander.js'
 // --------------------  SCENE SETUP
 
 
-const WIDTH = 500
-const HEIGHT = 500
+const WIDTH = 800
+const HEIGHT = 800
 
 const scene = new THREE.Scene()
 scene.background = new THREE.Color( 0xffffff )
@@ -32,33 +32,19 @@ z = sin(sin(sin(cos(v))))
 `
 
 let to_match2 = `
-    # option
-    # option 20
+    # sampling 40
+    # resolution 40
     { u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
 
     x = cos(u)
     y = sin(u)
-    z = v
 `
 
 const matched = parser.parse(to_match2)
+const sample_rate = matched.options.sampling || 20
 console.log(matched)
 
-//   const parse_points = matched.values.x.map((x_val, i) => {
-//       return new THREE.Vector3(
-//           x_val,
-//           matched.values.y[i],
-//           matched.values.z ? matched.values.z[i] : 0
-//       )
-//   })
-
-const lines = expander.makeLinesFromParse(matched, {sample_rate: 20})
-
-// const parse_curve = new THREE.CatmullRomCurve3(parse_points)
-//   const sample_points = parse_curve.getPoints(1000)
-//   const parse_geometry = new THREE.BufferGeometry().setFromPoints(sample_points)
-//   const parse_material = new THREE.LineBasicMaterial( { color: 0x000000 })
-//   const parse_spline = new THREE.Line( parse_geometry, parse_material )
+const lines = expander.makeLinesFromParse(matched, {sample_rate: sample_rate})
 
 for (const line of lines) {
     scene.add(line)
@@ -69,35 +55,17 @@ for (const line of lines) {
 
 const textarea = document.getElementById("input")
 textarea.addEventListener('input', (e) => {
-    console.log(e.target.value)
     const match = parser.match(e.target.value)
     if (match.succeeded()){
         const parsed = parser.semantics(match).parse()
-        const lines = expander.makeLinesFromParse(parsed, { sample_rate: 100 })
+        const sampling = parsed.options.sampling || 20
+        const lines = expander.makeLinesFromParse(parsed, { sample_rate: sampling })
         while (scene.children.length) { scene.remove(scene.children[0]) }
         for (const line of lines) {
             scene.add(line)
         }
     }
 })
-
-// --------------------  Manual Curve Setup
-
-
-//   Manual generation method
-//
-//   const cylinderGenerator = new Range(400, [0, 80*Math.PI], [0, Math.PI])
-//   const curve = new THREE.CatmullRomCurve3(
-//       makeCurvePoints(cylinderGenerator, 
-//           ([u, v]) => Math.sin(v) * Math.cos(u),
-//           ([u, v]) => Math.sin(v) * Math.sin(u),
-//           ([_u, v]) => v))
-//   const points = curve.getPoints(800)
-//   const geometry = new THREE.BufferGeometry().setFromPoints(points)
-//   const material = new THREE.LineBasicMaterial( { color: 0x000000 })
-//   const splineObject = new THREE.Line( geometry, material )
-//   scene.add(splineObject)
-
 
 // -------------------- DRAW
 
