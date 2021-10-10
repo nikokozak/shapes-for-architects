@@ -1,0 +1,22 @@
+{
+  "name": "archpeg",
+  "version": "1.0.0",
+  "description": "A visualizer & language for Morphing Architecture",
+  "main": "main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikokozak/shapes-for-architects.git"
+  },
+  "author": "Nikolai Kozak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikokozak/shapes-for-architects/issues"
+  },
+  "homepage": "https://github.com/nikokozak/shapes-for-architects#readme"
+}
