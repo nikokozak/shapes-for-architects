@@ -1,5 +1,4 @@
 // Grammar + Semantics
-
 const grammar = ohm.grammar(`
     Shape {
         Program = Options* Ranges Formula+
@@ -38,5 +37,4 @@ const grammar = ohm.grammar(`
         identifier = lower
         number = digit+
 }`)
-
 export default grammar
