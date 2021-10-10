@@ -1,5 +1,7 @@
 // ----------------- ACTIONS ------------------------ //
 
+import {UnknownFunctionException} from "./errors.js"
+
 const RESOLUTION = 20 // Default resolution for ranges
 
 const actions = {
@@ -129,7 +131,7 @@ const actions = {
             case "atan":
                 return Math.atan(expr.parse_w_env(this.args.env))
             default:
-                throw `Unknown function \"${fn}\"`
+                throw new UnknownFunctionException(fn_name)
         }
     },
 

@@ -84,16 +84,20 @@ for (const line of lines) {
 
 // -------------------- Listen to Changes
 
-editor.session.on('change', (e) => {
-    const match = parser.match(editor.session.getValue())
-    if (match.succeeded()){
-        const parsed = parser.semantics(match).parse()
-        const sampling = parsed.options.sampling || 20
-        const lines = line_maker.makeLinesFromParse(parsed, { sample_rate: sampling })
-        while (scene.children.length) { scene.remove(scene.children[0]) }
-        for (const line of lines) {
-            scene.add(line)
+editor.session.on('change', (_e) => {
+    try {
+        const match = parser.match(editor.session.getValue())
+        if (match.succeeded()){
+            const parsed = parser.semantics(match).parse()
+            const sampling = parsed.options.sampling || 20
+            const lines = line_maker.makeLinesFromParse(parsed, { sample_rate: sampling })
+            while (scene.children.length) { scene.remove(scene.children[0]) }
+            for (const line of lines) {
+                scene.add(line)
+            }
         }
+    } catch (error) {
+        console.log(error)
     }
 })
 
