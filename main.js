@@ -1,14 +1,16 @@
 import parser from './parser.js'
 import expander from './expander.js'
 
-// --------------------  SCENE SETUP
-
 // -------------------- EDITOR
 
 const editor = ace.edit("editor")
 
-const WIDTH = 800
-const HEIGHT = 800
+
+// --------------------  SCENE SETUP
+
+
+const WIDTH = 500
+const HEIGHT = 500
 
 const scene = new THREE.Scene()
 scene.background = new THREE.Color( 0xffffff )
