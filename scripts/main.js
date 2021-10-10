@@ -1,13 +1,11 @@
 import parser from './parser.js'
-import expander from './expander.js'
+import line_maker from './line_maker.js'
 
 // -------------------- EDITOR
 
 const editor = ace.edit("editor")
 
-
 // --------------------  SCENE SETUP
-
 
 const WIDTH = 500
 const HEIGHT = 500
@@ -77,7 +75,7 @@ const matched = parser.parse(to_match2)
 const sample_rate = matched.options.sampling || 20
 console.log(matched)
 
-const lines = expander.makeLinesFromParse(matched, {sample_rate: sample_rate})
+const lines = line_maker.makeLinesFromParse(matched, {sample_rate})
 
 for (const line of lines) {
     scene.add(line)
@@ -91,7 +89,7 @@ editor.session.on('change', (e) => {
     if (match.succeeded()){
         const parsed = parser.semantics(match).parse()
         const sampling = parsed.options.sampling || 20
-        const lines = expander.makeLinesFromParse(parsed, { sample_rate: sampling })
+        const lines = line_maker.makeLinesFromParse(parsed, { sample_rate: sampling })
         while (scene.children.length) { scene.remove(scene.children[0]) }
         for (const line of lines) {
             scene.add(line)
