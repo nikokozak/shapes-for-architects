@@ -31,6 +31,34 @@ y = sin(sin(sin(sin(v) * sin(u))))
 z = sin(sin(sin(cos(v))))
 `
 
+let four_slopes = `
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(v) * cos(u)
+y = sin(v) * sin(4 * u)
+z = cos(v)
+`
+
+let kein = `
+# resolution 70
+# sampling 100
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = (cos(4*u) / 2) + (sin(v) * cos(u))
+y = (sin(4*u) / 2) + (sin(v) * sin(u))
+z = cos(v)
+`
+
+let shell = `
+# resolution 70
+# sampling 200
+{ u, v | 0 <= u <= PI*8, 0 <= v <= PI }
+
+x = u * ( sin(v) * cos(u))
+y = u * (sin(v) * sin(u))
+z = 8*cos(v)
+`
+
 let to_match2 = `
     # sampling 40
     # resolution 40
