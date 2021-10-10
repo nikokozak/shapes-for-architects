@@ -3,6 +3,9 @@ import expander from './expander.js'
 
 // --------------------  SCENE SETUP
 
+// -------------------- EDITOR
+
+const editor = ace.edit("editor")
 
 const WIDTH = 800
 const HEIGHT = 800
@@ -81,9 +84,8 @@ for (const line of lines) {
 
 // -------------------- Listen to Changes
 
-const textarea = document.getElementById("input")
-textarea.addEventListener('input', (e) => {
-    const match = parser.match(e.target.value)
+editor.session.on('change', (e) => {
+    const match = parser.match(editor.session.getValue())
     if (match.succeeded()){
         const parsed = parser.semantics(match).parse()
         const sampling = parsed.options.sampling || 20
