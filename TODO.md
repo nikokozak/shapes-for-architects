@@ -1,4 +1,3 @@
-1. Get comparison operators to work
 2. Implement comments
 3. Skip sampling step
 4. Image exporting

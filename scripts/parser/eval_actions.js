@@ -224,6 +224,7 @@ function generateNamedRangeValues(bound, resolution)
 {
     const { low, ruleLeft, identifier, ruleRight, high } = bound
     const step = (high - low) / resolution
+    const result = []
     const MAX = SETTINGS.MAX_RANGE_NUM
     const MIN = SETTINGS.MIN_RANGE_NUM
 
@@ -231,15 +232,11 @@ function generateNamedRangeValues(bound, resolution)
     if ((ruleLeft(low, MAX) && ruleRight(MAX, high)) || 
         (ruleLeft(low, MIN) && ruleRight(MIN, high))) { throw new InfiniteRangeException(identifier) }
 
-    let curr_idx = 0
+    let curr_val = low
+
     // Adjust for <, > starts
-    if (!ruleLeft(low, low)) { curr_idx++ }
+    if (!ruleLeft(low, low)) { curr_val += step }
 
-    console.log("sup")
-
-    const result = []
-
-    let curr_val = low + curr_idx * step
     while (ruleRight(curr_val, high)) {
         result.push({ [identifier]: curr_val })
         curr_val += step
@@ -247,15 +244,6 @@ function generateNamedRangeValues(bound, resolution)
     console.log(result)
 
     return result
-
-   // const result = Array(resolution + 1) // Otherwise we don't get to 2*PI
-   // 
-   // for (let val = bound.low, i = 0; i <= resolution; val += step, i++)
-   // {
-   //     result[i] = { [bound.identifier]: val }
-   // }
-
-   // return result
 }
 
 

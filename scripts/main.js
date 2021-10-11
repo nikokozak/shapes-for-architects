@@ -45,7 +45,7 @@ z = 8*cos(v)
 let to_match2 = `
     # sampling 40
     # resolution 40
-    { u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+    { u, v | 2*PI >= u >= 0, 0 <= v <= PI }
 
     x = cos(u)
     y = sin(u)
