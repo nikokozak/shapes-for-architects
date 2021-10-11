@@ -1,8 +1,7 @@
 // ----------------- ACTIONS ------------------------ //
 
-import {DisallowedIdentifierException, UndeclaredIdentifierException, UnknownFunctionException} from "./errors.js"
-
-const RESOLUTION = 20 // Default resolution for ranges
+import {DisallowedIdentifierException, InfiniteRangeException, UndeclaredIdentifierException, UnknownFunctionException} from "./errors.js"
+import SETTINGS from '../settings.js'
 
 const actions = {
     // These actions define how the parse tree emitted by the grammar
@@ -43,7 +42,7 @@ const actions = {
         // match variables in declared bounds.
         ensureIdentifierParity(identifiers, bounds)
 
-        const resolution = this.args.env?.resolution || RESOLUTION
+        const resolution = this.args.env?.resolution || SETTINGS.RESOLUTION
 
         // We return an array instead of an object because we need
         // a guarantee that order is maintained according to the declaration.
@@ -79,10 +78,25 @@ const actions = {
     {
         return {
             low: lower.parse(),
-            ruleLeft: ruleLeft.sourceString,
+            ruleLeft: ruleLeft.parse(),
             identifier: identifier.parse(),
-            ruleRight: ruleRight.sourceString,
+            ruleRight: ruleRight.parse(),
             high: upper.parse()
+        }
+    },
+
+    Rule(_val)
+    {
+        const rule = this.sourceString
+        switch (rule) {
+            case "<":
+                return (a, b) => a < b
+            case ">":
+                return (a, b) => a > b
+            case "<=":
+                return (a, b) => a <= b
+            case ">=":
+                return (a, b) => a >= b
         }
     },
 
@@ -208,16 +222,40 @@ function genPointsWithFormulas(formulas, sagara)
 
 function generateNamedRangeValues(bound, resolution)
 {
-    const step = (bound.high - bound.low) / resolution
+    const { low, ruleLeft, identifier, ruleRight, high } = bound
+    const step = (high - low) / resolution
+    const MAX = SETTINGS.MAX_RANGE_NUM
+    const MIN = SETTINGS.MIN_RANGE_NUM
 
-    const result = Array(resolution + 1) // Otherwise we don't get to 2*PI
-    
-    for (let val = bound.low, i = 0; i <= resolution; val += step, i++)
-    {
-        result[i] = { [bound.identifier]: val }
+    // Check we don't have an infinite range
+    if ((ruleLeft(low, MAX) && ruleRight(MAX, high)) || 
+        (ruleLeft(low, MIN) && ruleRight(MIN, high))) { throw new InfiniteRangeException(identifier) }
+
+    let curr_idx = 0
+    // Adjust for <, > starts
+    if (!ruleLeft(low, low)) { curr_idx++ }
+
+    console.log("sup")
+
+    const result = []
+
+    let curr_val = low + curr_idx * step
+    while (ruleRight(curr_val, high)) {
+        result.push({ [identifier]: curr_val })
+        curr_val += step
     }
+    console.log(result)
 
     return result
+
+   // const result = Array(resolution + 1) // Otherwise we don't get to 2*PI
+   // 
+   // for (let val = bound.low, i = 0; i <= resolution; val += step, i++)
+   // {
+   //     result[i] = { [bound.identifier]: val }
+   // }
+
+   // return result
 }
 
 

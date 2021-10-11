@@ -13,9 +13,9 @@ export default class Parser
         }
 
         this.semantics = grammar.createSemantics()
-        this.semantics.addOperation('parse()', actions.eval)
-        this.semantics.addOperation('parse_w_env(env)', actions.eval)
-        this.semantics.addOperation('debug()', actions.debug)
+        this.semantics.addOperation('parse()', this.actions.eval)
+        this.semantics.addOperation('parse_w_env(env)', this.actions.eval)
+        this.semantics.addOperation('debug()', this.actions.debug)
 
         this.match_cache = {}
     }

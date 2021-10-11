@@ -21,4 +21,9 @@ export default {
     SAMPLE_RATE: 20,
     RESOLUTION: 20,
 
+    /* ============ GENERAL ========== */
+
+    MAX_RANGE_NUM: 100_000,
+    MIN_RANGE_NUM: -100_000
+
 }

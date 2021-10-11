@@ -19,4 +19,10 @@ export function UndeclaredIdentifierException(value)
     this.toString = () => this.message
 }
 
+export function InfiniteRangeException(value)
+{
+    this.value = value
+    this.message = `The range for identifier ${value} is infinite!`
+    this.toString = () => this.message
+}
 

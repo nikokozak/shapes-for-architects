@@ -1,4 +1,4 @@
-import Parser from './parser.js'
+import Parser from './parser/parser.js'
 import Viewer from './viewer.js'
 import Editor from './editor.js'
 import LineMaker from './line_maker.js'
