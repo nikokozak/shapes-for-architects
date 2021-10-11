@@ -246,7 +246,6 @@ function generateNamedRangeValues(bound, resolution)
     return result
 }
 
-
 function combineArrays([car, ...[cadr, ...cddr]], combineFn)
 {
     if (!cadr || cadr.length == 0) {

@@ -36,5 +36,7 @@ const grammar = ohm.grammar(`
         word = lower+
         identifier = lower
         number = digit+
+        comment = "/*" (~"*/" any)* "*/"
+        space += comment
 }`)
 export default grammar
