@@ -1,4 +1,4 @@
-import parser from './parser.js'
+import Parser from './parser.js'
 import Viewer from './viewer.js'
 import Editor from './editor.js'
 import LineMaker from './line_maker.js'
@@ -54,6 +54,7 @@ let to_match2 = `
 const editor = new Editor()
 const viewer = new Viewer()
 const lmaker = new LineMaker()
+const parser = new Parser()
 
 const matched = parser.parse(to_match2)
 const lines = lmaker.make_lines(matched.points)
@@ -70,7 +71,7 @@ editor.on_change(_e => {
     try {
         const match = parser.match(editor.get_contents())
         if (match.succeeded()){
-            const parsed = parser.semantics(match).parse()
+            const parsed = parser.parse()
             const sampling = parsed.options.sampling
             viewer.clear()
             viewer.add(lmaker.make_lines(parsed.points, sampling))
