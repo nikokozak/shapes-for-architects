@@ -14,6 +14,7 @@ export default {
     EDITOR_DOM_ELEMENT: "editor",
     EDITOR_FONT_FAMILY: "monospace",
     EDITOR_FONT_SIZE: "18px",
+    EDITOR_PADDING: 20,
 
     /* ============ SHAPE CREATION  ========== */
 

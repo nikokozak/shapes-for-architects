@@ -1,15 +1,11 @@
 import parser from './parser.js'
 import line_maker from './line_maker.js'
 import Viewer from './viewer.js'
+import Editor from './editor.js'
 
 // -------------------- EDITOR
 
-const editor = ace.edit("editor")
-editor.setOptions({
-    fontFamily: "monospace",
-    fontSize: "18px"
-})
-editor.renderer.setPadding(20)
+const editor = new Editor()
 
 // --------------------  SCENE SETUP
 
@@ -75,9 +71,9 @@ viewer.add(lines)
 
 // -------------------- Listen to Changes
 
-editor.session.on('change', (_e) => {
+editor.on_change(_e => {
     try {
-        const match = parser.match(editor.session.getValue())
+        const match = parser.match(editor.get_contents())
         if (match.succeeded()){
             const parsed = parser.semantics(match).parse()
             const sampling = parsed.options.sampling || 20
@@ -87,22 +83,16 @@ editor.session.on('change', (_e) => {
             viewer.add(lines)
         }
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 })
 
 // -------------------- DRAW
 
-
-// camera.position.set(0, -3, 3)
-// camera.lookAt(new THREE.Vector3(0, 0, 0))
-
 function run() {
     requestAnimationFrame(run)
     viewer.update()
     viewer.render()
-    //   controls.update()
-    //   renderer.render(scene, camera)
 }
 
 run()
