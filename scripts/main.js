@@ -17,7 +17,6 @@ const viewer = new Viewer()
 
 // -------------------- POINTS
 
-
 let to_match = `
 
 { u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
