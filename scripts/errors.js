@@ -4,3 +4,5 @@ export function UnknownFunctionException(value)
     this.message = `Unknown function "${value}"`
     this.toString = () => this.message
 }
+
+

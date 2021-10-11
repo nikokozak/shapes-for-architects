@@ -1,29 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: #314d5d;
+}
+
 *:focus {
     outline: none;
 }
-#container {
+
+body {
+    background-color: #e3e3e3;
+    padding: 2rem;
+}
+
+#nav {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 1rem;
+    margin-top: 0rem;
+}
+
+#app-container {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
 }
 #three {
-    border: 1px dotted gray;
-    width: 500px;
+    width: 50%;
     margin: 1rem;
     padding: 0;
 }
-#editor {
-    width: 400px;
-    height: 300px;
+#three canvas {
+    border-radius: 1rem;
+}
+#editor.ace_editor {
+    font-family: monospace !important;
+    width: 40%;
+    height: 500px;
     border-radius: 0.3rem;
     margin: 1rem;
-    background-color: gray;
-    color: white;
-    font-size: 15px;
-    font-family: monospace;
+    background-color: #e3e3e3;
+    color: #314d5d;
     font-weight: 800;
+    font-size: 20px;
+    box-shadow: 8px 8px 8px lightgray;
 }
-
 #editor .ace_gutter {
-    width: 30px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+#editor .ace_scroller {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 2rem;
+}
+#editor .ace_active-line {
+    display: none;
 }
