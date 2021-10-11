@@ -6,7 +6,7 @@ import line_maker from './line_maker.js'
 const editor = ace.edit("editor")
 editor.setOptions({
     fontFamily: "monospace",
-    fontSize: "20px"
+    fontSize: "18px"
 })
 editor.renderer.setPadding(20)
 

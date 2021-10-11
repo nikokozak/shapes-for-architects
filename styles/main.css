@@ -24,11 +24,13 @@ body {
     flex-wrap: wrap;
     width: 100%;
 }
+
 #three {
     width: 50%;
     margin: 1rem;
     padding: 0;
 }
+
 #three canvas {
     border-radius: 1rem;
 }
@@ -41,7 +43,6 @@ body {
     background-color: #e3e3e3;
     color: #314d5d;
     font-weight: 800;
-    font-size: 20px;
     box-shadow: 8px 8px 8px lightgray;
 }
 #editor .ace_gutter {
