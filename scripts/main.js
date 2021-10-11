@@ -59,6 +59,11 @@ const matched = parser.parse(to_match2)
 const lines = lmaker.make_lines(matched.points)
 viewer.add(lines)
 
+// ==================== DEBUG
+
+const debug = parser.debug(to_match2)
+console.dir(debug, {depth: null, colors: true})
+
 // -------------------- Listen to Changes
 
 editor.on_change(_e => {
