@@ -1,5 +1,6 @@
 import parser from './parser.js'
 import line_maker from './line_maker.js'
+import Viewer from './viewer.js'
 
 // -------------------- EDITOR
 
@@ -12,20 +13,7 @@ editor.renderer.setPadding(20)
 
 // --------------------  SCENE SETUP
 
-const WIDTH = window.innerWidth * 0.5
-const HEIGHT = 500
-
-const scene = new THREE.Scene()
-scene.background = new THREE.Color( 0xe3e3e3 )
-const camera = new THREE.PerspectiveCamera(75, WIDTH / HEIGHT, 0.1, 1000)
-
-const renderer = new THREE.WebGLRenderer({antialias: true})
-const controls = new THREE.OrbitControls(camera, renderer.domElement)
-renderer.setSize(WIDTH, HEIGHT)
-
-const target = document.getElementById("three")
-target.appendChild(renderer.domElement)
-
+const viewer = new Viewer()
 
 // -------------------- POINTS
 
@@ -84,10 +72,7 @@ console.log(matched)
 const lines = line_maker.makeLinesFromParse(matched, {sample_rate,
 material: line_color})
 
-for (const line of lines) {
-    scene.add(line)
-}
-
+viewer.add(lines)
 
 // -------------------- Listen to Changes
 
@@ -99,10 +84,8 @@ editor.session.on('change', (_e) => {
             const sampling = parsed.options.sampling || 20
             const lines = line_maker.makeLinesFromParse(parsed, { sample_rate: sampling,
             material: line_color})
-            while (scene.children.length) { scene.remove(scene.children[0]) }
-            for (const line of lines) {
-                scene.add(line)
-            }
+            viewer.clear()
+            viewer.add(lines)
         }
     } catch (error) {
         console.log(error)
@@ -112,13 +95,15 @@ editor.session.on('change', (_e) => {
 // -------------------- DRAW
 
 
-camera.position.set(0, -3, 3)
-camera.lookAt(new THREE.Vector3(0, 0, 0))
+// camera.position.set(0, -3, 3)
+// camera.lookAt(new THREE.Vector3(0, 0, 0))
 
 function run() {
     requestAnimationFrame(run)
-    controls.update()
-    renderer.render(scene, camera)
+    viewer.update()
+    viewer.render()
+    //   controls.update()
+    //   renderer.render(scene, camera)
 }
 
 run()
