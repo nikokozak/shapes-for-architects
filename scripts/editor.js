@@ -24,6 +24,6 @@ export default class Editor
 
     get_contents ()
     {
-        this.editor.session.getValue()
+        return this.editor.session.getValue()
     }
 }

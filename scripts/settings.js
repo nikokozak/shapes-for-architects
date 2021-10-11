@@ -18,7 +18,7 @@ export default {
 
     /* ============ SHAPE CREATION  ========== */
 
-    SAMPLE_SIZE: 20,
+    SAMPLE_RATE: 20,
     RESOLUTION: 20,
 
 }

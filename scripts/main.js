@@ -1,15 +1,7 @@
 import parser from './parser.js'
-import line_maker from './line_maker.js'
 import Viewer from './viewer.js'
 import Editor from './editor.js'
-
-// -------------------- EDITOR
-
-const editor = new Editor()
-
-// --------------------  SCENE SETUP
-
-const viewer = new Viewer()
+import LineMaker from './line_maker.js'
 
 // -------------------- POINTS
 
@@ -59,14 +51,12 @@ let to_match2 = `
     y = sin(u)
 `
 
+const editor = new Editor()
+const viewer = new Viewer()
+const lmaker = new LineMaker()
+
 const matched = parser.parse(to_match2)
-const sample_rate = matched.options.sampling || 20
-const line_color = 0x000000
-console.log(matched)
-
-const lines = line_maker.makeLinesFromParse(matched, {sample_rate,
-material: line_color})
-
+const lines = lmaker.make_lines(matched.points)
 viewer.add(lines)
 
 // -------------------- Listen to Changes
@@ -76,11 +66,9 @@ editor.on_change(_e => {
         const match = parser.match(editor.get_contents())
         if (match.succeeded()){
             const parsed = parser.semantics(match).parse()
-            const sampling = parsed.options.sampling || 20
-            const lines = line_maker.makeLinesFromParse(parsed, { sample_rate: sampling,
-            material: line_color})
+            const sampling = parsed.options.sampling
             viewer.clear()
-            viewer.add(lines)
+            viewer.add(lmaker.make_lines(parsed.points, sampling))
         }
     } catch (error) {
         console.error(error)

@@ -53,8 +53,8 @@ export default class Viewer
     clear ()
     {
         while (this.scene.children.length) {
-            this.__debugPrint(`In Viewer.instance.clear(): removing ${ scene.children[0] } from scene`)
-            this.scene.remove(scene.children[0])
+            this.__debugPrint(`In Viewer.instance.clear(): removing ${ this.scene.children[0] } from scene`)
+            this.scene.remove(this.scene.children[0])
         }
         this.__debugPrint(`In Viewer.instance.clear(): finished removing children from scene`)
         return this.scene

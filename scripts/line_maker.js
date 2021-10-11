@@ -1,36 +1,32 @@
-// Generate points for THREE Line based on parse results
-const SAMPLE_RATE = 20
-const MATERIAL = { color: 0x000000 }
+import SETTINGS from './settings.js'
 
-export default (function () {
-
-    function makeLinesFromParse(parse_result, options = {})
+export default class LineMaker
+{
+    constructor(options = {})
     {
-        const sample_rate = options.sample_rate || SAMPLE_RATE
-        const material = new THREE.LineBasicMaterial( options.material || MATERIAL )
+        this.sample_rate = options.sample_rate || SETTINGS.SAMPLE_RATE
+        this.line_color = options.color || SETTINGS.VIEWER_LINE_COLOR
+        this.line_material = new THREE.LineBasicMaterial( { color: options.color || SETTINGS.VIEWER_LINE_COLOR } )
 
-        const lines = makeCRomCurvesFromPoints(parse_result.points)
-
-        return lines.map((line) => {
-            const sample_points = line.getPoints(sample_rate)
-            const geometry = new THREE.BufferGeometry().setFromPoints(sample_points)
-            return new THREE.Line( geometry, material )
-        })
+        this.curves = []
+        this.lines = []
     }
 
-    function makeCRomCurvesFromPoints(points)
+    make_curves(points)
     {
         if (Array.isArray(points[0])) {
-            return points.map(v => {
-                return makeCRomCurvesFromPoints(v)
-            }).flat()
+            return points.map( p => this.make_curves(p) ).flat()
         } else {
             return [ new THREE.CatmullRomCurve3(points) ]
         }
     }
 
-    return {
-        makeLinesFromParse
+    make_lines(points, sample_rate = this.sample_rate)
+    {
+        return this.make_curves(points).map( curve => {
+            const sample_points = curve.getPoints(sample_rate)
+            const geometry = new THREE.BufferGeometry().setFromPoints(sample_points)
+            return new THREE.Line( geometry, this.line_material )
+        })
     }
-
-})()
+}
