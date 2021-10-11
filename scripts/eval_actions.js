@@ -1,6 +1,6 @@
 // ----------------- ACTIONS ------------------------ //
 
-import {UnknownFunctionException} from "./errors.js"
+import {DisallowedIdentifierException, UndeclaredIdentifierException, UnknownFunctionException} from "./errors.js"
 
 const RESOLUTION = 20 // Default resolution for ranges
 
@@ -57,10 +57,16 @@ const actions = {
 
     identifier(val) 
     {
-        if (this.args.env) {
-           return this.args.env[val.sourceString]
+        val = val.sourceString
+       
+        if (val == "x" || val == "y" || val == "z") {
+            throw new DisallowedIdentifierException(val)
+        } else if (this.args.env) {
+            const fetched = this.args.env[val]
+            if (fetched == undefined) { throw new UndeclaredIdentifierException(val) }
+            return fetched
         } else {
-            return val.sourceString
+            return val
         }
     },
 
