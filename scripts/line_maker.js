@@ -23,11 +23,11 @@ export default class LineMaker
 
     make_lines(points, sample_rate = this.sample_rate)
     {
-        if (sample_rate < 2 || !sample_rate) { sample_rate = this.sample_rate }
-        return this.make_curves(points).map( curve => {
-            const sample_points = curve.getPoints(sample_rate)
-            const geometry = new THREE.BufferGeometry().setFromPoints(sample_points)
-            return new THREE.Line( geometry, this.line_material )
-        })
+       if (sample_rate < 2 || !sample_rate) { sample_rate = this.sample_rate }
+       return this.make_curves(points).map( curve => {
+           const sample_points = curve.getPoints(sample_rate)
+           const geometry = new THREE.BufferGeometry().setFromPoints(sample_points)
+           return new THREE.Line( geometry, this.line_material )
+       })
     }
 }

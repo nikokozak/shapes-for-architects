@@ -1,6 +1,8 @@
 // ----------------- ACTIONS ------------------------ //
 
-import {DisallowedIdentifierException, InfiniteRangeException, UndeclaredIdentifierException, UnknownFunctionException} from "./errors.js"
+import { DisallowedIdentifierException, 
+    InfiniteRangeException, UndeclaredIdentifierException, 
+    UnknownFunctionException } from "./errors.js"
 import SETTINGS from '../settings.js'
 
 const actions = {
