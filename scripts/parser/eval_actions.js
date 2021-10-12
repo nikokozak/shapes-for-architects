@@ -162,6 +162,11 @@ const actions = {
         return Math.PI
     },
 
+    Color(_rgb, _num, _c, _num2, _c2, _num3, _rp)
+    {
+        return this.sourceString
+    },
+
     number(_) 
     {
         return parseInt(this.sourceString)
@@ -170,7 +175,8 @@ const actions = {
     word(_)
     {
         return this.sourceString
-    }
+    },
+
 }
 
 export default actions

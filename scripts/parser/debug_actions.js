@@ -178,6 +178,14 @@ const debug_actions = {
         }
     },
 
+    Color(_rgb, _num, _c, _num2, _c2, _num3, _rp)
+    {
+        return {
+            type: "RGB-COLOR",
+            value: this.sourceString
+        }
+    },
+
     number(_) 
     {
         return {

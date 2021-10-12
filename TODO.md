@@ -1,4 +1,4 @@
-3. Skip sampling step
+3. Color as option
 4. Image exporting
 5. Partial matching with locations
 6. Syntax highlighting

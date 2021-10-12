@@ -2,6 +2,7 @@ import Parser from './parser/parser.js'
 import Viewer from './viewer.js'
 import Editor from './editor.js'
 import LineMaker from './line_maker.js'
+import SETTINGS from './settings.js'
 
 // -------------------- POINTS
 
@@ -43,10 +44,9 @@ z = 8*cos(v)
 `
 
 let to_match2 = `
-    # sampling 40
-    # resolution 40
-    { u, v | 2*PI >= u >= 0, 0 <= v <= PI }
+    # color rgb(255, 0, 255)
 
+    { u | 0 <= u <= 2*PI }
     x = cos(u)
     y = sin(u)
 `
@@ -56,6 +56,7 @@ const viewer = new Viewer()
 const lmaker = new LineMaker()
 const parser = new Parser()
 
+console.log(parser.match(to_match2))
 const matched = parser.parse(to_match2)
 const lines = lmaker.make_lines(matched.points)
 viewer.add(lines)
@@ -73,13 +74,24 @@ editor.on_change(_e => {
         if (match.succeeded()){
             const parsed = parser.parse()
             const sampling = parsed.options.sampling
+            const line_color = 
+                testColor(parsed.options.color) ? parsed.options.color : SETTINGS.VIEWER_LINE_COLOR
+            const background_color = 
+                testColor(parsed.options.bgcolor) ? parsed.options.bgcolor : SETTINGS.VIEWER_BG_COLOR
             viewer.clear()
-            viewer.add(lmaker.make_lines(parsed.points, sampling))
+            viewer.set_bg(background_color)
+            viewer.add(lmaker.make_lines(parsed.points, 
+                { sample_rate: sampling, color: line_color }))
         }
     } catch (error) {
         console.error(error)
     }
 })
+
+function testColor(color)
+{
+    return /rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)/.test(color)
+}
 
 // -------------------- DRAW
 

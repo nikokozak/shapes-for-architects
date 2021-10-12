@@ -7,9 +7,9 @@ export default class Viewer
         this.dom_element = options.dom_element || SETTINGS.VIEWER_DOM_ELEMENT
         this.width = options.width || SETTINGS.VIEWER_WIDTH
         this.height = options.height || SETTINGS.VIEWER_HEIGHT
+        this.line_color = options.line_color || SETTINGS.VIEWER_LINE_COLOR
         this.bg_color = options.bg_color || SETTINGS.VIEWER_BG_COLOR
         this.camera_init_pos = options.camera_pos || SETTINGS.VIEWER_CAMERA_POSITION
-        this.line_color = options.line_color || SETTINGS.VIEWER_LINE_COLOR
         this.debug = options.debug || false
 
         this.scene = new THREE.Scene()
@@ -72,6 +72,13 @@ export default class Viewer
         this.__debugPrint(`In Viewer.instance.render(): started rendering scene`)
         this.renderer.render( this.scene, this.camera )
         this.__debugPrint(`In Viewer.instance.render(): finished rendering scene`)
+    }
+
+    set_bg(color)
+    {
+        this.bg_color = color
+        this.scene.background = new THREE.Color( this.bg_color )
+        return this.scene
     }
 
     __debugPrint (message)

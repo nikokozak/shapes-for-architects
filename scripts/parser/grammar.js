@@ -2,7 +2,7 @@
 const grammar = ohm.grammar(`
     Shape {
         Program = Options* Ranges Formula+
-        Options = "#" word number?
+        Options = "#" word ( number | Color )?
         Ranges = "{" Identifiers "|" Bounds "}"
         Formula = Axis "=" Expression
         Expression = AddExpression
@@ -32,6 +32,7 @@ const grammar = ohm.grammar(`
         Bound = Expression Rule identifier Rule Expression 
         Rule = "<=" | ">=" | "<" | ">"
         Identifiers = NonemptyListOf<identifier, ",">
+        Color = "rgb(" number "," number "," number ")"
         Axis = "x" | "y" | "z" 
         word = lower+
         identifier = lower
