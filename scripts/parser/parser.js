@@ -11,6 +11,7 @@ export default class Parser
             eval: eval_actions,
             debug: debug_actions
         }
+        this.matcher = grammar.matcher()
 
         this.semantics = grammar.createSemantics()
         this.semantics.addOperation('parse()', this.actions.eval)
@@ -22,7 +23,15 @@ export default class Parser
 
     match (str)
     {
-        this.match_cache = this.grammar.match(str)
+        this.matcher.setInput(str)
+        this.match_cache = this.matcher.match()
+        return this.match_cache
+    }
+
+    match_incremental (start_idx, end_idx, str)
+    {
+        this.matcher.replaceInputRange(start_idx, end_idx, str)
+        this.match_cache = this.matcher.match()
         return this.match_cache
     }
 
@@ -35,6 +44,12 @@ export default class Parser
     parse (str = null)
     {
         const match = str ? this.match(str) : this.match_cache
+        return this.semantics(match).parse()
+    }
+
+    parse_incremental (start_idx, end_idx, str = null)
+    {
+        const match = str ? this.match_incremental(start_idx, end_idx, str) : this.match_cache
         return this.semantics(match).parse()
     }
 }

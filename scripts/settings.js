@@ -11,7 +11,7 @@ export default {
 
     /* ============ EDITOR  ========== */
 
-    EDITOR_DOM_ELEMENT: "ace",
+    EDITOR_DOM_ELEMENT: "jar",
     EDITOR_FONT_FAMILY: "monospace",
     EDITOR_FONT_SIZE: "18px",
     EDITOR_PADDING: 20,

@@ -1,4 +1,5 @@
-import SETTINGS from './settings.js'
+import SETTINGS from '../settings.js'
+import { CodeJar } from '../../lib/codejar.js'
 
 export default class Editor 
 {
@@ -9,21 +10,24 @@ export default class Editor
         this.font_size = options.font_size || SETTINGS.EDITOR_FONT_SIZE
         this.padding = options.padding || SETTINGS.EDITOR_PADDING
 
-        this.editor = ace.edit( this.dom_element )
-        this.editor.setOptions({
-            fontFamily: this.font_family,
-            fontSize: this.font_size,
-        })
-        this.editor.renderer.setPadding( this.padding )
+        const entry = document.getElementById(this.dom_element)
+
+        this.editor = CodeJar(entry, (_editor) => {})
+        console.log(this.editor)
     }
 
     on_change (callback)
     {
-        this.editor.session.on('change', callback)
+        this.editor.onUpdate(callback)
     }
 
     get_contents ()
     {
-        return this.editor.session.getValue()
+        return this.editor.toString()
+    }
+
+    set_contents (string)
+    {
+        return this.editor.updateCode(string)
     }
 }

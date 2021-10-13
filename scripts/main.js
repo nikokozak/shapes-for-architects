@@ -1,6 +1,6 @@
 import Parser from './parser/parser.js'
 import Viewer from './viewer.js'
-import Editor from './editor.js'
+import Editor from './editor/editor.js'
 import LineMaker from './line_maker.js'
 import SETTINGS from './settings.js'
 
@@ -76,6 +76,7 @@ editor.on_change(_e => {
     try {
         const match = parser.match(editor.get_contents())
         if (match.succeeded()){
+            console.log("this is getting called")
             const parsed = parser.parse()
             const sampling = parsed.options.sampling
             const line_color = 
