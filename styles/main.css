@@ -26,6 +26,27 @@ body {
 #nav {
     font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin: 0 0 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#example-dd {
+    font-size: 1.2rem;
+    font-weight: 800;
+    border: 1px solid var(--text-color);
+    border-radius: 2rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    margin-right: 2rem;
+}
+
+#example-dd:hover {
+    cursor: pointer;
+}
+
+span.arrowhead {
+    position: relative;
+    top: -0.2em;
 }
 
 #app-container {
