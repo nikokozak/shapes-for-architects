@@ -39,14 +39,15 @@ body {
 }
 
 h2 {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
     font-size: 20px;
 }
 
 #ace.ace_editor {
     font-family: monospace !important;
     height: 500px;
-    border-radius: 0.3rem;
+    border-radius: 1rem;
     background-color: var(--bg-color);
     color: var(--text-color);
     font-weight: 800;
@@ -57,6 +58,7 @@ h2 {
     padding-top: 1rem;
     padding-bottom: 1rem;
     background-color: #e3e3e3;
+    border-radius: 1rem 0 0 1rem;
 }
 
 #ace .ace_scroller {
@@ -72,6 +74,7 @@ h2 {
 #three {
     width: 50%;
     margin: 1rem;
+    margin-top: -2rem;
     padding: 0;
 }
 
@@ -81,22 +84,27 @@ h2 {
 
 #viewer-controls {
     position: relative;
-    top: 60px;
-    left: 620px;
+    width: 80px;
+    margin: 0;
+    top: 15px;
+    left: 710px;
 }
 
 .viewer-button {
     font-size: 14px;
     font-weight: 800;
-    padding: 0.5rem 1rem 0.5rem 1rem;
+    padding: 0.5rem 0.7rem 0.3rem 0.7rem;
+    color: var(--bg-color);
     background-color: var(--text-color);
     border: none;
-    color: var(--bg-color);
     border-radius: 2rem;
 }
 
+.viewer-button svg{
+    width: 15px;
+}
+
 .viewer-button:hover {
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background-color: #425e6e;
     cursor: pointer;
 }
