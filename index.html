@@ -2,15 +2,34 @@
 <html>
     <head>
       <link rel="stylesheet" href="./styles/main.css" />
+      <meta charset="utf-8" />
     </head>
     <body>
         <div id="world">
             <div id="nav">
-                <h2>Math for Architects</h2>
+                <h1>Math for Architects</h1>
             </div>
             <div id="app-container">
-                <div id="editor"></div>
-                <div id="three"></div>
+                <div id="editor">
+                    <h2>Editor</h2>
+                    <div id="ace">/* You can change settings like so: */
+#color rgb(255, 0, 255)
+
+/* You can define a range like so: */
+{ u | 0 <= u <= 2*PI }
+
+/* Declare x, y, and z formulas like so: */
+x = cos(u)
+y = sin(u)
+                    </div>
+                </div>
+                <div id="viewer">
+                    <div id="viewer-controls">
+                        <button class="viewer-button">CENTER</button>
+                        <button class="viewer-button">SAVE</button>
+                    </div>
+                    <div id="three"></div>
+                </div>
             </div>
             <script src="./lib/ace.js"></script>
             <script src="./lib/ohm.min.js"></script>

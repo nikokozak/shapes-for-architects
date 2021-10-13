@@ -44,11 +44,15 @@ z = 8*cos(v)
 `
 
 let to_match2 = `
-    # color rgb(255, 0, 255)
+/* You can change settings like so: */ 
+# color rgb(255, 0, 255)
 
-    { u | 0 <= u <= 2*PI }
-    x = cos(u)
-    y = sin(u)
+/* Declare a range like so: */ 
+{ u | 0 <= u <= 2*PI }
+
+/* Declare x, y, and z formulas like so: */ 
+x = cos(u)
+y = sin(u)
 `
 
 const editor = new Editor()

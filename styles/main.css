@@ -1,3 +1,9 @@
+:root {
+    --bg-color: #eeeeee;
+    --text-color: #314d5d;
+    --shadow-color: lightgray;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,20 +15,58 @@
 }
 
 body {
-    background-color: #e3e3e3;
-    padding: 2rem;
+    background-color: var(--bg-color);
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#world {
+    padding: 6rem;
 }
 
 #nav {
     font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 1rem;
-    margin-top: 0rem;
+    margin: 0 0 1rem 0;
 }
 
 #app-container {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+}
+
+#editor {
+    width: 40%;
+}
+
+h2 {
+    margin-bottom: 2rem;
+    font-size: 20px;
+}
+
+#ace.ace_editor {
+    font-family: monospace !important;
+    height: 500px;
+    border-radius: 0.3rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-weight: 800;
+    box-shadow: 8px 8px 8px var(--shadow-color);
+}
+
+#ace .ace_gutter {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: #e3e3e3;
+}
+
+#ace .ace_scroller {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 2rem;
+}
+
+#ace .ace_active-line {
+    display: none;
 }
 
 #three {
@@ -34,26 +78,25 @@ body {
 #three canvas {
     border-radius: 1rem;
 }
-#editor.ace_editor {
-    font-family: monospace !important;
-    width: 40%;
-    height: 500px;
-    border-radius: 0.3rem;
-    margin: 1rem;
-    background-color: #e3e3e3;
-    color: #314d5d;
+
+#viewer-controls {
+    position: relative;
+    top: 60px;
+    left: 620px;
+}
+
+.viewer-button {
+    font-size: 14px;
     font-weight: 800;
-    box-shadow: 8px 8px 8px lightgray;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    background-color: var(--text-color);
+    border: none;
+    color: var(--bg-color);
+    border-radius: 2rem;
 }
-#editor .ace_gutter {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-}
-#editor .ace_scroller {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    padding-right: 2rem;
-}
-#editor .ace_active-line {
-    display: none;
+
+.viewer-button:hover {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    cursor: pointer;
 }
