@@ -249,7 +249,6 @@ function generateNamedRangeValues(bound, resolution)
         result.push({ [identifier]: curr_val })
         curr_val += step
     }
-    console.log(result)
 
     return result
 }

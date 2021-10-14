@@ -76,6 +76,11 @@ h2 {
     box-sizing: border-box;
 }
 
+/* Text highlighting */
+#jar span.comment {
+    color: lightgray;
+}
+
 
 #three {
     width: 50%;

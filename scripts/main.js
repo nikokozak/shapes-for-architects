@@ -60,7 +60,6 @@ const viewer = new Viewer()
 const lmaker = new LineMaker()
 const parser = new Parser()
 
-console.log(parser.match(to_match2))
 const matched = parser.parse(to_match2)
 const lines = lmaker.make_lines(matched.points)
 viewer.add(lines)

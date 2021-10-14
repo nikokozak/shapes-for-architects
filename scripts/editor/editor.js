@@ -1,5 +1,10 @@
 import SETTINGS from '../settings.js'
 import { CodeJar } from '../../lib/codejar.js'
+import p from './highlighter.js'
+
+Prism.languages.morphing = {
+    'comment': /\/\*[\s\S]*?\*\//,
+}
 
 export default class Editor 
 {
@@ -12,8 +17,9 @@ export default class Editor
 
         const entry = document.getElementById(this.dom_element)
 
-        this.editor = CodeJar(entry, (_editor) => {})
-        console.log(this.editor)
+        this.editor = CodeJar(entry, (editor) => {
+            Prism.highlightElement(editor.innerHTML)
+        })
     }
 
     on_change (callback)
