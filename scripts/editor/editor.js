@@ -18,7 +18,8 @@ export default class Editor
         const entry = document.getElementById(this.dom_element)
 
         this.editor = CodeJar(entry, (editor) => {
-            Prism.highlightElement(editor.innerHTML)
+            console.log(editor)
+            p.highlightElement(editor)
         })
     }
 

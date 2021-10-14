@@ -73,9 +73,9 @@ console.dir(debug, {depth: null, colors: true})
 
 editor.on_change(_e => {
     try {
+        console.log(editor.editor)
         const match = parser.match(editor.get_contents())
         if (match.succeeded()){
-            console.log("this is getting called")
             const parsed = parser.parse()
             const sampling = parsed.options.sampling
             const line_color = 
