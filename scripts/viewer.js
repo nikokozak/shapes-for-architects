@@ -17,13 +17,15 @@ export default class Viewer
         this.camera = new THREE.PerspectiveCamera( 75, this.width / this.height, 0.1, 1000 )
         this.camera.position.set( ...this.camera_init_pos )
         //this.camera.lookAt( new THREE.Vector3( 0, 0, 0 ) )
-        this.renderer = new THREE.WebGLRenderer( { antialias: true } )
+        this.renderer = new THREE.WebGLRenderer( { antialias: true, preserveDrawingBuffer: true } )
         this.renderer.setSize( this.width, this.height ) 
         this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement )
         this.controls.saveState();
 
-        this.center_button = document.getElementById("viewer-center-button")
+        this.center_button = document.getElementById(SETTINGS.VIEWER_CENTER_BUTTON_ID)
         this.center_button.addEventListener('click', (_e) => { this.center_cam() })
+        this.save_button = document.getElementById(SETTINGS.VIEWER_DOWNLOAD_BUTTON_ID)
+        this.save_button.addEventListener('click', (_e) => { this.download_img() })
 
         const target = document.getElementById(this.dom_element)
         target.appendChild(this.renderer.domElement)
@@ -88,6 +90,20 @@ export default class Viewer
     center_cam()
     {
         this.controls.reset()
+    }
+
+    download_img()
+    {
+        const link = document.createElement('a')
+        const url = this.renderer.domElement.toDataURL()
+
+        link.setAttribute('href', url)
+        link.setAttribute('target', '_blank')
+        link.setAttribute('download', 'morph.png')
+
+        link.click()
+
+        link.remove()
     }
 
     __debugPrint (message)
