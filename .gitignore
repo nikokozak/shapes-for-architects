@@ -1,2 +1,4 @@
 node-modules
 node_modules/**
+prism-build
+prism-build/**

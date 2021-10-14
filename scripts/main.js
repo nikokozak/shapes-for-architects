@@ -43,8 +43,8 @@ y = u * (sin(v) * sin(u))
 z = 8*cos(v)
 `
 
-let to_match2 = `
-/* You can change settings like so: */ 
+let to_match2 = 
+`/* You can change settings like so: */ 
 # color rgb(255, 0, 255)
 
 /* Declare a range like so: */ 
@@ -60,9 +60,8 @@ const viewer = new Viewer()
 const lmaker = new LineMaker()
 const parser = new Parser()
 
-const matched = parser.parse(to_match2)
-const lines = lmaker.make_lines(matched.points)
-viewer.add(lines)
+editor.set_contents(to_match2)
+parseAndRender()
 
 // ==================== DEBUG
 
@@ -71,9 +70,10 @@ console.dir(debug, {depth: null, colors: true})
 
 // -------------------- Listen to Changes
 
-editor.on_change(_e => {
+editor.on_change(parseAndRender)
+
+function parseAndRender(_e = false) {
     try {
-        console.log(editor.editor)
         const match = parser.match(editor.get_contents())
         if (match.succeeded()){
             const parsed = parser.parse()
@@ -90,7 +90,7 @@ editor.on_change(_e => {
     } catch (error) {
         console.error(error)
     }
-})
+}
 
 function testColor(color)
 {

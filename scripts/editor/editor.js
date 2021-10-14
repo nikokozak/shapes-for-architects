@@ -13,7 +13,9 @@ export default class Editor
 
         const entry = document.getElementById(this.dom_element)
 
-        this.editor = CodeJar(entry, p.highlightElement)
+        this.editor = CodeJar(entry, (editor) => {
+            p.highlightElement(editor)
+        })
     }
 
     on_change (callback)
