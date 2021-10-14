@@ -80,6 +80,7 @@ h2 {
     border-radius: 1rem;
     padding: 1rem;
     box-sizing: border-box;
+    resize: none !important;
 }
 
 /* Text highlighting */
