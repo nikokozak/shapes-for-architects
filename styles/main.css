@@ -1,6 +1,12 @@
 :root {
     --bg-color: #eeeeee;
     --text-color: #314d5d;
+    --text-color-lighter: #a3a38f;
+    --option-color: #d9a87e;
+    --axis-color: #a1756a;
+    --range-color: #5b6154;
+    --fn-color: #401c18;
+    --identifier-color: #a1756a;
     --shadow-color: lightgray;
 }
 
@@ -70,7 +76,7 @@ h2 {
     font-size: 18px;
     font-weight: 800;
     height: 500px;
-    box-shadow: 4px 4px 12px lightgray;
+    box-shadow: 4px 4px 12px var(--shadow-color);
     border-radius: 1rem;
     padding: 1rem;
     box-sizing: border-box;
@@ -78,9 +84,28 @@ h2 {
 
 /* Text highlighting */
 #jar span.comment {
-    color: lightgray;
+    color: var(--text-color-lighter);
 }
 
+#jar span.axis {
+    color: var(--axis-color);
+}
+
+#jar span.option {
+    color: var(--option-color);
+}
+
+#jar span.range {
+    color: var(--range-color);
+}
+
+#jar span.function {
+    color: var(--fn-color);
+}
+
+#jar span.range span.identifier {
+    color: var(--identifier-color);
+}
 
 #three {
     width: 50%;
