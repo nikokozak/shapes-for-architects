@@ -8,6 +8,8 @@ export default {
     VIEWER_HEIGHT: 500,
     VIEWER_DOM_ELEMENT: "three",
     VIEWER_CAMERA_POSITION: [0, -3, 3],
+    VIEWER_CENTER_BUTTON_ID: "viewer-center-button",
+    VIEWER_DOWNLOAD_BUTTON_ID: "viewer-save-button",
 
     /* ============ EDITOR  ========== */
 

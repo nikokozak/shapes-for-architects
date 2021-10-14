@@ -16,10 +16,14 @@ export default class Viewer
         this.scene.background = new THREE.Color( this.bg_color )
         this.camera = new THREE.PerspectiveCamera( 75, this.width / this.height, 0.1, 1000 )
         this.camera.position.set( ...this.camera_init_pos )
-        this.camera.lookAt( new THREE.Vector3( 0, 0, 0 ) )
+        //this.camera.lookAt( new THREE.Vector3( 0, 0, 0 ) )
         this.renderer = new THREE.WebGLRenderer( { antialias: true } )
         this.renderer.setSize( this.width, this.height ) 
         this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement )
+        this.controls.saveState();
+
+        this.center_button = document.getElementById("viewer-center-button")
+        this.center_button.addEventListener('click', (_e) => { this.center_cam() })
 
         const target = document.getElementById(this.dom_element)
         target.appendChild(this.renderer.domElement)
@@ -79,6 +83,11 @@ export default class Viewer
         this.bg_color = color
         this.scene.background = new THREE.Color( this.bg_color )
         return this.scene
+    }
+
+    center_cam()
+    {
+        this.controls.reset()
     }
 
     __debugPrint (message)
