@@ -3,6 +3,7 @@ import Viewer from './viewer.js'
 import Editor from './editor/editor.js'
 import LineMaker from './line_maker.js'
 import SETTINGS from './settings.js'
+import './selektah.js'
 
 // -------------------- POINTS
 

@@ -26,6 +26,11 @@ export default {
     /* ============ GENERAL ========== */
 
     MAX_RANGE_NUM: 100_000,
-    MIN_RANGE_NUM: -100_000
+    MIN_RANGE_NUM: -100_000,
+
+    /* ============ SELEKTAAAAH ========== */
+
+    DROPDOWN_BUTTON: "example-dd",
+    DROPDOWN_PANE: "example-dd-body"
 
 }
