@@ -76,7 +76,16 @@ body {
     width: 100%;
     border-bottom: 1px dotted lightgray;
     margin-bottom: 1rem;
-    padding-bottom: 1rem;
+    padding-bottom: 0.8rem;
+}
+
+.example-dd-list-title:not(:first-child) {
+    margin-top: 1rem;
+}
+
+.example-dd-list-item {
+    display: flex;
+    margin-bottom: 1rem;
 }
 
 .example-thumb {
@@ -86,9 +95,6 @@ body {
     margin-right: 1.2rem;
 }
 
-.example-dd-list-item {
-    display: flex;
-}
 
 .example-dd-list-item:hover {
     text-decoration: underline;

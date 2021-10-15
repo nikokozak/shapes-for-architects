@@ -11,9 +11,9 @@ export default class Editor
         this.font_size = options.font_size || SETTINGS.EDITOR_FONT_SIZE
         this.padding = options.padding || SETTINGS.EDITOR_PADDING
 
-        const entry = document.getElementById(this.dom_element)
+        this.entry = document.getElementById(this.dom_element)
 
-        this.editor = CodeJar(entry, (editor) => {
+        this.editor = CodeJar(this.entry, (editor) => {
             p.highlightElement(editor)
         })
     }

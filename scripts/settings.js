@@ -31,6 +31,7 @@ export default {
     /* ============ SELEKTAAAAH ========== */
 
     DROPDOWN_BUTTON: "example-dd",
-    DROPDOWN_PANE: "example-dd-body"
+    DROPDOWN_PANE: "example-dd-body",
+    DROPDOWN_LIST: "example-dd-list",
 
 }

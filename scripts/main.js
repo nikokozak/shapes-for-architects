@@ -4,6 +4,7 @@ import Editor from './editor/editor.js'
 import LineMaker from './line_maker.js'
 import SETTINGS from './settings.js'
 import './selektah.js'
+import { populateExamplesDropdown } from '../examples/examples.js'
 
 // -------------------- POINTS
 
@@ -60,6 +61,10 @@ const editor = new Editor()
 const viewer = new Viewer()
 const lmaker = new LineMaker()
 const parser = new Parser()
+
+populateExamplesDropdown(editor, parseAndRender, () => {
+    document.getElementById(SETTINGS.DROPDOWN_PANE).style.display = "none"
+})
 
 editor.set_contents(to_match2)
 parseAndRender()
