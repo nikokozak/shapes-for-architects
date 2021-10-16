@@ -60,7 +60,8 @@ body {
     height: 500px;
     z-index: 10;
     border-radius: 1rem;
-    background-color: white;
+    background-color: var(--bg-color);
+    box-shadow: 4px 4px 12px var(--shadow-color);
     padding: 1.2rem;
     overflow: scroll;
 }

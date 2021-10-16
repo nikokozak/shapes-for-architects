@@ -1,14 +1,13 @@
 // ----------------- ACTIONS ------------------------ //
 
-import { DisallowedIdentifierException, 
-    InfiniteRangeException, UndeclaredIdentifierException, 
+import { 
+    DisallowedIdentifierException, 
+    InfiniteRangeException, 
+    UndeclaredIdentifierException, 
     UnknownFunctionException } from "./errors.js"
 import SETTINGS from '../settings.js'
 
 const actions = {
-    // These actions define how the parse tree emitted by the grammar
-    // is further processed. Each function matches a grammar rule
-    // and receives as many arguments.
 
     Program(options, ranges, formulas)
     {
