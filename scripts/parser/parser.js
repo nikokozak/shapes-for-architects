@@ -1,6 +1,9 @@
 import grammar from './grammar.js'
 import eval_actions from './eval_actions.js'
 import debug_actions from './debug_actions.js'
+import { parse } from './peggy_grammar.js'
+
+console.log(parse("2 * (4 - 3)"))
 
 export default class Parser
 {

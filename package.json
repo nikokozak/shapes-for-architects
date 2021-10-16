@@ -1,0 +1,43 @@
+{
+  "name": "archpeg",
+  "version": "1.0.0",
+  "description": "",
+  "source": "index.html",
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "alias": {
+    "THREE": {
+      "global": "THREE"
+    },
+    "ohm": {
+      "global": "ohm"
+    },
+    "Prism": {
+      "global": "Prism"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikokozak/shapes-for-architects.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nikokozak/shapes-for-architects/issues"
+  },
+  "homepage": "https://github.com/nikokozak/shapes-for-architects#readme",
+  "devDependencies": {
+    "parcel": "^2.0.0",
+    "snowpack": "^3.8.8"
+  },
+  "dependencies": {
+    "peggy": "^1.2.0"
+  }
+}
