@@ -105,12 +105,13 @@ program
     = opts:option* _ range:range _ formulas:formula+
     { return { 
         options: parseOptions(opts), 
-        range: parseRanges(range),
+        range,
+        formulas,
         }
     }
 
 option
-    = '#' _ option:[a-zA-Z]+ _ value:(number / color)? _ __
+    = '#' _ option:word _ value:(number / color)? _ __
     { return { option, value } }
 
 range 
@@ -134,7 +135,7 @@ bound
     { return { low, ruleLeft, identifier: id, ruleRight, high } }
 
 formula 
-    = axis:axis _ '=' _ expression
+    = axis:axis _ '=' _ expression:expression
     { return { [axis]: expression } }
 
 expression 
@@ -142,7 +143,7 @@ expression
 
 addExpression 
     = start:multExpression _ rest:nextAddExpression+
-    { return evalExpressions(start, rest) }
+    { return { op: evalExpressions, args: [start, rest] } }
     / multExpression
 
 nextAddExpression
@@ -150,7 +151,7 @@ nextAddExpression
 
 multExpression
     = start:expExpression _ rest:nextMultExpression+
-    { return evalExpressions(start, rest) }
+    { return { op: evalExpressions, args: [start, rest] } }
     / expExpression
 
 nextMultExpression
@@ -158,7 +159,7 @@ nextMultExpression
 
 expExpression
     = start:priExpression _ rest:nextExpExpression+
-    { return evalExpressions(start, rest) }
+    { return { op: evalExpressions, args: [start, rest] } }
     / priExpression
 
 nextExpExpression
@@ -167,22 +168,22 @@ nextExpExpression
 priExpression
     = '(' _ expression:expression _ ')' { return expression }
     / '+' expression:priExpression { return expression }
-    / '-' expression:priExpression { return -1 * expression }
+    / '-' expression:priExpression { return { op: (e) => -1 * e, args: expression } }
     / fnExpression
     / constant
     / number
     / identifier
 
 fnExpression
-    = fn:[a-z]+ '(' _ expr:expression _ ')'
+    = fn:word '(' _ expr:expression _ ')'
     {
         switch (fn) {
             case 'cos':
-                return Math.cos(expr)
+                return { op: Math.cos, args: [expr] }
             case 'sin':
-                return Math.sin(expr)
+                return { op: Math.sin, args: [expr] }
             case 'atan':
-                return Math.atan(expr)
+                return { op: Math.atan, args: [expr] }
             default:
                 throw `Unknown function ${ fn }`
         }
@@ -207,11 +208,11 @@ rule
     / '>'  { return (a, b) => a > b }
 
 color 
-    = 'rgb(' _ [0-9]+ _ ',' _ [0-9]+ _ ',' _ [0-9]+ ')'
-    { return input }
+    = 'rgb(' _ red:number _ ',' _ green:number _ ',' _ blue:number ')'
+    { return `rgb(${red}, ${green}, ${blue})` }
 
 axis 
-    = 'x' / 'y' / 'z' { return input }
+    = 'x' / 'y' / 'z'
 
 rangeIdentifier
     = id:[a-z] { return id }
@@ -219,9 +220,11 @@ rangeIdentifier
 identifier 
     = id:[a-z] 
     { 
-        const fetched = ENV[id]
-        if (fetched == undefined) { throw `Undefined variable ${ id }` }
-        return fetched
+        return () => {
+            const fetched = this.env[id]
+            if (fetched == undefined) { throw `Undefined variable ${ id }` }
+            return fetched
+        }
     }
 
 comment
@@ -231,7 +234,13 @@ constant
     = 'PI' { return Math.PI }
 
 number 
-    = num:[0-9]+ { return parseInt(num) }
+    = num:[0-9]+ { return parseInt(num.join('')) }
+
+lower
+    = lower:[a-z]+ { return lower.join("") }
+
+word
+    = word:[a-zA-Z]+ { return word.join("") }
 
 _ = [ \t]*
 __ = [\n]?
