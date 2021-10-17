@@ -1,3 +1,5 @@
+import SETTINGS from '../settings.js'
+
 function ensureIdentifierParity(identifiers, bounds_array)
 {
     const bounds_identifiers = 
@@ -16,6 +18,14 @@ function parseOptions(options)
         result[option_token.option] = option_token.value || true
         return result
     }, {})
+}
+
+function parseRange(range, options)
+{
+    const { ids, bounds } = range
+    ensureIdentifierParity(ids, bounds)
+    const resolution = isNaN(options.resolution) ? SETTINGS.RESOLUTION : options.resolution
+    return bounds.map(b => generateNamedRangeValues(b, resolution))
 }
 
 function combineRangeValues(parsed_ranges)
@@ -111,6 +121,7 @@ function evalArithmeticExprs(start, rest)
 export default {
     ensureIdentifierParity,
     parseOptions,
+    parseRange,
     combineRangeValues,
     combineArrays,
     genPointsWithFormulas,

@@ -236,23 +236,20 @@ function peg$parse(input, options) {
   var peg$e30 = peg$classExpectation(["\n"], false, false);
 
   var peg$f0 = function(opts, range, formulas) { 
-      const sagara = helpers.combineArrays(range, (v1, v2) => { return { ...v1, ...v2 } })
-      const points = helpers.genPointsWithFormulas(formulas, sagara)
-      return { 
-          options: helpers.parseOptions(opts), 
-          range,
-          sagara,
-          points,
-          formulas,
-          }
+          opts = helpers.parseOptions(opts)
+          range = helpers.parseRange(range, opts)
+          const sagara = helpers.combineArrays(range, (v1, v2) => { return { ...v1, ...v2 } })
+          const points = helpers.genPointsWithFormulas(formulas, sagara)
+          return { 
+              options: opts,
+              range,
+              sagara,
+              points,
+              formulas,
+              }
       };
   var peg$f1 = function(option, value) { return { option, value } };
-  var peg$f2 = function(ids, bounds) {
-          helpers.ensureIdentifierParity(ids, bounds)
-          const resolution = 20
-          return bounds.map(b => helpers.generateNamedRangeValues(b, resolution))
-          //return combineArrays(ranges, (v1, v2) => { return {...v1, ...v2} })
-      };
+  var peg$f2 = function(ids, bounds) { return { ids, bounds } };
   var peg$f3 = function(first, rest) { return [first, ...rest] };
   var peg$f4 = function(low, ruleLeft, id, ruleRight, high) { return { low, ruleLeft, identifier: id, ruleRight, high } };
   var peg$f5 = function(axis, expression) { return { axis, expression } };

@@ -1,15 +1,17 @@
 program 
     = _ opts:option* _ range:range _ formulas:formula+ _
     { 
-    const sagara = helpers.combineArrays(range, (v1, v2) => { return { ...v1, ...v2 } })
-    const points = helpers.genPointsWithFormulas(formulas, sagara)
-    return { 
-        options: helpers.parseOptions(opts), 
-        range,
-        sagara,
-        points,
-        formulas,
-        }
+        opts = helpers.parseOptions(opts)
+        range = helpers.parseRange(range, opts)
+        const sagara = helpers.combineArrays(range, (v1, v2) => { return { ...v1, ...v2 } })
+        const points = helpers.genPointsWithFormulas(formulas, sagara)
+        return { 
+            options: opts,
+            range,
+            sagara,
+            points,
+            formulas,
+            }
     }
 
 option
@@ -18,12 +20,7 @@ option
 
 range 
     = _ '{' _ ids:rangeIdentifiers _ '|' _ bounds:bounds _ '}' _
-    {
-        helpers.ensureIdentifierParity(ids, bounds)
-        const resolution = 20
-        return bounds.map(b => helpers.generateNamedRangeValues(b, resolution))
-        //return combineArrays(ranges, (v1, v2) => { return {...v1, ...v2} })
-    }
+    { return { ids, bounds } }
 
 rangeIdentifiers 
     = first:rangeIdentifier rest:(_ ',' _ @rangeIdentifier)*
