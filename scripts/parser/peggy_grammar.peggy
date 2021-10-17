@@ -106,7 +106,7 @@ program
     { return { 
         options: parseOptions(opts), 
         range,
-        formulas,
+        formulas: formulas.reduce((result, curr) => { return {...result, ...curr} }, {}),
         }
     }
 
@@ -119,7 +119,7 @@ range
     {
         ensureIdentifierParity(ids, bounds)
         const resolution = 20
-        return bounds.map(b => generateNamedRangeValues(b, resolution))
+        return combineArrays( bounds.map(b => generateNamedRangeValues(b, resolution)), (v1, v2) => { return { ...v1, ...v2 } } )
     }
 
 rangeIdentifiers 

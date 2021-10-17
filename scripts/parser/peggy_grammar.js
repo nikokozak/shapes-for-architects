@@ -236,14 +236,14 @@ function peg$parse(input, options) {
   var peg$f0 = function(opts, range, formulas) { return { 
           options: parseOptions(opts), 
           range,
-          formulas,
+          formulas: formulas.reduce((result, curr) => { return {...result, ...curr} }, {}),
           }
       };
   var peg$f1 = function(option, value) { return { option, value } };
   var peg$f2 = function(ids, bounds) {
           ensureIdentifierParity(ids, bounds)
           const resolution = 20
-          return bounds.map(b => generateNamedRangeValues(b, resolution))
+          return combineArrays( bounds.map(b => generateNamedRangeValues(b, resolution)), (v1, v2) => { return { ...v1, ...v2 } } )
       };
   var peg$f3 = function(first, rest) { return [first, ...rest] };
   var peg$f4 = function(low, ruleLeft, id, ruleRight, high) { return { low, ruleLeft, identifier: id, ruleRight, high } };

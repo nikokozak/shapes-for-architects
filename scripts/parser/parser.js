@@ -4,7 +4,7 @@ import debug_actions from './debug_actions.js'
 import { parse } from './peggy_grammar.js'
 
 console.log(parse(`# color rgb(255, 0, 255)
-{ u | 0 <= u <= PI }
+{ u, v | 0 <= u <= PI, 0 <= v <= PI }
 x = cos(v)`))
 
 export default class Parser
