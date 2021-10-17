@@ -1,3 +1,10 @@
+if (typeof window === "undefined")
+{
+    global.window = {
+        innerWidth: 1000
+    }
+}
+
 export default {
     
     /* =============  THREE JS  =============== */

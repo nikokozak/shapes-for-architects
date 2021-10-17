@@ -1,28 +1,62 @@
-export function UnknownFunctionException(value)
+export class UnknownFunctionError extends Error 
 {
-    this.value = value
-    this.message = `Unknown function "${value}"`
-    this.toString = () => this.message
+    constructor(value) {
+        super(`Unknown function "${value}"`)
+        this.value = value
+        this.name = "UnknownFunctionError"
+    }
 }
 
-export function DisallowedIdentifierException(value)
+export class DisallowedIdentifierError extends Error
 {
-    this.value = value
-    this.message = `Cannot use "${value}" as an identifier!`
-    this.toString = () => this.message
+    constructor(value) {
+        super(`Cannot use "${value}" as an identifier!`)
+        this.value = value
+        this.name = "DisallowedIdentifierError"
+    }
 }
 
-export function UndeclaredIdentifierException(value)
+export class UndeclaredIdentifierError extends Error
 {
-    this.value = value
-    this.message = `Identifier "${value}" has not been declared in a range!`
-    this.toString = () => this.message
+    constructor(value) {
+        super(`Identifier "${value}" has not been declared in a range!`)
+        this.value = value
+        this.name = "UndeclaredIdentifierError"
+    }
 }
 
-export function InfiniteRangeException(value)
+export class InfiniteRangeError extends Error
 {
-    this.value = value
-    this.message = `The range for identifier ${value} is infinite!`
-    this.toString = () => this.message
+    constructor(value) {
+        super(`The range for identifier ${value} is infinite!`)
+        this.value = value
+        this.name = "InfiniteRangeError"
+    }
 }
 
+export class RangeIdentifierParityError extends Error
+{
+    constructor(value) {
+        super(`The identifiers for the declared ranges aren't correct!`)
+        this.value = value
+        this.name = "RangeIdentifierParityError"
+    }
+}
+
+export class InvalidResolutionError extends Error
+{
+    constructor(value) {
+        super(`The resolution value ${ value } is not allowed! Must be a positive int!`)
+        this.value = value
+        this.name = "InvalidResolutionError"
+    }
+}
+
+export default {
+    UnknownFunctionError,
+    DisallowedIdentifierError,
+    UndeclaredIdentifierError,
+    InfiniteRangeError,
+    RangeIdentifierParityError,
+    InvalidResolutionError,
+}

@@ -1,7 +1,11 @@
 import SETTINGS from '../settings.js'
 import { Vector3 } from 'three'
+import { 
+    RangeIdentifierParityError,
+    InfiniteRangeError,
+    InvalidResolutionError} from './errors.js'
 
-function ensureIdentifierParity(identifiers, bounds_array)
+export function ensureIdentifierParity(identifiers, bounds_array)
 {
     const bounds_identifiers = 
         bounds_array.map(b => b.identifier)
@@ -9,10 +13,10 @@ function ensureIdentifierParity(identifiers, bounds_array)
     const b1 = identifiers.sort().join('')
     const b2 = bounds_identifiers.sort().join('')
 
-    if (b1 !== b2) { throw "Identifiers and Bound Identifiers do not match!" }
+    if (b1 !== b2) { throw new RangeIdentifierParityError(identifiers) }
 }
 
-function parseOptions(options)
+export function parseOptions(options)
 {
     return options.reduce((result, curr) => {
         const option_token = curr
@@ -21,7 +25,7 @@ function parseOptions(options)
     }, {})
 }
 
-function parseRange(range, options)
+export function parseRange(range, options)
 {
     const { ids, bounds } = range
     ensureIdentifierParity(ids, bounds)
@@ -29,12 +33,12 @@ function parseRange(range, options)
     return bounds.map(b => generateNamedRangeValues(b, resolution))
 }
 
-function combineRangeValues(parsed_ranges)
+export function combineRangeValues(parsed_ranges)
 {
     return combineArrays(parsed_ranges, (v1, v2) => { return { ...v1, ...v2 } })
 }
 
-function genPointsWithFormulas(formulas, sagara)
+export function genPointsWithFormulas(formulas, sagara)
 {
     function applyFormulasTo(range_values)
     {
@@ -59,8 +63,11 @@ function genPointsWithFormulas(formulas, sagara)
     return applyFormulasTo(sagara)
 }
 
-function generateNamedRangeValues(bound, resolution)
+export function generateNamedRangeValues(bound, resolution)
 {
+    // Check the resolution is correct
+    if (resolution < 1) { throw new InvalidResolutionError(resolution) }
+
     const { ruleLeft, identifier, ruleRight } = bound
     const low = evalWithEnv(bound.low, {})
     const high = evalWithEnv(bound.high, {})
@@ -71,7 +78,8 @@ function generateNamedRangeValues(bound, resolution)
 
     // Check we don't have an infinite range
     if ((ruleLeft(low, MAX) && ruleRight(MAX, high)) || 
-        (ruleLeft(low, MIN) && ruleRight(MIN, high))) { throw new InfiniteRangeException(identifier) }
+        (ruleLeft(low, MIN) && ruleRight(MIN, high)) ||
+        (low == high)) { throw new InfiniteRangeError(identifier) }
 
     let curr_val = low
 
@@ -85,11 +93,9 @@ function generateNamedRangeValues(bound, resolution)
     return result
 }
 
-function combineArrays([car, ...[cadr, ...cddr]], combineFn)
+export function combineArrays([car, ...[cadr, ...cddr]], combineFn)
 {
-    if (!cadr || cadr.length == 0) {
-        return car
-    }
+    if (!cadr || cadr.length == 0) { return car }
 
     const combined = cadr.map(cadr_v => {
         return car.map(car_v => combineFn(car_v, cadr_v))
@@ -98,9 +104,7 @@ function combineArrays([car, ...[cadr, ...cddr]], combineFn)
     return combineArrays([combined, cddr], combineFn)
 }
 
-function isDelayedOp(entity) { return typeof entity == 'object' && entity.op != undefined }
-
-function evalWithEnv(expr, env)
+export function evalWithEnv(expr, env)
 {
     if (expr.args && expr.op) {
         return expr.op.apply(env, expr.args.map(arg => evalWithEnv(arg, env))) 
@@ -109,7 +113,7 @@ function evalWithEnv(expr, env)
     }
 }
 
-function evalArithmeticExprs(start, rest)
+export function evalArithmeticExprs(start, rest)
 {
     return rest.reduce((accum, curr) => {
         const operation = curr[0]
@@ -127,7 +131,6 @@ export default {
     combineArrays,
     genPointsWithFormulas,
     generateNamedRangeValues,
-    isDelayedOp,
     evalArithmeticExprs,
     evalWithEnv,
 }
