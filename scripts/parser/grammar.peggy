@@ -93,10 +93,10 @@ powerOp
     / '**' { return (a, b) => Math.pow(a, b) }
 
 rule 
-    = '<=' { return (a, b) => a <= b }
-    / '>=' { return (a, b) => a >= b }
-    / '<'  { return (a, b) => a < b }
-    / '>'  { return (a, b) => a > b }
+    = ('<=' / '≤') { return (a, b) => a <= b }
+    / ('>=' / '≥') { return (a, b) => a >= b }
+    / ('<' / '<')  { return (a, b) => a < b }
+    / ('>' / '>')  { return (a, b) => a > b }
 
 color 
     = 'rgb(' _ red:number _ ',' _ green:number _ ',' _ blue:number ')'
@@ -125,7 +125,7 @@ comment
     = '/*' (!'*/' .)* '*/'
 
 constant 
-    = 'PI' { return Math.PI }
+    = ('PI' / 'π') { return Math.PI }
 
 number 
     = num:[0-9]+ { return parseInt(num.join('')) }
