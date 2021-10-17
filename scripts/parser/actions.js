@@ -1,12 +1,3 @@
-function parseOptions(options)
-{
-    return options.reduce((result, curr) => {
-        const option_token = curr
-        result[option_token.option] = option_token.value || true
-        return result
-    }, {})
-}
-
 function ensureIdentifierParity(identifiers, bounds_array)
 {
     const bounds_identifiers = 
@@ -16,6 +7,15 @@ function ensureIdentifierParity(identifiers, bounds_array)
     const b2 = bounds_identifiers.sort().join('')
 
     if (b1 !== b2) { throw "Identifiers and Bound Identifiers do not match!" }
+}
+
+function parseOptions(options)
+{
+    return options.reduce((result, curr) => {
+        const option_token = curr
+        result[option_token.option] = option_token.value || true
+        return result
+    }, {})
 }
 
 function combineRangeValues(parsed_ranges)
@@ -109,8 +109,8 @@ function evalArithmeticExprs(start, rest)
 }
 
 export default {
-    parseOptions,
     ensureIdentifierParity,
+    parseOptions,
     combineRangeValues,
     combineArrays,
     genPointsWithFormulas,
