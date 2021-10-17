@@ -235,10 +235,12 @@ function peg$parse(input, options) {
 
   var peg$f0 = function(opts, range, formulas) { 
       const sagara = combineArrays(range, (v1, v2) => { return { ...v1, ...v2 } })
+      const points = genPointsWithFormulas(formulas, sagara)
       return { 
           options: parseOptions(opts), 
           range,
           sagara,
+          points,
           formulas,
           }
       };
@@ -251,7 +253,7 @@ function peg$parse(input, options) {
       };
   var peg$f3 = function(first, rest) { return [first, ...rest] };
   var peg$f4 = function(low, ruleLeft, id, ruleRight, high) { return { low, ruleLeft, identifier: id, ruleRight, high } };
-  var peg$f5 = function(axis, expression) { return { [axis]: evalWithEnv(expression, {a: 1}) } };
+  var peg$f5 = function(axis, expression) { return { axis, expression } };
   var peg$f6 = function(start, rest) { return { op: evalArithmeticExprs, args: [start, rest] } };
   var peg$f7 = function(expression) { return expression };
   var peg$f8 = function(expression) { return { op: (e) => -1 * e, args: [expression] } };
@@ -283,6 +285,7 @@ function peg$parse(input, options) {
               op: function () {
                   const fetched = this[id]
                   if (fetched == undefined) { throw `Undefined variable ${ id }` }
+                  console.log(`id: ${ id }, fetched: ${ fetched }`)
                   return fetched
               },
               args: []
@@ -1751,8 +1754,7 @@ function peg$parse(input, options) {
                   // { x: ..., y: ..., z: ... }
                   let formula_results = 
                       formulas
-                      .children
-                      .map(f => f.parse_w_env(range_value))
+                      .map(f => { return { [f.axis]: evalWithEnv(f.expression, range_value) } })
                       .reduce((result, curr) => { return { ...result, ...curr } }, {})
 
                   return new THREE.Vector3 (
@@ -1810,10 +1812,7 @@ function peg$parse(input, options) {
       function evalWithEnv(expr, env)
       {
           if (expr.args && expr.op) {
-              expr.args.forEach((arg, i) => { 
-                  expr.args[i] = evalWithEnv(arg, env) 
-              })
-              return expr.op.apply(env, expr.args) 
+              return expr.op.apply(env, expr.args.map(arg => evalWithEnv(arg, env))) 
           } else {
               return expr
           }

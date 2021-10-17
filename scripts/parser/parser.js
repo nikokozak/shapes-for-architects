@@ -5,7 +5,7 @@ import { parse } from './peggy_grammar.js'
 
 console.log(parse(`# color rgb(255, 0, 255)
 { u, v | 0 <= u <= PI, 0 <= v <= PI }
-x = cos(a)`))
+x = sin(u)`))
 
 export default class Parser
 {

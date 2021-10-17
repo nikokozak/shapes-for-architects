@@ -1,4 +1,3 @@
-
 {
     function parseOptions(options)
     {
@@ -36,8 +35,7 @@
                 // { x: ..., y: ..., z: ... }
                 let formula_results = 
                     formulas
-                    .children
-                    .map(f => f.parse_w_env(range_value))
+                    .map(f => { return { [f.axis]: evalWithEnv(f.expression, range_value) } })
                     .reduce((result, curr) => { return { ...result, ...curr } }, {})
 
                 return new THREE.Vector3 (
@@ -95,10 +93,7 @@
     function evalWithEnv(expr, env)
     {
         if (expr.args && expr.op) {
-            expr.args.forEach((arg, i) => { 
-                expr.args[i] = evalWithEnv(arg, env) 
-            })
-            return expr.op.apply(env, expr.args) 
+            return expr.op.apply(env, expr.args.map(arg => evalWithEnv(arg, env))) 
         } else {
             return expr
         }
@@ -120,10 +115,12 @@ program
     = opts:option* _ range:range _ formulas:formula+
     { 
     const sagara = combineArrays(range, (v1, v2) => { return { ...v1, ...v2 } })
+    const points = genPointsWithFormulas(formulas, sagara)
     return { 
         options: parseOptions(opts), 
         range,
         sagara,
+        points,
         formulas,
         }
     }
@@ -155,7 +152,7 @@ bound
 
 formula 
     = axis:axis _ '=' _ expression:expression
-    { return { [axis]: evalWithEnv(expression, {a: 1}) } }
+    { return { axis, expression } }
 
 expression 
     = addExpression
@@ -234,6 +231,7 @@ identifier
             op: function () {
                 const fetched = this[id]
                 if (fetched == undefined) { throw `Undefined variable ${ id }` }
+                console.log(`id: ${ id }, fetched: ${ fetched }`)
                 return fetched
             },
             args: []
