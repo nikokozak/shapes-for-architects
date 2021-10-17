@@ -112,7 +112,7 @@
 }
 
 program 
-    = opts:option* _ range:range _ formulas:formula+
+    = _ opts:option* _ range:range _ formulas:formula+ _
     { 
     const sagara = combineArrays(range, (v1, v2) => { return { ...v1, ...v2 } })
     const points = genPointsWithFormulas(formulas, sagara)
@@ -126,11 +126,11 @@ program
     }
 
 option
-    = '#' _ option:word _ value:(number / color)? _ __
+    = _ '#' _ option:word _ value:(number / color)? _
     { return { option, value } }
 
 range 
-    = '{' _ ids:rangeIdentifiers _ '|' _ bounds:bounds _ '}' _ __
+    = _ '{' _ ids:rangeIdentifiers _ '|' _ bounds:bounds _ '}' _
     {
         ensureIdentifierParity(ids, bounds)
         const resolution = 20
@@ -151,7 +151,7 @@ bound
     { return { low, ruleLeft, identifier: id, ruleRight, high } }
 
 formula 
-    = axis:axis _ '=' _ expression:expression
+    = axis:axis _ '=' _ expression:expression _
     { return { axis, expression } }
 
 expression 
@@ -231,7 +231,6 @@ identifier
             op: function () {
                 const fetched = this[id]
                 if (fetched == undefined) { throw `Undefined variable ${ id }` }
-                console.log(`id: ${ id }, fetched: ${ fetched }`)
                 return fetched
             },
             args: []
@@ -253,5 +252,5 @@ lower
 word
     = word:[a-zA-Z]+ { return word.join("") }
 
-_ = [ \t]*
+_ = ([ \t\n] / comment)*
 __ = [\n]?
