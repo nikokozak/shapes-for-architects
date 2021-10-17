@@ -23,7 +23,7 @@ export default class LineMaker
 
     make_lines(points, options = {})
     {
-        const sample_rate = options.sample_rate || this.sample_rate
+        let sample_rate = options.sample_rate || this.sample_rate
         this.line_color = options.color || SETTINGS.VIEWER_LINE_COLOR
         this.line_material = new THREE.LineBasicMaterial( { color: this.line_color } )
 
