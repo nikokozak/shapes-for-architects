@@ -233,18 +233,21 @@ function peg$parse(input, options) {
   var peg$e29 = peg$classExpectation([" ", "\t"], false, false);
   var peg$e30 = peg$classExpectation(["\n"], false, false);
 
-  var peg$f0 = function(opts, range, formulas) { return { 
+  var peg$f0 = function(opts, range, formulas) { 
+      const sagara = combineArrays(range, (v1, v2) => { return { ...v1, ...v2 } })
+      return { 
           options: parseOptions(opts), 
           range,
-          formulas: formulas.reduce((result, curr) => { return {...result, ...curr} }, {}),
+          sagara,
+          formulas,
           }
       };
   var peg$f1 = function(option, value) { return { option, value } };
   var peg$f2 = function(ids, bounds) {
           ensureIdentifierParity(ids, bounds)
           const resolution = 20
-          const ranges = bounds.map(b => generateNamedRangeValues(b, resolution))
-          return combineArrays(ranges, (v1, v2) => { return {...v1, ...v2} })
+          return bounds.map(b => generateNamedRangeValues(b, resolution))
+          //return combineArrays(ranges, (v1, v2) => { return {...v1, ...v2} })
       };
   var peg$f3 = function(first, rest) { return [first, ...rest] };
   var peg$f4 = function(low, ruleLeft, id, ruleRight, high) { return { low, ruleLeft, identifier: id, ruleRight, high } };
@@ -277,8 +280,7 @@ function peg$parse(input, options) {
   var peg$f20 = function(id) { return id };
   var peg$f21 = function(id) { 
           return {
-              op: function() {
-                  console.log(this)
+              op: function () {
                   const fetched = this[id]
                   if (fetched == undefined) { throw `Undefined variable ${ id }` }
                   return fetched
@@ -1721,6 +1723,7 @@ function peg$parse(input, options) {
               return result
           }, {})
       }
+
       function ensureIdentifierParity(identifiers, bounds_array)
       {
           const bounds_identifiers = 
@@ -1765,7 +1768,9 @@ function peg$parse(input, options) {
 
       function generateNamedRangeValues(bound, resolution)
       {
-          const { low, ruleLeft, identifier, ruleRight, high } = bound
+          const { ruleLeft, identifier, ruleRight } = bound
+          const low = evalWithEnv(bound.low, {})
+          const high = evalWithEnv(bound.high, {})
           const step = (high - low) / resolution
           const result = []
           const MAX = 100_000
@@ -1784,7 +1789,6 @@ function peg$parse(input, options) {
               result.push({ [identifier]: curr_val })
               curr_val += step
           }
-
           return result
       }
 
@@ -1825,8 +1829,6 @@ function peg$parse(input, options) {
           }, start)
       }
 
-
-      const ENV = {}
 
 
   peg$result = peg$startRuleFunction();

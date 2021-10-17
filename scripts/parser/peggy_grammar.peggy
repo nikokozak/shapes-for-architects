@@ -8,6 +8,7 @@
             return result
         }, {})
     }
+
     function ensureIdentifierParity(identifiers, bounds_array)
     {
         const bounds_identifiers = 
@@ -52,7 +53,9 @@
 
     function generateNamedRangeValues(bound, resolution)
     {
-        const { low, ruleLeft, identifier, ruleRight, high } = bound
+        const { ruleLeft, identifier, ruleRight } = bound
+        const low = evalWithEnv(bound.low, {})
+        const high = evalWithEnv(bound.high, {})
         const step = (high - low) / resolution
         const result = []
         const MAX = 100_000
@@ -71,7 +74,6 @@
             result.push({ [identifier]: curr_val })
             curr_val += step
         }
-
         return result
     }
 
@@ -112,16 +114,17 @@
         }, start)
     }
 
-
-    const ENV = {}
 }
 
 program 
     = opts:option* _ range:range _ formulas:formula+
-    { return { 
+    { 
+    const sagara = combineArrays(range, (v1, v2) => { return { ...v1, ...v2 } })
+    return { 
         options: parseOptions(opts), 
         range,
-        formulas: formulas.reduce((result, curr) => { return {...result, ...curr} }, {}),
+        sagara,
+        formulas,
         }
     }
 
@@ -134,8 +137,8 @@ range
     {
         ensureIdentifierParity(ids, bounds)
         const resolution = 20
-        const ranges = bounds.map(b => generateNamedRangeValues(b, resolution))
-        return combineArrays(ranges, (v1, v2) => { return {...v1, ...v2} })
+        return bounds.map(b => generateNamedRangeValues(b, resolution))
+        //return combineArrays(ranges, (v1, v2) => { return {...v1, ...v2} })
     }
 
 rangeIdentifiers 
@@ -228,8 +231,7 @@ identifier
     = id:[a-z] 
     { 
         return {
-            op: function() {
-                console.log(this)
+            op: function () {
                 const fetched = this[id]
                 if (fetched == undefined) { throw `Undefined variable ${ id }` }
                 return fetched
