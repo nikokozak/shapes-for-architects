@@ -3,3 +3,5 @@ node_modules/**
 prism-build
 prism-build/**
 dist
+.parcel-cache
+.DS_Store
