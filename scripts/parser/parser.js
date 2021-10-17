@@ -3,7 +3,9 @@ import eval_actions from './eval_actions.js'
 import debug_actions from './debug_actions.js'
 import { parse } from './peggy_grammar.js'
 
-console.log(parse("2 * (4 - 3)"))
+console.log(parse(`# color rgb(255, 0, 255)
+{ u | 0 <= u <= PI }
+x = cos(v)`))
 
 export default class Parser
 {
