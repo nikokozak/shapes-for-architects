@@ -1,5 +1,4 @@
 import Parser from './parser/parser.js'
-import PParser from './parser/peggy_parser.js'
 import Viewer from './viewer.js'
 import Editor from './editor/editor.js'
 import LineMaker from './line_maker.js'
@@ -62,7 +61,6 @@ const editor = new Editor()
 const viewer = new Viewer()
 const lmaker = new LineMaker()
 const parser = new Parser()
-const pparser = new PParser()
 
 populateExamplesDropdown(editor, parseAndRender, () => {
     document.getElementById(SETTINGS.DROPDOWN_PANE).style.display = "none"
@@ -71,11 +69,6 @@ populateExamplesDropdown(editor, parseAndRender, () => {
 editor.set_contents(to_match2)
 parseAndRender()
 
-// ==================== DEBUG
-
-const debug = parser.debug(to_match2)
-console.dir(debug, {depth: null, colors: true})
-
 // -------------------- Listen to Changes
 
 editor.on_change(parseAndRender)
@@ -83,9 +76,9 @@ editor.on_change(parseAndRender)
 function parseAndRender(_e = false) {
     try {
         //const match = parser.match(editor.get_contents())
-        const parsed = pparser.parse(editor.get_contents())
+        const parsed = parser.parse(editor.get_contents())
         //if (match.succeeded()){
-        if (pparser.matched) {
+        if (parser.matched) {
             //const parsed = parser.parse()
             const sampling = parsed.options.sampling
             const line_color = 
