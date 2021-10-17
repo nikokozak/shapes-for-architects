@@ -2,6 +2,8 @@
 //
 // https://peggyjs.org/
 
+import helpers from "./actions.js";
+
 function peg$subclass(child, parent) {
   function C() { this.constructor = child; }
   C.prototype = parent.prototype;
