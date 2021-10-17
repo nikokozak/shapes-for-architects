@@ -1,3 +1,5 @@
+import Prism from 'prismjs'
+
 export default (function(Prism) {
     
     Prism.languages.morphing = {

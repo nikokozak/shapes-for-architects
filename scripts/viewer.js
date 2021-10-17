@@ -1,4 +1,6 @@
 import SETTINGS from "./settings.js"
+import { Scene, PerspectiveCamera, WebGLRenderer, Color } from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 export default class Viewer
 {
@@ -12,14 +14,13 @@ export default class Viewer
         this.camera_init_pos = options.camera_pos || SETTINGS.VIEWER_CAMERA_POSITION
         this.debug = options.debug || false
 
-        this.scene = new THREE.Scene()
-        this.scene.background = new THREE.Color( this.bg_color )
-        this.camera = new THREE.PerspectiveCamera( 75, this.width / this.height, 0.1, 1000 )
+        this.scene = new Scene()
+        this.scene.background = new Color( this.bg_color )
+        this.camera = new PerspectiveCamera( 75, this.width / this.height, 0.1, 1000 )
         this.camera.position.set( ...this.camera_init_pos )
-        //this.camera.lookAt( new THREE.Vector3( 0, 0, 0 ) )
-        this.renderer = new THREE.WebGLRenderer( { antialias: true, preserveDrawingBuffer: true } )
+        this.renderer = new WebGLRenderer( { antialias: true, preserveDrawingBuffer: true } )
         this.renderer.setSize( this.width, this.height ) 
-        this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement )
+        this.controls = new OrbitControls( this.camera, this.renderer.domElement )
         this.controls.saveState();
 
         this.center_button = document.getElementById(SETTINGS.VIEWER_CENTER_BUTTON_ID)
@@ -83,7 +84,7 @@ export default class Viewer
     set_bg(color)
     {
         this.bg_color = color
-        this.scene.background = new THREE.Color( this.bg_color )
+        this.scene.background = new Color( this.bg_color )
         return this.scene
     }
 

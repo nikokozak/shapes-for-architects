@@ -1,4 +1,5 @@
 import SETTINGS from '../settings.js'
+import { Vector3 } from 'three'
 
 function ensureIdentifierParity(identifiers, bounds_array)
 {
@@ -47,7 +48,7 @@ function genPointsWithFormulas(formulas, sagara)
                 .map(f => { return { [f.axis]: evalWithEnv(f.expression, range_value) } })
                 .reduce((result, curr) => { return { ...result, ...curr } }, {})
 
-            return new THREE.Vector3 (
+            return new Vector3 (
                 formula_results.x,
                 formula_results.y,
                 formula_results.z || 0
