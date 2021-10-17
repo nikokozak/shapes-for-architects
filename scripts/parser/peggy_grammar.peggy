@@ -8,16 +8,6 @@
             return result
         }, {})
     }
-
-    function evalExpressions(start, rest)
-    {
-        return rest.reduce((accum, curr) => {
-            const operation = curr.op
-            const nextValue = curr.value
-            return operation.apply(null, [accum, nextValue])
-        }, start)
-    }
-
     function ensureIdentifierParity(identifiers, bounds_array)
     {
         const bounds_identifiers = 
@@ -98,6 +88,31 @@
         return combineArrays([combined, cddr], combineFn)
     }
 
+    function isDelayedOp(entity) { return typeof entity == 'object' && entity.op != undefined }
+
+    function evalWithEnv(expr, env)
+    {
+        if (expr.args && expr.op) {
+            expr.args.forEach((arg, i) => { 
+                expr.args[i] = evalWithEnv(arg, env) 
+            })
+            return expr.op.apply(env, expr.args) 
+        } else {
+            return expr
+        }
+    }
+
+    function evalArithmeticExprs(start, rest)
+    {
+        return rest.reduce((accum, curr) => {
+            const operation = curr[0]
+            const nextValue = curr[2]
+            // "this" is bound because this expression is invoked with an environment
+            return operation.apply(this, [accum, evalWithEnv(nextValue, this)])
+        }, start)
+    }
+
+
     const ENV = {}
 }
 
@@ -119,7 +134,8 @@ range
     {
         ensureIdentifierParity(ids, bounds)
         const resolution = 20
-        return combineArrays( bounds.map(b => generateNamedRangeValues(b, resolution)), (v1, v2) => { return { ...v1, ...v2 } } )
+        const ranges = bounds.map(b => generateNamedRangeValues(b, resolution))
+        return combineArrays(ranges, (v1, v2) => { return {...v1, ...v2} })
     }
 
 rangeIdentifiers 
@@ -136,39 +152,30 @@ bound
 
 formula 
     = axis:axis _ '=' _ expression:expression
-    { return { [axis]: expression } }
+    { return { [axis]: evalWithEnv(expression, {a: 1}) } }
 
 expression 
     = addExpression
 
 addExpression 
-    = start:multExpression _ rest:nextAddExpression+
-    { return { op: evalExpressions, args: [start, rest] } }
+    = start:multExpression _ rest:(op:addOp _ expr:addExpression)*
+    { return { op: evalArithmeticExprs, args: [start, rest] } }
     / multExpression
 
-nextAddExpression
-    = op:addOp _ value:addExpression { return { op, value } }
-
 multExpression
-    = start:expExpression _ rest:nextMultExpression+
-    { return { op: evalExpressions, args: [start, rest] } }
+    = start:expExpression _ rest:(op:multOp _ expr:multExpression)*
+    { return { op: evalArithmeticExprs, args: [start, rest] } }
     / expExpression
 
-nextMultExpression
-    = op:multOp _ value:multExpression { return { op, value } }
-
 expExpression
-    = start:priExpression _ rest:nextExpExpression+
-    { return { op: evalExpressions, args: [start, rest] } }
+    = start:priExpression _ rest:(op:powerOp _ expr:expExpression)* 
+    { return { op: evalArithmeticExprs, args: [start, rest] } }
     / priExpression
-
-nextExpExpression
-    = op:powerOp _ value:expExpression { return { op, value } }
 
 priExpression
     = '(' _ expression:expression _ ')' { return expression }
     / '+' expression:priExpression { return expression }
-    / '-' expression:priExpression { return { op: (e) => -1 * e, args: expression } }
+    / '-' expression:priExpression { return { op: (e) => -1 * e, args: [expression] } }
     / fnExpression
     / constant
     / number
@@ -220,10 +227,14 @@ rangeIdentifier
 identifier 
     = id:[a-z] 
     { 
-        return () => {
-            const fetched = this.env[id]
-            if (fetched == undefined) { throw `Undefined variable ${ id }` }
-            return fetched
+        return {
+            op: function() {
+                console.log(this)
+                const fetched = this[id]
+                if (fetched == undefined) { throw `Undefined variable ${ id }` }
+                return fetched
+            },
+            args: []
         }
     }
 
