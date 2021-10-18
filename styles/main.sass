@@ -1,0 +1,159 @@
+@use './_base.sass'
+
+* 
+    margin: 0
+    padding: 0
+    color: base.$text-color
+
+*:focus 
+    outline: none
+
+body 
+    background-color: base.$bg-color
+    font-family: base.$fonts
+
+#world 
+    padding: 6rem
+
+#nav 
+    font-family: base.$fonts
+    margin: 0 0 1rem 0
+    display: flex
+    justify-content: space-between
+    align-items: center
+    position: relative
+
+#example-dd 
+    font-size: 1.2rem
+    font-weight: 800
+    border: 1px solid base.$text-color
+    border-radius: 2rem
+    padding: 0.5rem 1rem 0.5rem 1rem
+    margin-right: 2rem
+
+#example-dd:hover 
+    cursor: pointer
+    background-color: base.$shadow-color
+
+#example-dd-body 
+    position: absolute
+    top: 50px
+    right: 30px
+    width: 300px
+    height: 500px
+    z-index: 10
+    background-color: base.$bg-color
+    padding: 1.2rem
+    overflow: scroll
+    @include base.shadow
+    @include base.rounded-corners
+
+#example-dd-list 
+    text-decoration: none
+    list-style: none
+    width: 100%
+
+.example-dd-list-title 
+    display: flex
+    justify-content: center
+    width: 100%
+    border-bottom: 1px dotted lightgray
+    margin-bottom: 1rem
+    padding-bottom: 0.8rem
+
+.example-dd-list-title:not(:first-child) 
+    margin-top: 1rem
+
+.example-dd-list-item 
+    display: flex
+    margin-bottom: 1rem
+
+.example-thumb 
+    width: 50px
+    height: 50px
+    background-color: lightblue
+    margin-right: 1.2rem
+
+.example-dd-list-item:hover 
+    text-decoration: underline
+    cursor: pointer
+
+span.arrowhead 
+    position: relative
+    top: -0.2em
+
+#app-container 
+    display: flex
+    flex-wrap: wrap
+    width: 100%
+
+#editor 
+    width: 40%
+
+h2 
+    margin-bottom: 1rem
+    margin-left: 1rem
+    font-size: 20px
+
+#jar 
+    font-family: monospace
+    font-size: 18px
+    font-weight: 800
+    height: 500px
+    padding: 1rem
+    box-sizing: border-box
+    resize: none !important
+    @include base.shadow
+    @include base.rounded-corners
+
+/* Text highlighting *
+#jar span.comment 
+    color: base.$text-color-lighter
+
+#jar span.axis 
+    color: base.$axis-color
+
+#jar span.option 
+    color: base.$option-color
+
+#jar span.range 
+    color: base.$range-color
+
+#jar span.function 
+    color: base.$fn-color
+
+#jar span.range span.identifier 
+    color: base.$identifier-color
+
+#three 
+    width: 50%
+    margin: 1rem
+    margin-top: -2rem
+    padding: 0
+
+#three canvas 
+    border-radius: 1rem
+
+#viewer-controls 
+    position: relative
+    width: 80px
+    margin: 0
+    top: 15px
+    left: 685px
+
+.viewer-button 
+    font-size: 14px
+    font-weight: 800
+    padding: 0.5rem 0.7rem 0.3rem 0.7rem
+    color: base.$bg-color
+    background-color: base.$text-color
+    border: none
+    border-radius: 2rem
+
+.viewer-button svg
+    width: 15px
+
+.viewer-button:hover 
+    background-color: #425e6e
+    cursor: pointer
+
