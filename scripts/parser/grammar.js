@@ -287,11 +287,7 @@ function peg$parse(input, options) {
   var peg$f20 = function(id) { return id };
   var peg$f21 = function(id) { 
           return {
-              op: function () {
-                  const fetched = this[id]
-                  if (fetched == undefined) { throw `Undefined variable ${ id }` }
-                  return fetched
-              },
+              op: helpers.makeIDFetcher(id),
               args: []
           }
       };

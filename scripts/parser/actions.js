@@ -3,7 +3,8 @@ import { Vector3 } from 'three'
 import { 
     RangeIdentifierParityError,
     InfiniteRangeError,
-    InvalidResolutionError} from './errors.js'
+    InvalidResolutionError,
+    UndeclaredIdentifierError} from './errors.js'
 
 export function ensureIdentifierParity(identifiers, bounds_array)
 {
@@ -123,6 +124,15 @@ export function evalArithmeticExprs(start, rest)
     }, start)
 }
 
+export function makeIDFetcher(id)
+{
+    return function() {
+        const fetched = this[id]
+        if (fetched == undefined) { throw new UndeclaredIdentifierError(id) }
+        return fetched
+    }
+}
+
 export default {
     ensureIdentifierParity,
     parseOptions,
@@ -133,4 +143,5 @@ export default {
     generateNamedRangeValues,
     evalArithmeticExprs,
     evalWithEnv,
+    makeIDFetcher
 }

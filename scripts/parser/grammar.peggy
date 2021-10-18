@@ -112,11 +112,7 @@ identifier
     = id:[a-z] 
     { 
         return {
-            op: function () {
-                const fetched = this[id]
-                if (fetched == undefined) { throw `Undefined variable ${ id }` }
-                return fetched
-            },
+            op: helpers.makeIDFetcher(id),
             args: []
         }
     }
