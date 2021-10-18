@@ -1,0 +1,34 @@
+@use './_base.sass'
+
+#editor 
+  width: 40%
+
+#jar 
+    font-family: monospace
+    font-size: 18px
+    font-weight: 800
+    height: 500px
+    padding: 1rem
+    box-sizing: border-box
+    resize: none !important
+    @include base.shadow
+    @include base.rounded-corners
+
+/* Text highlighting *
+#jar span.comment 
+    color: base.$text-color-lighter
+
+#jar span.axis 
+    color: base.$axis-color
+
+#jar span.option 
+    color: base.$option-color
+
+#jar span.range 
+    color: base.$range-color
+
+#jar span.function 
+    color: base.$fn-color
+
+#jar span.range span.identifier 
+    color: base.$identifier-color

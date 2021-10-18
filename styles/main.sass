@@ -1,5 +1,7 @@
 @use './_base.sass'
 @use './_nav.sass'
+@use './_editor.sass'
+@use './_viewer.sass'
 
 * 
     margin: 0
@@ -21,73 +23,9 @@ body
     flex-wrap: wrap
     width: 100%
 
-#editor 
-    width: 40%
-
 h2 
     margin-bottom: 1rem
     margin-left: 1rem
     font-size: 20px
 
-#jar 
-    font-family: monospace
-    font-size: 18px
-    font-weight: 800
-    height: 500px
-    padding: 1rem
-    box-sizing: border-box
-    resize: none !important
-    @include base.shadow
-    @include base.rounded-corners
-
-/* Text highlighting *
-#jar span.comment 
-    color: base.$text-color-lighter
-
-#jar span.axis 
-    color: base.$axis-color
-
-#jar span.option 
-    color: base.$option-color
-
-#jar span.range 
-    color: base.$range-color
-
-#jar span.function 
-    color: base.$fn-color
-
-#jar span.range span.identifier 
-    color: base.$identifier-color
-
-#three 
-    width: 50%
-    margin: 1rem
-    margin-top: -2rem
-    padding: 0
-
-#three canvas 
-    border-radius: 1rem
-
-#viewer-controls 
-    position: relative
-    width: 80px
-    margin: 0
-    top: 15px
-    left: 685px
-
-.viewer-button 
-    font-size: 14px
-    font-weight: 800
-    padding: 0.5rem 0.7rem 0.3rem 0.7rem
-    color: base.$bg-color
-    background-color: base.$text-color
-    border: none
-    border-radius: 2rem
-
-.viewer-button svg
-    width: 15px
-
-.viewer-button:hover 
-    background-color: #425e6e
-    cursor: pointer
 
