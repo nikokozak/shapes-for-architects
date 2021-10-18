@@ -1,4 +1,5 @@
 @use './_base.sass'
+@use './_nav.sass'
 
 * 
     margin: 0
@@ -14,73 +15,6 @@ body
 
 #world 
     padding: 6rem
-
-#nav 
-    font-family: base.$fonts
-    margin: 0 0 1rem 0
-    display: flex
-    justify-content: space-between
-    align-items: center
-    position: relative
-
-#example-dd 
-    font-size: 1.2rem
-    font-weight: 800
-    border: 1px solid base.$text-color
-    border-radius: 2rem
-    padding: 0.5rem 1rem 0.5rem 1rem
-    margin-right: 2rem
-
-#example-dd:hover 
-    cursor: pointer
-    background-color: base.$shadow-color
-
-#example-dd-body 
-    position: absolute
-    top: 50px
-    right: 30px
-    width: 300px
-    height: 500px
-    z-index: 10
-    background-color: base.$bg-color
-    padding: 1.2rem
-    overflow: scroll
-    @include base.shadow
-    @include base.rounded-corners
-
-#example-dd-list 
-    text-decoration: none
-    list-style: none
-    width: 100%
-
-.example-dd-list-title 
-    display: flex
-    justify-content: center
-    width: 100%
-    border-bottom: 1px dotted lightgray
-    margin-bottom: 1rem
-    padding-bottom: 0.8rem
-
-.example-dd-list-title:not(:first-child) 
-    margin-top: 1rem
-
-.example-dd-list-item 
-    display: flex
-    margin-bottom: 1rem
-
-.example-thumb 
-    width: 50px
-    height: 50px
-    background-color: lightblue
-    margin-right: 1.2rem
-
-.example-dd-list-item:hover 
-    text-decoration: underline
-    cursor: pointer
-
-span.arrowhead 
-    position: relative
-    top: -0.2em
 
 #app-container 
     display: flex

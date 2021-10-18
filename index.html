@@ -6,15 +6,17 @@
     </head>
     <body>
         <div id="world">
-            <div id="nav">
+            <nav>
                 <h1>Morphing Architecture</h1>
-                <div id="example-dd">Load Example <span class="arrowhead">&#8964;</span>
+                <div class="dropdown">
+                    <div class="d-button">Load Example <span class="down-arrow">&#8964;</span>
+                    </div>
+                    <div class="d-body" style="display:none">
+                        <ul id="example-list">
+                        </ul>
+                    </div>
                 </div>
-                <div id="example-dd-body" style="display:none">
-                    <ul id="example-dd-list">
-                    </ul>
-                </div>
-            </div>
+            </nav>
             <div id="app-container">
                 <div id="editor">
                     <h2>Editor</h2>

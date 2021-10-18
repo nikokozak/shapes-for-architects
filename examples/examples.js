@@ -5,9 +5,9 @@ const list_wrapper = document.getElementById(SETTINGS.DROPDOWN_LIST)
 
 function make_title_li(section_title) {
     const title_li = document.createElement('li')
-    title_li.classList.add('example-dd-list-title')
+    title_li.classList.add('list-title')
     const title = document.createElement('h1')
-    title.classList.add('list-title')
+    //title.classList.add('list-title')
     title.innerText = section_title
 
     title_li.appendChild(title)
@@ -17,16 +17,16 @@ function make_title_li(section_title) {
 function make_item_li(item) 
 {
     const item_li = document.createElement('li') 
-    item_li.classList.add('example-dd-list-item')
+    item_li.classList.add('list-item')
     const item_thumb = document.createElement('div')
-    item_thumb.classList.add('example-thumb')
+    item_thumb.classList.add('thumb')
     const item_info = document.createElement('div')
-    item_info.classList.add('example-info')
+    item_info.classList.add('info')
     const item_name = document.createElement('h3')
-    item_name.classList.add('example-name')
+    item_name.classList.add('name')
     item_name.innerText = item.name
     const item_category = document.createElement('h5')
-    item_category.classList.add('example-category')
+    item_category.classList.add('category')
     item_category.innerText = 'Bending'
 
     item_info.appendChild(item_name)

@@ -1,7 +1,10 @@
 import SETTINGS from "./settings.js"
 
-const dropdown_button = document.getElementById(SETTINGS.DROPDOWN_BUTTON)
-const dropdown_pane = document.getElementById(SETTINGS.DROPDOWN_PANE)
+
+const dropdown_button = 
+    document.querySelector(SETTINGS.DROPDOWN_PARENT + " " + SETTINGS.DROPDOWN_BUTTON)
+const dropdown_pane = 
+    document.querySelector(SETTINGS.DROPDOWN_PARENT + " " + SETTINGS.DROPDOWN_PANE)
 
 dropdown_pane.style.display = "none"
 

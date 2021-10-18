@@ -1,0 +1,73 @@
+@use './_base.sass'
+
+nav 
+    font-family: base.$fonts
+    margin: 0 0 1rem 0
+    display: flex
+    justify-content: space-between
+    align-items: center
+    position: relative
+
+.dropdown
+
+    .d-button
+        font-size: 1.2rem
+        font-weight: 800
+        border: 1px solid base.$text-color
+        border-radius: 2rem
+        padding: 0.5rem 1rem 0.5rem 1rem
+        margin-right: 2rem
+        user-select: none
+        -webkit-user-select: none
+
+        .down-arrow
+            position: relative
+            top: -0.2em
+
+    .d-button:hover
+        cursor: pointer
+        background-color: base.$shadow-color
+
+    .d-body
+        position: absolute
+        top: 50px
+        right: 30px
+        width: 300px
+        height: 500px
+        z-index: 10
+        background-color: base.$bg-color
+        padding: 1.2rem
+        overflow: scroll
+        @include base.shadow
+        @include base.rounded-corners
+
+#example-list
+    text-decoration: none
+    list-style: none
+    width: 100%
+
+    .list-title 
+        display: flex
+        justify-content: center
+        width: 100%
+        border-bottom: 1px dotted lightgray
+        margin-bottom: 1rem
+        padding-bottom: 0.8rem
+
+        h1:not(:first-child) 
+            margin-top: 1rem
+
+    .list-item 
+        display: flex
+        margin-bottom: 1rem
+
+        .thumb 
+            width: 50px
+            height: 50px
+            background-color: lightblue
+            margin-right: 1.2rem
+
+    .list-item:hover 
+        text-decoration: underline
+        cursor: pointer
+
