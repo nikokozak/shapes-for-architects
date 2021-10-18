@@ -40,6 +40,6 @@ export default {
     DROPDOWN_PARENT: ".dropdown",
     DROPDOWN_BUTTON: ".d-button",
     DROPDOWN_PANE: ".d-body",
-    DROPDOWN_LIST: "example-list",
+    DROPDOWN_LIST: "#example-list",
 
 }
