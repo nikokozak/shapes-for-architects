@@ -24,7 +24,7 @@ const lmaker = new LineMaker()
 const parser = new Parser()
 
 populateExamplesDropdown(editor, parseAndRender, () => {
-    document.getElementById(SETTINGS.DROPDOWN_PANE).style.display = "none"
+    document.querySelector(SETTINGS.DROPDOWN_PANE).style.display = "none"
 })
 
 editor.set_contents(default_text)

@@ -1,11 +1,18 @@
 @use './_base.sass'
 
 #editor 
-  width: 40%
+  margin-top: 1rem
+  width: 100%
+  order: -1
+
+  h2
+    margin: 0
+    margin-bottom: 1rem
+    font-size: 1rem
 
 #jar 
     font-family: monospace
-    font-size: 18px
+    font-size: 1rem
     font-weight: 800
     height: 500px
     padding: 1rem
@@ -31,4 +38,30 @@
     color: base.$fn-color
 
 #jar span.range span.identifier 
-    color: base.$identifier-color
+  color: base.$identifier-color
+
+@include base.respond-to('medium')
+  
+  #editor
+    margin-top: 2rem
+
+    h2
+      margin-bottom: 1.5rem
+
+  #jar
+    font-size: 1.3rem
+
+@include base.respond-to('large')
+
+  #editor
+    margin-top: 2rem
+    min-width: 450px
+    max-width: 550px
+
+    h2
+      font-size: 1.2rem
+
+@include base.respond-to('x-large')
+
+  #editor
+    width: 500px

@@ -8,16 +8,22 @@ nav
     align-items: center
     position: relative
 
+    h1
+      flex-basis: 0
+      font-size: 1rem
+
+
 .dropdown
     position: relative
 
     .d-button
-        font-size: 1.2rem
+        font-size: 0.8rem
         font-weight: 800
         border: 1px solid base.$text-color
         border-radius: 2rem
         padding: 0.5rem 1rem 0.5rem 1rem
-        margin-right: 2rem
+        margin-right: 0
+        margin-left: auto
         user-select: none
         -webkit-user-select: none
 
@@ -33,7 +39,7 @@ nav
         position: absolute
         top: 50px
         right: 0
-        width: 300px
+        width: 270px
         height: 500px
         z-index: 10
         background-color: base.$bg-color
@@ -47,6 +53,12 @@ nav
     list-style: none
     width: 100%
 
+    h1
+      font-size: 1.5rem
+
+    h3
+      font-size: 1rem
+
     .list-title 
         display: flex
         justify-content: center
@@ -59,61 +71,61 @@ nav
             margin-top: 1rem
 
     .list-item 
-        display: flex
-        margin-bottom: 1rem
+      display: flex
+      margin-top: 1.5rem
+      margin-bottom: 1rem
 
-        .thumb 
-            width: 50px
-            height: 50px
-            background-color: lightblue
-            margin-right: 1.2rem
+      .thumb 
+        width: 40px
+        height: 40px
+        background-color: lightblue
+        margin-right: 1.2rem
+
+      .category
+        color: gray
+
+      .name
+        font-size: 1.2rem
+
+      .info
+        text-align: left
 
     .list-item:hover 
         text-decoration: underline
         cursor: pointer
 
-@include base.respond-to('small')
-
+@include base.respond-to('medium')
+  
   nav
     h1
-      font-size: 1rem
-      flex-basis: 0
-  
+      font-size: 2rem
+
   .dropdown
-    text-align: right
 
     .d-button
-      margin-left: auto
-      margin-right: 0
-      font-size: 0.8rem
-
-    .d-body
-      width: 270px
+      font-size: 1.2rem
 
   #example-list
     
-    h3
-      font-size: 1rem
-
-    h1
-      font-size: 1.5rem
-
     .list-item
+      margin-top: 1rem
 
+    .thumb
+      height: 50px
+      width: 50px
+
+@include base.respond-to('large')
+
+  nav
+    h1
+      font-size: 2.5rem
+
+    .dropdown
+
+      .d-button
+        font-size: 1.2rem
+
+  #example-list
+
+    .list-title:not(:first-child)
       margin-top: 1.5rem
-
-      .info
-        text-align: left
-
-        .name
-          font-size: 1.2rem
-
-        .category
-          color: gray
-
-      .thumb
-        height: 40px
-        width: 40px
-
-      
-

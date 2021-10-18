@@ -16,23 +16,22 @@ body
     font-family: base.$fonts
 
 #world 
-    padding: 6rem
-
-#app-container 
-  display: flex
-  flex-direction: row-reverse
-    flex-wrap: wrap
-    width: 100%
-
-h2 
-    margin-bottom: 1rem
-    margin-left: 1rem
-    font-size: 20px
-
-@include base.respond-to('small')
-
-  #world
     padding: 2rem
 
+#app-container 
+  display: block
+  width: 100%
+
+@include base.respond-to('medium')
+
+  #world
+    padding: 4rem
+
+@include base.respond-to('large')
+
+  #world
+    padding: 6rem
+  
   #app-container
-    display: block
+    display: flex
+
