@@ -13,7 +13,7 @@ export default {
     VIEWER_LINE_COLOR: 0x000000,
     VIEWER_WIDTH: window.innerWidth * 0.5,
     VIEWER_HEIGHT: 500,
-    VIEWER_DOM_ELEMENT: "three",
+    VIEWER_DOM_ELEMENT: "#three",
     VIEWER_CAMERA_POSITION: [0, -3, 3],
     VIEWER_CENTER_BUTTON_ID: "viewer-center-button",
     VIEWER_DOWNLOAD_BUTTON_ID: "viewer-save-button",

@@ -19,7 +19,8 @@ body
     padding: 6rem
 
 #app-container 
-    display: flex
+  display: flex
+  flex-direction: row-reverse
     flex-wrap: wrap
     width: 100%
 
@@ -28,4 +29,10 @@ h2
     margin-left: 1rem
     font-size: 20px
 
+@include base.respond-to('small')
 
+  #world
+    padding: 2rem
+
+  #app-container
+    display: block

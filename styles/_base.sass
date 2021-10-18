@@ -1,3 +1,5 @@
+$breakpoints: ('small': ( max-width: 414px ), 'medium' : ( min-width:  992px ), 'large'  : ( min-width: 1200px ))
+
 $bg-color: #eeeeee
 $text-color: #314d5d
 $text-color-lighter: #a3a38f
@@ -15,3 +17,11 @@ $fonts: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica N
 
 @mixin rounded-corners()
   border-radius: 1rem
+ 
+@mixin respond-to($name)
+  @if map-has-key($breakpoints, $name) 
+    // Prints a media query based on the value
+    @media #{inspect(map-get($breakpoints, $name))} 
+      @content
+  @else
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "

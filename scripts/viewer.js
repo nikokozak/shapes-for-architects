@@ -6,9 +6,12 @@ export default class Viewer
 {
     constructor (options = {}) 
     {
-        this.dom_element = options.dom_element || SETTINGS.VIEWER_DOM_ELEMENT
-        this.width = options.width || SETTINGS.VIEWER_WIDTH
-        this.height = options.height || SETTINGS.VIEWER_HEIGHT
+        this.container = document.querySelector(options.dom_element || SETTINGS.VIEWER_DOM_ELEMENT)
+        this.width = this.container.clientWidth
+        this.height = this.container.clientHeight
+        console.log(this.height)
+        //this.width = options.width || SETTINGS.VIEWER_WIDTH
+        //this.height = options.height || SETTINGS.VIEWER_HEIGHT
         this.line_color = options.line_color || SETTINGS.VIEWER_LINE_COLOR
         this.bg_color = options.bg_color || SETTINGS.VIEWER_BG_COLOR
         this.camera_init_pos = options.camera_pos || SETTINGS.VIEWER_CAMERA_POSITION
@@ -28,8 +31,7 @@ export default class Viewer
         this.save_button = document.getElementById(SETTINGS.VIEWER_DOWNLOAD_BUTTON_ID)
         this.save_button.addEventListener('click', (_e) => { this.download_img() })
 
-        const target = document.getElementById(this.dom_element)
-        target.appendChild(this.renderer.domElement)
+        this.container.appendChild(this.renderer.domElement)
     }
 
     add (scene_element) // scene_element: Any | Array
