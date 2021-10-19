@@ -30,17 +30,18 @@
                 <h3>Contact:</h3>
                 <p class="text">Let me know if you find any bugs!</p>
                 <p class="contact">nikokozak at gmail dot com</p>
+                <p class="contact"><a href="https://nkozak.com/">nkozak.com</a></p>
 
                 <h3>Some technical asides:</h3>
                 <ul class="text-list">
-                    <li><p class="text">I wanted to accommodate the way Choma defines his formulas in the book as closely as possible, enabling you to copy-paste them into the editor. In order to do so, I designed a language that accommodates only that strict syntax, and not much more. This language was specified using the parsing-expression-grammar (PEG) formalism with the Ohm-JS library, which allowed left-recursion and neatly separated semantic actions from the actual grammar. Eventually due to performance issues, I translated the original grammar to avoid left-recursion and migrated to Peggy, a fork of the PegJS library.</p></li>
+                    <li><p class="text">I wanted to accommodate the way Choma defines his formulas in the book as closely as possible, enabling you to copy-paste them into the editor. In order to do so, I designed a language that follows the book's strict syntax, and not much more. This language was specified using parsing-expression-grammar (PEG) formalisms via the <a href="https://ohmlang.github.io" target="_blank">Ohm-JS</a> library, which allowed for left-recursion and neatly separated semantic actions from the actual grammar. Eventually due to performance issues, I translated the original grammar to avoid left-recursion and migrated to <a href="https://peggyjs.org" target="_blank">PeggyJS</a>, a fork of the PegJS library.</p></li>
                     <li><p class="text">As of now, the syntax does not support floats or variable assignment, but these features should be added soon.</p></li>
                     <li><p class="text">At present, syntax higlighting is handled by PrismJS via regex declarations, which is redundant given that we can extract location information from the parser - tying the parser locations with live tag interpolation into the editor is going to take some figuring out.</p></li>
-                    <li><p class="text">The editor is built on the CodeJar library, which is pleasant and light albeit not as capable as, say, Ace or CodeMirror.</p></li>
+                    <li><p class="text">The editor is built on the <a href="https://medv.io/codejar/" target="_blank">CodeJar</a> library, which is pleasant and light albeit not as capable as, say, <a href="https://ace.c9.io" target="_blank">Ace</a> or <a href="https://codemirror.net" target="_blank">CodeMirror</a>.</p></li>
                     <li><p class="text">Ranges (or Bounds, I'm still not sure what to call them) are recursive in nature - the first bound will nest inside the second bound if one is declared. This is necessary in order to draw the lines in the same way they're drawn in the book.</p></li>
                     <li><p class="text">In order to accomplish the above, some trickery is introduced into the parsing flow - namely, the evaluation of functions is delayed so that they can be applied to all the steps in our range, with each step representing a new "environment" or "scope" for the given function.</p></li>
                     <li><p class="text">The site is fully responsive, so it should work just as well on mobile/tablet as in the desktop.</p></li>
-                    <li><p class="text">THREE.JS is used for the rendering, which all things considered is kind of heavy-handed for our purposes. I'm working on a fork to streamline the sampling of points from Curve objects, in order to bypass having to create thousands of Point objects every time we do so.</p></li>
+                    <li><p class="text"><a href="https://threejs.org" target="_blank">THREE.JS</a> is used for the rendering, which all things considered is kind of heavy-handed for our purposes. I'm working on a fork to streamline the sampling of points from Curve objects, in order to bypass having to create thousands of Point objects every time we do so.</p></li>
                 </ul>
             </div>
             <footer>

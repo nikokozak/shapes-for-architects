@@ -68,14 +68,12 @@ export default {
 # bgcolor rgb(227, 227, 227)
 
 /* Declare ranges like so: */ 
-
-{ u, v | 0 <= u <= 2*PI, -1 <= v <= 2 }
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
 
 /* Declare x, y, and z formulas like so: */ 
-
-x = cos(u)
-y = sin(u)
-z = v 
+x = u * sin(v) * cos(u)^5
+y = u * sin(v) * sin(u)^5
+z = cos(v)
 
 /* The order of settings, then ranges, then formulas must be respected! */`
 }
