@@ -18,6 +18,7 @@ Play around with some of the examples contained in the book by using a custom DS
 ### TODO:
 - Use parser locations for syntax highlighting.
 - Add support for variable assignment (in order to support more book examples).
+- Add support for floats.
 - Fork THREEJS and bypass Point object creation for Curve sampling.
 - Improve the tests they're a joke rn.
 - Error messages for user while typing.
@@ -25,5 +26,12 @@ Play around with some of the examples contained in the book by using a custom DS
 
 ### Contributing:
 - Contributions more than welcome! Fork and submit a pull request.
+
+To build: 
+`npm install`
+`npx snowpack build`
+
+To run dev server:
+`npm run start`
 
 
