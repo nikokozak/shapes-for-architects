@@ -826,6 +826,134 @@ y = sin(u)^7
 z = v
 `
         },
+        {
+            name: 'Sphere Pinch Subtle',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(v)*cos(u)^3
+y = sin(v)*sin(u)^3
+z = cos(v)
+`
+        },
+        {
+            name: 'Sphere Pinch Medium',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(v)*cos(u)^5
+y = sin(v)*sin(u)^5
+z = cos(v)
+`
+        },
+        {
+            name: 'Sphere Pinch Extreme',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(v)*cos(u)^7
+y = sin(v)*sin(u)^7
+z = cos(v)
+`
+        },
     ],
+    'Flattening': [
+        {
+            name: 'Pipe Flatten Subtle',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(cos(u))
+y = sin(sin(u))
+z = v
+`
+        },
+        {
+            name: 'Pipe Flatten Medium',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(sin(cos(u)))
+y = sin(sin(sin(u)))
+z = v
+`
+        },
+        {
+            name: 'Pipe Flatten Heavy',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(sin(sin(cos(u))))
+y = sin(sin(sin(sin(u))))
+z = v
+`
+        },
+        {
+            name: 'Sphere Flatten Subtle',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(sin(v) * cos(u))
+y = sin(sin(v) * sin(u))
+z = sin(cos(v))
+`
+        },
+        {
+            name: 'Sphere Flatten Medium',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(sin(sin(v) * cos(u)))
+y = sin(sin(sin(v) * sin(u)))
+z = sin(sin(cos(v)))
+`
+        },
+        {
+            name: 'Sphere Flatten Heavy',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(sin(sin(sin(v) * cos(u))))
+y = sin(sin(sin(sin(v) * sin(u))))
+z = sin(sin(sin(cos(v))))
+`
+        },
+    ]
 }
 
