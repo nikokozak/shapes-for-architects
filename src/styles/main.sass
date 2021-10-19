@@ -2,6 +2,7 @@
 @use './_nav.sass'
 @use './_editor.sass'
 @use './_viewer.sass'
+@use './_article.sass'
 
 * 
     margin: 0
@@ -20,6 +21,12 @@ body
 
 #app-container 
   display: block
+  width: 100%
+
+footer
+  margin-top: 3rem
+  display: flex
+  justify-content: center
   width: 100%
 
 @include base.respond-to('medium')
