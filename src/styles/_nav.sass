@@ -12,6 +12,26 @@ nav
       flex-basis: 0
       font-size: 1rem
 
+#large-links
+  display: none
+
+#small-links
+  list-style-type: none
+  display: flex
+  justify-content: space-between
+  width: 100%
+  margin-bottom: 2rem
+
+  li
+    margin: 0 auto 0 auto
+    font-size: 0.8rem
+    font-weight: 800
+
+  li:first-child
+    margin-left: 0
+
+  li:last-child
+    margin-right: 0
 
 .dropdown
     position: relative
@@ -98,12 +118,17 @@ nav
 @include base.respond-to('medium')
   
   nav
-    h1
-      font-size: 2rem
+    #header
+      h1
+        font-size: 2rem
 
   .dropdown
 
     .d-button
+      font-size: 1.2rem
+
+  #small-links
+    li
       font-size: 1.2rem
 
   #example-list
@@ -115,16 +140,62 @@ nav
       height: 50px
       width: 50px
 
+@include base.respond-to('medium-large')
+
+  nav
+    #header
+      display: flex
+      align-items: center
+      h1
+        font-size: 2rem
+
+  #small-links
+    display: none
+
+  #large-links
+    display: block
+    list-style-type: none
+    margin-left: 2rem
+    padding-left: 2rem
+    border-left: 1px solid base.$text-color
+    font-size: 1rem
+
+    li:not(:first-child)
+      margin-top: 0.5rem
+
+    a:hover
+      color: base.$text-color-lighter
+
 @include base.respond-to('large')
 
   nav
-    h1
-      font-size: 2.5rem
+    #header
+      display: flex
+      align-items: center
+      h1
+        font-size: 2.5rem
 
     .dropdown
 
       .d-button
         font-size: 1.2rem
+
+  #small-links
+    display: none
+
+  #large-links
+    display: block
+    list-style-type: none
+    margin-left: 2rem
+    padding-left: 2rem
+    border-left: 1px solid base.$text-color
+    font-size: 1.2rem
+
+    li:not(:first-child)
+      margin-top: 0.5rem
+
+    a:hover
+      color: base.$text-color-lighter
 
   #example-list
 
