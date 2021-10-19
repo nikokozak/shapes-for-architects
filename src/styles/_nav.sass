@@ -49,50 +49,51 @@ nav
         @include base.rounded-corners
 
 #example-list
-    text-decoration: none
-    list-style: none
+  text-decoration: none
+  list-style: none
+  width: 100%
+
+  h1
+    font-size: 1.5rem
+    flex-basis: auto
+
+  h3
+    font-size: 1rem
+
+  .list-title 
+    display: flex
+    justify-content: center
     width: 100%
+    border-bottom: 1px dotted lightgray
+    margin-bottom: 1rem
+    padding-bottom: 0.8rem
 
-    h1
-      font-size: 1.5rem
+    h1:not(:first-child) 
+        margin-top: 1rem
 
-    h3
-      font-size: 1rem
+  .list-item 
+    display: flex
+    margin-top: 1.5rem
+    margin-bottom: 1rem
 
-    .list-title 
-        display: flex
-        justify-content: center
-        width: 100%
-        border-bottom: 1px dotted lightgray
-        margin-bottom: 1rem
-        padding-bottom: 0.8rem
+    .thumb 
+      width: 40px
+      height: 40px
+      background-color: lightblue
+      margin-right: 1.2rem
 
-        h1:not(:first-child) 
-            margin-top: 1rem
+    .category
+      color: gray
 
-    .list-item 
-      display: flex
-      margin-top: 1.5rem
-      margin-bottom: 1rem
+    .name
+      font-size: 1.2rem
 
-      .thumb 
-        width: 40px
-        height: 40px
-        background-color: lightblue
-        margin-right: 1.2rem
+    .info
+      text-align: left
 
-      .category
-        color: gray
-
-      .name
-        font-size: 1.2rem
-
-      .info
-        text-align: left
-
-    .list-item:hover 
-        text-decoration: underline
-        cursor: pointer
+  .list-item:hover 
+      text-decoration: underline
+      cursor: pointer
 
 @include base.respond-to('medium')
   

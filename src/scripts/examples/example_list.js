@@ -954,6 +954,636 @@ y = sin(sin(sin(sin(v) * sin(u))))
 z = sin(sin(sin(cos(v))))
 `
         },
+    ],
+    'Cutting & Spiraling': [
+        {
+            name: 'Spiral Long',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = u * sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Spiral Mid',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 3*PI/2, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = u * sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Spiral Short',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = u * sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Stretch Spiral Long',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Stretch Spiral Mid',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 3*PI/2, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Stretch Spiral Short',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = sin(v) * sin(u)
+z = cos(v)
+`
+        },
+    ],
+    'Modulate & Spiral': [
+        {
+            name: '1 Wave Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = u * sin(v) * sin(2*u)
+z = cos(v)
+`
+        },
+        {
+            name: '2 Wave Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = u * sin(v) * sin(3*u)
+z = cos(v)
+`
+        },
+        {
+            name: '3 Wave Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = u * sin(v) * sin(4*u)
+z = cos(v)
+`
+        },
+        {
+            name: '1 Wave Long Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = sin(v) * sin(2*u)
+z = cos(v)
+`
+        },
+        {
+            name: '2 Wave Long Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = sin(v) * sin(3*u)
+z = cos(v)
+`
+        },
+        {
+            name: '3 Wave Long Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = sin(v) * sin(4*u)
+z = cos(v)
+`
+        },
+    ],
+    'Spiral & Ascend': [
+        {
+            name: '1 Wave Spiral Ascend',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = u + u*sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Spiral Long Ascend',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u + u * sin(v) * cos(u)
+y = u*sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Spiral Even Ascend',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u + u * sin(v) * cos(u)
+y = u + u * sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Spiral Short Ascend',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = u + sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Spiral VLong Ascend',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u + u * sin(v) * cos(u)
+y = sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Spiral Cramped Ascend',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u + u * sin(v) * cos(u)
+y = u + sin(v) * sin(u)
+z = cos(v)
+`
+        },
+    ],
+    'Texturing & Spiraling': [
+        {
+            name: '1 Wave Tex. Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * (cos(2*u)/2 + sin(v) * cos(u))
+y = u * (sin(2*u)/2 + sin(v) * sin(u))
+z = cos(v)
+`
+        },
+        {
+            name: '2 Wave Tex. Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * (cos(3*u)/3 + sin(v) * cos(u))
+y = u * (sin(3*u)/3 + sin(v) * sin(u))
+z = cos(v)
+`
+        },
+        {
+            name: '3 Wave Tex. Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * (cos(4*u)/4 + sin(v) * cos(u))
+y = u * (sin(4*u)/4 + sin(v) * sin(u))
+z = cos(v)
+`
+        },
+        {
+            name: '1 Wave Tex. LSpiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * (cos(2*u)/2 + sin(v) * cos(u))
+y = sin(2*u)/2 + sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: '2 Wave Tex. LSpiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * (cos(3*u)/3 + sin(v) * cos(u))
+y = sin(3*u)/3 + sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: '3 Wave Tex. LSpiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * (cos(4*u)/4 + sin(v) * cos(u))
+y = sin(4*u)/4 + sin(v) * sin(u)
+z = cos(v)
+`
+        },
+    ],
+    'Bending & Spiraling': [
+        {
+            name: '2D Spiral Bend',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * (cos(u))
+y = u * (sin(v) + sin(u))
+`
+        },
+        {
+            name: '2D Long Spiral Bend',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * (cos(v) + cos(u))
+y = u * sin(u)
+`
+        },
+        {
+            name: '2D Open Spiral Bend',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * (cos(v) + cos(u))
+y = u * (sin(v) + sin(u))
+`
+        },
+        {
+            name: 'Spiral Bend Short',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = u * (sin(v) + sin(v) * sin(u))
+z = cos(v)
+`
+        },
+        {
+            name: 'Spiral Bend Open',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * (cos(v) + sin(v) * cos(u))
+y = u * sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Spiral Bend Intersect',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * (cos(v) + sin(v) * cos(u))
+y = u * (sin(v) + sin(v) * sin(u))
+z = cos(v)
+`
+        },
+    ],
+    'Bending & Spiraling': [
+        {
+            name: '2D Bent Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(v) + u * cos(u)
+y = u * sin(u)
+`
+        },
+        {
+            name: '2D Complex Bent Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(v) + u * cos(u)
+y = sin(v) + u * sin(u)
+`
+        },
+        {
+            name: 'Bent Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = sin(v) + u * sin(u) * sin(v)
+z = cos(v)
+`
+        },
+        {
+            name: 'Long Bent Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(v) + u * sin(v) * cos(u)
+y = u * sin(u) * sin(v)
+z = cos(v)
+`
+        },
+        {
+            name: 'Even Bent Spiral',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(v) + u * sin(v) * cos(u)
+y = sin(v) + u * sin(u) * sin(v)
+z = cos(v)
+`
+        },
+    ],
+    'Pinching & Spiraling': [
+        {
+            name: 'Pinch Spiral Subtle',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)^3
+y = u * sin(v) * sin(u)^3
+z = cos(v)
+`
+        },
+        {
+            name: 'Pinch Spiral Mid',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)^5
+y = u * sin(v) * sin(u)^5
+z = cos(v)
+`
+        },
+        {
+            name: 'Pinch Spiral Heavy',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)^7
+y = u * sin(v) * sin(u)^7
+z = cos(v)
+`
+        },
+    ],
+    'Flattening & Spiraling': [
+        {
+            name: 'Flat Spiral Subtle',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(sin(v) * cos(u))
+y = u * sin(sin(v) * sin(u))
+z = sin(cos(v))
+`
+        },
+        {
+            name: 'Flat Spiral Mid',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(sin(sin(v) * cos(u)))
+y = u * sin(sin(sin(v) * sin(u)))
+z = sin(sin(cos(v)))
+`
+        },
+        {
+            name: 'Flat Spiral Heavy',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(sin(sin(sin(v) * cos(u))))
+y = u * sin(sin(sin(sin(v) * sin(u))))
+z = sin(sin(sin(cos(v))))
+`
+        },
+    ],
+    'Spiraling & Flattening':
+    [
+        {
+            name: 'Spiral Flattened Subtle',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(u * sin(v) * cos(u))
+y = sin(u * sin(v) * sin(u))
+z = sin(cos(v))
+`
+        },
+        {
+            name: 'Spiral Flattened Mid',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(sin(u * sin(v) * cos(u)))
+y = sin(sin(u * sin(v) * sin(u)))
+z = sin(sin(cos(v)))
+`
+        },
+        {
+            name: 'Spiral Flattened Heavy',
+            code: `# resolution 35 
+# sampling 50
+# color rgb(0, 0, 0) 
+# bgcolor rgb(227, 227, 227)
+
+{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(sin(sin(u * sin(v) * cos(u))))
+y = sin(sin(sin(u * sin(v) * sin(u))))
+z = sin(sin(sin(cos(v))))
+`
+        },
     ]
 }
 
