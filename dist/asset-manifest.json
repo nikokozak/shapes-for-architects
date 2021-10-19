@@ -1,5 +1,7 @@
 {
+  "about.html": "about.html",
   "index.html": "index.html",
+  "tutorial.html": "tutorial.html",
   "lib/OrbitControls.js": "lib/OrbitControls.p8_S6Ob4nWsY.js",
   "lib/dat.gui.min.js": "lib/dat.gui.min.LF8ZB1iTwi4Q.js",
   "lib/ohm.min.js": "lib/ohm.min.byZ-mymrZAve.js",
@@ -7,5 +9,6 @@
   "lib/three.min.js": "lib/three.min.tsvPhO7bk_O1.js",
   "scripts/main.js": "scripts/main.oKwbtROyzBKY.js",
   "scripts/parser/_grammar.js": "scripts/parser/_grammar.Rq_ycTdZc3kX.js",
-  "styles/main.css": "styles/main.lR-YzCAgLAUv.css"
+  "styles/main.css": "styles/main.CB5lWkjQ4lxp.css",
+  "assets/gh-logo.png": "assets/gh-logo.L-eRcJRxLytM.png"
 }
