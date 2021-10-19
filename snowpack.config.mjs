@@ -3,6 +3,7 @@
 
 /** @type {import("snowpack").SnowpackUserConfig } */
 export default {
+    root: './src/',
   mount: {
     /* ... */
   },
@@ -17,5 +18,12 @@ export default {
   },
   buildOptions: {
     /* ... */
+      out: './dist',
   },
+    optimize: {
+        bundle: true,
+        minify: true,
+        target: 'es2018',
+        splitting: true
+    },
 }

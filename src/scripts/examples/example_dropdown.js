@@ -58,7 +58,7 @@ function make_example_li(section, example)
     })
 }())
 
-export function populateExamplesDropdown(editor)
+export function populateExamplesDropdown(editor, renderFn)
 {
     const dropdown_body = document.querySelector(SETTINGS.DROPDOWN_PANE)
 
@@ -73,7 +73,8 @@ export function populateExamplesDropdown(editor)
             example_li.addEventListener('click', (_e) => {
                 editor.set_contents(example.code) // Populate the editor
                 dropdown_body.style.display = 'none' // Close the dropdown body
-            })
+                renderFn()
+          })
             list_wrapper.appendChild(example_li)
         }
     }

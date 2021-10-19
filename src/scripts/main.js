@@ -12,7 +12,7 @@ const viewer = new Viewer()
 const lmaker = new LineMaker()
 const parser = new Parser()
 
-populateExamplesDropdown(editor)
+populateExamplesDropdown(editor, parseAndRender)
 
 editor.set_contents(SETTINGS.DEFAULT_TEXT)
 parseAndRender()

@@ -1,5 +1,28 @@
 export default {
     "Shaping": [
+        {
+            name: 'TUTORIAL',
+            code: `/* This is the editor status --> */
+
+/* You can change settings like so: */ 
+
+# resolution 20 
+# sampling 20
+# color rgb(0, 0, 0) 
+# bgColor rgb(255, 255, 255)
+
+/* Declare ranges like so: */ 
+
+{ u, v | 0 <= u <= 2*PI, -1 <= v <= 2 }
+
+/* Declare x, y, and z formulas like so: */ 
+
+x = cos(u)
+y = sin(u)
+z = v 
+
+/* The order of settings, then ranges, then formulas must be respected! */`
+        },
         { 
             name: 'Circle',
             code: `{ u | 0 <= u <= 2*PI }
@@ -219,6 +242,160 @@ x = sin(v) * cos(u)
 y = sin(v) * sin(4*u)
 z = cos(v)`
         },
+    ],
+    'Ascending': [
+        {
+            name: 'Y Open Pipe',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(u)
+y = u + sin(u)
+z = v`
+        },
+        {
+            name: 'X Open Pipe',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u + cos(u)
+y = sin(u)
+z = v`
+        },
+        {
+            name: 'Ascending Open Pipe',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u + cos(u)
+y = u + sin(u)
+z = v`
+        },
+        {
+            name: 'Y Open Sphere',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(v) * cos(u)
+y = u + sin(v) * sin(u)
+z = cos(v)`
+        },
+        {
+            name: 'X Open Sphere',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u + sin(v) * cos(u)
+y = sin(v) * sin(u)
+z = cos(v)`
+        },
+        {
+            name: 'Ascending Sphere',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u + sin(v) * cos(u)
+y = u + sin(v) * sin(u)
+z = cos(v)`
+        },
+    ],
+    'Spiraling': [
+        {
+            name: 'Pre-Spiral Pipe',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(u)
+y = u * sin(u)
+z = v`
+        },
+        {
+            name: 'Uneven Spiral Pipe',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * cos(u)
+y = sin(u)
+z = v`
+        },
+        {
+            name: 'Spiral Pipe',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * cos(u)
+y = u * sin(u)
+z = v`
+        },
+        {
+            name: 'Pre-Spiral Sphere',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(v) * cos(u)
+y = u * sin(v) * sin(u)
+z = cos(v)`
+        },
+        {
+            name: 'Uneven Spiral Sphere',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = sin(v) * sin(u)
+z = cos(v)`
+        },
+        {
+            name: 'Spiral Sphere',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = u * sin(v) * cos(u)
+y = u * sin(v) * sin(u)
+z = cos(v)`
+        },
+    ],
+    'Texturing': [
+        {
+            name: 'Single Notch Pipe',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(2*u) / 2 + cos(u)
+y = sin(2*u) / 2 + sin(u)
+z = v`
+        },
+        {
+            name: 'Double Notch Pipe',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(3*u) / 3 + cos(u)
+y = sin(3*u) / 3 + sin(u)
+z = v`
+        },
+        {
+            name: 'Clover Notch Pipe',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(4*u) / 4 + cos(u)
+y = sin(4*u) / 4 + sin(u)
+z = v`
+        },
+        {
+            name: 'Single Notch Sphere',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(2*u) / 2 + sin(v) * cos(u)
+y = sin(2*u) / 2 + sin(v) * sin(u)
+z = cos(v)`
+        },
+        {
+            name: 'Double Notch Sphere',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(3*u) / 3 + sin(v) * cos(u)
+y = sin(3*u) / 3 + sin(v) * sin(u)
+z = cos(v)`
+        },
+        {
+            name: 'Triple Notch Sphere',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(4*u) / 4 + sin(v) * cos(u)
+y = sin(4*u) / 4 + sin(v) * sin(u)
+z = cos(v)`
+        },
+    ],
+    'Bending':
+    [
+
     ]
 }
 
