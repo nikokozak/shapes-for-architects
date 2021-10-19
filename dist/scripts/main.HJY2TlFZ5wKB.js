@@ -2,8 +2,8 @@ typeof window=="undefined"&&(global.window={innerWidth:1e3});var Ge={VIEWER_BG_C
 
 /* You can change settings like so: */ 
 
-# resolution 20 
-# sampling 20
+# resolution 35 
+# sampling 50 
 # color rgb(0, 0, 0) 
 # bgcolor rgb(227, 227, 227)
 
