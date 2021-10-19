@@ -4,11 +4,21 @@
   margin-top: 1rem
   width: 100%
   order: -1
+  position: relative
 
   h2
     margin: 0
     margin-bottom: 1rem
     font-size: 1rem
+
+#status-indicator
+  position: absolute
+  width: 15px
+  height: 15px 
+  border-radius: 1.5rem
+  background-color: base.$indicator-success-color
+  top: 58px
+  right: 10px
 
 #jar 
     font-family: monospace
@@ -65,3 +75,7 @@
 
   #editor
     width: 500px
+    
+    h2
+      margin-bottom: 1.2rem
+

@@ -1,3 +1,10 @@
+/* ================== VIEWER.JS ==================
+ * Exports the Viewer class, which handles all
+ * things related to the THREE.JS canvas - essentially
+ * just a bunch of utility functions and thin wrappers
+ * for more verbose THREE.JS functions.
+ */
+
 import SETTINGS from "./settings.js"
 import { Scene, PerspectiveCamera, WebGLRenderer, Color } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'

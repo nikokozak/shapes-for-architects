@@ -1,3 +1,11 @@
+/* ======================= LINE MAKER.JS ======================
+ * Quite self explanatory - the LineMaker class takes a series
+ * of points as an array or nested array (if multiple lines are desired,
+ * and creates corresponding CatmullRomCurve3's (in make_curves), which
+ * then get sampled in order to create the BufferGeometry necessary for
+ * a Line object to be returned in make_lines.
+ */
+
 import SETTINGS from './settings.js'
 import { LineBasicMaterial, CatmullRomCurve3, BufferGeometry, Line } from 'three'
 

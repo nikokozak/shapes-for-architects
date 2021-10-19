@@ -1,3 +1,14 @@
+/* =================== ACTIONS.JS ====================
+ * These functions are helpers for the semantic actions
+ * declared inside grammar.peggy - they're out here instead
+ * of in there to facilitate testing and inspection.
+ *
+ * I'm handling the creation of an environment, and a bunch of things
+ * that should really be split into a separate "interpreter" directly
+ * in the semantic actions for the sake of ease and speed of development.
+ * The functions included here represent the more complex of these transformations.
+ */
+
 import SETTINGS from '../settings.js'
 import { Vector3 } from 'three'
 import { 

@@ -1,3 +1,10 @@
+/* ======================== ERRORS.JS =====================
+ * A bunch of different error types that our semantic actions
+ * can emit. Still unclear on how to best use these. 
+ * Currently these all end up being caught by the try,catch block
+ * in main.js
+ */
+
 export class UnknownFunctionError extends Error 
 {
     constructor(value) {
