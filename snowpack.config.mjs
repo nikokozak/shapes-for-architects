@@ -18,7 +18,7 @@ export default {
   },
   buildOptions: {
     /* ... */
-      out: './dist',
+      out: './docs', // Add docs for github pages
   },
     optimize: {
         bundle: true,
