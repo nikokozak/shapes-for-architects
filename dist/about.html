@@ -1,0 +1,50 @@
+<!DOCTYPE html><html><head>
+      <link rel="stylesheet" href="./styles/main.NEIlajy2xA1A.css">
+         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    </head>
+    <body>
+        <div id="world">
+            <ul id="small-links">
+                <li><a href="https://www.amazon.com/Morphing-Mathematical-Transformations-Architects-Designers/dp/1780674139/" target="_blank">Buy the Book</a></li>
+                <li><a href="./index.html">Editor</a></li>
+                <li><a href="./tutorial.html">Tutorial</a></li>
+            </ul>
+            <nav>
+                <div id="header">
+                    <h1>Morphing<br> Architecture</h1>
+                    <ul id="large-links">
+                        <li><a href="https://www.amazon.com/Morphing-Mathematical-Transformations-Architects-Designers/dp/1780674139/" target="_blank">Buy the Book</a></li>
+                        <li><a href="./index.html">Editor</a></li>
+                        <li><a href="./tutorial.html">Tutorial</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div id="article">
+                <h2 class="sub-title">This is an interactive playground for the book <a href="#">Morphing: A Guide...</a> written by Joseph Choma</h2>
+
+                <p class="text">While <em>not fully-featured, and lacking some of the more complex examples in the book</em>, this site lets you interactively explore the shapes and formulas defined by Choma in his book. I built this site during my batch at the <a href="https://recurse.com/" target="_blank">Recurse Center</a> as a way to tie together my previous work in generative design, and my current interests in domain-specific languages and interaction design.</p>
+
+                <h3>Contact:</h3>
+                <p class="text">Let me know if you find any bugs!</p>
+                <p class="contact">nikokozak at gmail dot com</p>
+
+                <h3>Some technical asides:</h3>
+                <ul class="text-list">
+                    <li><p class="text">I wanted to accommodate the way Choma defines his formulas in the book as closely as possible, enabling you to copy-paste them into the editor. In order to do so, I designed a language that accommodates only that strict syntax, and not much more. This language was specified using the parsing-expression-grammar (PEG) formalism with the Ohm-JS library, which allowed left-recursion and neatly separated semantic actions from the actual grammar. Eventually due to performance issues, I translated the original grammar to avoid left-recursion and migrated to Peggy, a fork of the PegJS library.</p></li>
+                    <li><p class="text">As of now, the syntax does not support floats or variable assignment, but these features should be added soon.</p></li>
+                    <li><p class="text">At present, syntax higlighting is handled by PrismJS via regex declarations, which is redundant given that we can extract location information from the parser - tying the parser locations with live tag interpolation into the editor is going to take some figuring out.</p></li>
+                    <li><p class="text">The editor is built on the CodeJar library, which is pleasant and light albeit not as capable as, say, Ace or CodeMirror.</p></li>
+                    <li><p class="text">Ranges (or Bounds, I'm still not sure what to call them) are recursive in nature - the first bound will nest inside the second bound if one is declared. This is necessary in order to draw the lines in the same way they're drawn in the book.</p></li>
+                    <li><p class="text">In order to accomplish the above, some trickery is introduced into the parsing flow - namely, the evaluation of functions is delayed so that they can be applied to all the steps in our range, with each step representing a new "environment" or "scope" for the given function.</p></li>
+                    <li><p class="text">The site is fully responsive, so it should work just as well on mobile/tablet as in the desktop.</p></li>
+                    <li><p class="text">THREE.JS is used for the rendering, which all things considered is kind of heavy-handed for our purposes. I'm working on a fork to streamline the sampling of points from Curve objects, in order to bypass having to create thousands of Point objects every time we do so.</p></li>
+                </ul>
+            </div>
+            <footer>
+                <a href="https://github.com/nikokozak/shapes-for-architects" target="_blank"><img class="gh-logo" src="./assets/gh-logo.L-eRcJRxLytM.png"></a>
+            </footer>
+        </div>
+    
+
+</body></html>

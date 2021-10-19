@@ -1,0 +1,96 @@
+<!DOCTYPE html><html><head>
+      <link rel="stylesheet" href="./styles/main.NEIlajy2xA1A.css">
+         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    </head>
+    <body>
+        <div id="world">
+            <ul id="small-links">
+                <li><a href="https://www.amazon.com/Morphing-Mathematical-Transformations-Architects-Designers/dp/1780674139/" target="_blank">Buy the Book</a></li>
+                <li><a href="./index.html">Editor</a></li>
+                <li><a href="./about.html">What is this?</a></li>
+            </ul>
+            <nav>
+                <div id="header">
+                    <h1>Morphing<br> Architecture</h1>
+                    <ul id="large-links">
+                        <li><a href="https://www.amazon.com/Morphing-Mathematical-Transformations-Architects-Designers/dp/1780674139/" target="_blank">Buy the Book</a></li>
+                        <li><a href="./index.html">Editor</a></li>
+                        <li><a href="./about.html">What is this?</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div id="article">
+                <h2 class="section-title">The Viewer</h2>
+
+                <h3>Moving Around</h3>
+                <p class="tutorial-text">You can rotate around the object by clicking and dragging.</p>
+                <p class="tutorial-text">You can pan around by holding down shift and then clicking and dragging, or drag the object around with two fingers if you're on mobile.</p>
+
+                <p class="tutorial-text">You can zoom in using your mouse's scroll wheel, two fingers on a trackpad, or by pinching and expanding on mobile.</p>
+
+                <h3>Centering and Downloading</h3>
+                <p class="tutorial-text">You can use the <button id="viewer-center-button" class="viewer-button"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bullseye" class="svg-inline--fa fa-bullseye" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#e3e3e3" d="M256 112C176.6 112 112 176.6 112 256s64.6 144 144 144s144-64.6 144-144S335.4 112 256 112zM256 336c-44.18 0-80-35.82-80-80S211.8 176 256 176c44.18 0 80 35.82 80 80S300.2 336 256 336zM256 224C238.4 224 224 238.4 224 256s14.36 32 32 32s32-14.36 32-32S273.6 224 256 224zM256 0C114.8 0 0 114.8 0 256s114.8 256 256 256s256-114.8 256-256S397.2 0 256 0zM256 448c-106 0-192-85.96-192-192s85.96-192 192-192s192 85.96 192 192S362 448 256 448z"></path></svg></button> button to center the screen.</p>
+
+                <p class="tutorial-text">You can use the <button id="viewer-save-button" class="viewer-button"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="cloud-arrow-down" class="svg-inline--fa fa-cloud-arrow-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="#e3e3e3" d="M537.6 226.6C541.7 215.9 544 204.2 544 192c0-53-43-96-96-96c-19.69 0-38.09 6-53.31 16.2C367 64.2 315.3 32 256 32C167.6 32 96 103.6 96 192c0 2.703 .1094 5.445 .2031 8.133C40.2 219.8 0 273.2 0 336C0 415.5 64.5 480 144 480H512c70.69 0 128-57.3 128-128C640 290.1 596 238.4 537.6 226.6zM424.1 320.1l-88 88C334.4 411.5 328.5 416 320 416s-14.4-4.467-16.97-7.031l-88-88c-9.375-9.375-9.375-24.56 0-33.94s24.56-9.375 33.94 0L296 334.1V184C296 170.8 306.8 160 320 160s24 10.75 24 24v150.1l47.03-47.03c9.375-9.375 24.56-9.375 33.94 0S434.3 311.6 424.1 320.1z"></path></svg></button> button to download a png screenshot of your object.</p>
+
+                <h2 class="section-title">The Editor</h2>
+
+                <p class="tutorial-text">The editor allows you to write and modify formulas for objects in real-time.</p>
+
+                <h3>Correctness</h3>
+                <p class="tutorial-text">The <span id="status-indicator"></span> indicator shows you the status of the editor. When it's red, it means that something about what you've typed in doesn't make sense to the parser. When it's green, it means that the parser has understood the changes you've made.</p>
+
+                <h3>The Language</h3>
+                <p class="tutorial-text"><strong><em>Please note that a valid program consists of any-or-no settings, followed by a range declaration, followed by one or more axis declarations (of which only x, y, and z are allowed).</em></strong></p>
+                <p class="tutorial-text">The language used in the editor has the following features:</p>
+
+                <h4 class="lang-token"># resolution 50</h4>
+                <p class="tutorial-detail-text"><span class="detail">A setting</span>. The available settings are:</p>
+                <ul class="settings-list">
+                    <li># sampling [integer]</li>
+                    <li># resolution [integer]</li>
+                    <li># color rgb([0-255], [0-255], [0-255])</li>
+                    <li># bgcolor rgb([0-255], [0-255], [0-255])</li>
+                </ul>
+
+                <h4 class="lang-token">/* .... */</h4>
+                <p class="tutorial-detail-text"><span class="detail">A comment.</span></p>
+
+                <h4 class="lang-token">{ u | 0 &lt;= u &lt;= PI }</h4>
+                <h4 class="lang-token">{ u, v | 0&lt;=u&lt;=PI, 0&lt;=v&lt;=1 }</h4>
+                <p class="tutorial-detail-text"><span class="detail">A range declaration.</span> The identifiers declared before the "|" symbol must match the identifiers referenced afterwards. The range is split into "steps" using the #resolution setting. When two ranges are declared, the "steps" of the first range are nested in the steps of the second range, and lines are drawn accordingly.</p>
+
+                <h4 class="lang-token">x = 1</h4>
+                <p class="tutorial-detail-text"><span class="detail">An axis declaration.</span> You can declare x, y, and z axes. These <em>do not</em> function like normal variable assignments.</p>
+
+                <h4 class="lang-token">cos(...), sin(...), atan(...)</h4>
+                <p class="tutorial-detail-text"><span class="detail">Functions.</span> Only these are supported at the moment.</p>
+
+                <h4 class="lang-token">+ - / * () ^</h4>
+                <p class="tutorial-detail-text"><span class="detail">Arithmetic operators.</span> These follow correct order of operations.</p>
+
+                <h4 class="lang-token">PI, π</h4>
+                <p class="tutorial-detail-text"><span class="detail">Pi</span> calculated using JS Math.Pi.</p>
+
+                <h4 class="lang-token">&lt;=, &gt;=, &lt;, &gt;</h4>
+                <p class="tutorial-detail-text"><span class="detail">Comparison operators.</span></p>
+
+                <h4 class="lang-token">0, 255, 1000</h4>
+                <p class="tutorial-detail-text"><span class="detail">Whole numbers.</span> Float support is being added.</p>
+
+                <h4 class="lang-token">-255, -1000</h4>
+                <p class="tutorial-detail-text"><span class="detail">Negative numbers.</span> Float support is being added.</p>
+
+                <h3>Contact</h3>
+                <p class="text">Feel free to contact me if you have any questions.</p>
+                <p class="contact">nikokozak at gmail dot com</p>
+
+            </div>
+            <footer>
+                <a href="https://github.com/nikokozak/shapes-for-architects" target="_blank"><img class="gh-logo" src="./assets/gh-logo.L-eRcJRxLytM.png"></a>
+            </footer>
+        </div>
+    
+
+</body></html>
