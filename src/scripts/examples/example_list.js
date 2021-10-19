@@ -1299,7 +1299,7 @@ z = cos(v)
 `
         },
     ],
-    'Bending & Spiraling': [
+    'Spiraling & Bending': [
         {
             name: '2D Spiral Bend',
             code: `# resolution 35 
