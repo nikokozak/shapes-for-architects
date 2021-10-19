@@ -9,6 +9,7 @@ export default {
   },
   plugins: [
       '@snowpack/plugin-sass',
+      'snowpack-plugin-hash',
   ],
   packageOptions: {
     /* ... */

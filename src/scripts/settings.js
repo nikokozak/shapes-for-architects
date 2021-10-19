@@ -62,8 +62,8 @@ export default {
 
 /* You can change settings like so: */ 
 
-# resolution 20 
-# sampling 20
+# resolution 35 
+# sampling 50 
 # color rgb(0, 0, 0) 
 # bgcolor rgb(227, 227, 227)
 
