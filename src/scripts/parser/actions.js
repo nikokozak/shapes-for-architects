@@ -41,7 +41,8 @@ export function parseRange(range, options)
 {
     const { ids, bounds } = range
     ensureIdentifierParity(ids, bounds)
-    const resolution = !isNaN(options.resolution) && (options.resolution > 2) ? options.resolution : SETTINGS.RESOLUTION
+    let resolution = !isNaN(options.resolution) && (options.resolution > 2) ? options.resolution : SETTINGS.RESOLUTION
+    resolution = resolution > SETTINGS.MAX_RESOLUTION ? SETTINGS.MAX_RESOLUTION : resolution
     return bounds.map(b => generateNamedRangeValues(b, resolution))
 }
 

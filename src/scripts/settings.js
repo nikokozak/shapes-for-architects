@@ -45,6 +45,8 @@ export default {
 
     MAX_RANGE_NUM: 100_000,
     MIN_RANGE_NUM: -100_000,
+    MAX_RESOLUTION: 140,
+    MAX_SAMPLING: 100,
 
     /* ============ SELEKTAAAAH ========== */
 

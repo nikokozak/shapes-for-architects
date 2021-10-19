@@ -34,7 +34,7 @@ function parseAndRender(_e = false) {
 
 function renderScene(parsed, viewer)
 {
-    const sampling = parsed.options.sampling
+    const sampling = safeSampling(parsed.options.sampling)
     const line_color = 
         sanitizeColor(parsed.options.color, SETTINGS.VIEWER_LINE_COLOR)
     const background_color = 
@@ -48,6 +48,11 @@ function renderScene(parsed, viewer)
 function sanitizeColor(color, dfault)
 {
     return /rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)/.test(color) ? color : dfault
+}
+
+function safeSampling(rate)
+{
+    return (rate > SETTINGS.MAX_SAMPLING) || (rate < 1) ? SETTINGS.MAX_SAMPLING : rate
 }
 
 /* ================== DRAW CYCLE ===================== */
