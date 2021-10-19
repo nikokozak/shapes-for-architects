@@ -9,7 +9,7 @@ export default {
 # resolution 20 
 # sampling 20
 # color rgb(0, 0, 0) 
-# bgColor rgb(255, 255, 255)
+# bgcolor rgb(227, 227, 227)
 
 /* Declare ranges like so: */ 
 
@@ -395,7 +395,137 @@ z = cos(v)`
     ],
     'Bending':
     [
+        {
+            name: 'Simple Wave',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
 
-    ]
+x = u
+y = sin(v) * sin(u)
+`
+        },
+        {
+            name: 'Complex Wave',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(v) + u
+y = sin(u)
+`
+        },
+        {
+            name: 'Uneven Wave',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(v) + u
+y = sin(v) + sin(u)
+`
+        },
+        {
+            name: 'Displaced Sphere',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(u)
+y = sin(v) + sin(u)
+`
+        },
+        {
+            name: 'Merged Circles',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(v) + cos(u)
+y = sin(u)
+`
+        },
+        {
+            name: 'Rainbow Circles',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(v) + cos(u)
+y = sin(v) + sin(u)
+`
+        },
+        {
+            name: 'Squiggly Pipe Y',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(u)
+y = sin(v) + sin(u)
+z = v
+`
+        },
+        {
+            name: 'Squiggly Pipe X',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(v) + cos(u)
+y = sin(u)
+z = v
+`
+        },
+        {
+            name: 'Squiggly Pipe',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(v) + cos(u)
+y = sin(v) + sin(u)
+z = v
+`
+        },
+        {
+            name: 'Deformed Sphere Y',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = sin(v) + cos(u)
+y = sin(v) + sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Deformed Sphere X',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(v) + sin(v) * cos(u)
+y = sin(v) * sin(u)
+z = cos(v)
+`
+        },
+        {
+            name: 'Deformed Sphere',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(v) + sin(v) * cos(u)
+y = sin(v) + sin(v) * sin(u)
+z = cos(v)
+`
+        },
+    ],
+    'Pinching': [
+        {
+            name: 'Pipe Pinch Subtle',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(u)^3
+y = sin(u)^3
+z = v
+`
+        },
+        {
+            name: 'Pipe Pinch Medium',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(u)^5
+y = sin(u)^5
+z = v
+`
+        },
+        {
+            name: 'Pipe Pinch Extreme',
+            code: `{ u, v | 0 <= u <= 2*PI, 0 <= v <= PI }
+
+x = cos(u)^7
+y = sin(u)^7
+z = v
+`
+        },
+    ],
 }
 

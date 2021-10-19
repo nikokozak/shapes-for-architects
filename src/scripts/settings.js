@@ -63,7 +63,7 @@ export default {
 # resolution 20 
 # sampling 20
 # color rgb(0, 0, 0) 
-# bgColor rgb(255, 255, 255)
+# bgcolor rgb(227, 227, 227)
 
 /* Declare ranges like so: */ 
 
