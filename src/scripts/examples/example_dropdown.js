@@ -21,12 +21,19 @@ function make_title_li(section_title) {
     return title_li
 }
 
-function make_example_li(section, example) 
+function make_example_li(section, example, index = null) 
 {
     const example_li = document.createElement('li') 
     example_li.classList.add('list-item')
     const example_thumb = document.createElement('div')
     example_thumb.classList.add('thumb')
+
+    if (index != null) { // Add a thumbnail if it's available.
+        const example_img = document.createElement('img')
+        example_img.src = './assets/morph-' + index + '.png'
+        example_thumb.appendChild(example_img) 
+    }
+
     const example_info = document.createElement('div')
     example_info.classList.add('info')
     const example_name = document.createElement('h3')
@@ -62,6 +69,8 @@ export function populateExamplesDropdown(editor, renderFn)
 {
     const dropdown_body = document.querySelector(SETTINGS.DROPDOWN_PANE)
 
+    let idx = 0
+
     for (const [category, examples] of Object.entries(example_list)) 
     {
         const title_li = make_title_li(category)
@@ -69,7 +78,7 @@ export function populateExamplesDropdown(editor, renderFn)
 
         for (const example of examples)
         {
-            const example_li = make_example_li(category, example)
+            const example_li = make_example_li(category, example, idx++)
             example_li.addEventListener('click', (_e) => {
                 editor.set_contents(example.code) // Populate the editor
                 dropdown_body.style.display = 'none' // Close the dropdown body
