@@ -1,30 +1,30 @@
 #!/usr/bin/ruby
+# Re-orders files to start from 0. This fixed an error where all my images
+# initially started numberin from 5.
+
+MATCH = /morph-(\d+)/
 
 def getnum(file_name)
-  /morph-(\d+).+/.match(file_name)[1].to_i
+  MATCH.match(file_name)[1].to_i
 end
 
-def decrease_num(file_name, offset)
+def decrease_num(file_name, offset = 0)
   num = getnum(file_name)
   File.rename(file_name, "morph-#{num - offset}_temp.png")
 end
 
 def clean(file_name)
-  if file_name.include? "temp"
-    new = /(morph-\d+)_temp.png/.match(file_name)[1]
+  if new = MATCH.match(file_name)
     File.rename(file_name, "#{new}.png")
   end
 end
 
-files = Dir.entries('.').select do |f| 
+sorted_files = Dir.entries('.').select do |f| 
   File.file? f and f.include? "morph"
 end.sort { |a, b| getnum(a) <=> getnum(b) }
 
-smallest_num = getnum(files[0])
+smallest_num = getnum(sorted_files[0])
 
-files.each { |f| decrease_num(f, smallest_num) }
+sorted_files.each { |f| decrease_num(f, smallest_num) }
 
-files = Dir.entries('.').select do |f| 
-  File.file? f and f.include? "morph"
-end
-files.each { |f| clean f }
+Dir.entries('.').select { |f| File.file? f and MATCH.match(f) }.each { |f| clean f }
