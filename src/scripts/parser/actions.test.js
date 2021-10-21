@@ -9,7 +9,8 @@ const {
     generateNamedRangeValues,
     combineArrays,
     evalWithEnv,
-    evalArithmeticExprs 
+    evalArithmeticExprs,
+    safePow
 } = actions
 
 // ensureIdentifierParity
@@ -182,5 +183,11 @@ test('getPointsWithFormulas returns a nested array of Vector3 points', t => {
     t.true(result[0][0] instanceof Vector3)
     t.is(result.length, 2)
     t.is(result[0].length, 2)
+})
+
+test('safePow throws an error when base is negative and exponent is float', t => {
+    t.throws(() => { safePow(-1, 1.2) })
+    t.notThrows(() => { safePow(-1, 1.0) })
+    t.notThrows(() => { safePow(3, 10) })
 })
 

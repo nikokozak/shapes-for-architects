@@ -15,7 +15,8 @@ import {
     RangeIdentifierParityError,
     InfiniteRangeError,
     InvalidResolutionError,
-    UndeclaredIdentifierError} from './errors.js'
+    UndeclaredIdentifierError,
+    ImaginaryNumberError} from './errors.js'
 
 export function ensureIdentifierParity(identifiers, bounds_array)
 {
@@ -145,6 +146,13 @@ export function makeIDFetcher(id)
     }
 }
 
+export function safePow(a, b)
+// Raises an exception if b is a float (imaginary number error)
+{
+    if ((a < 0) && !Number.isInteger(b)) { throw new ImaginaryNumberError(b) }
+    return Math.pow(a, b)
+}
+
 export default {
     ensureIdentifierParity,
     parseOptions,
@@ -155,5 +163,6 @@ export default {
     generateNamedRangeValues,
     evalArithmeticExprs,
     evalWithEnv,
-    makeIDFetcher
+    makeIDFetcher,
+    safePow
 }

@@ -59,6 +59,15 @@ export class InvalidResolutionError extends Error
     }
 }
 
+export class ImaginaryNumberError extends Error
+{
+    constructor(value) {
+        super(`A number cannot be raised to a float if the base is negative!`)
+        this.value = value
+        this.name = "ImaginaryNumberError"
+    }
+}
+
 export default {
     UnknownFunctionError,
     DisallowedIdentifierError,
@@ -66,4 +75,5 @@ export default {
     InfiniteRangeError,
     RangeIdentifierParityError,
     InvalidResolutionError,
+    ImaginaryNumberError
 }

@@ -15,7 +15,7 @@ program
     }
 
 option
-    = _ '#' _ option:word _ value:(number / color)? _
+    = _ '#' _ option:word _ value:(whole_number / color)? _
     { return { option, value } }
 
 range 
@@ -89,8 +89,8 @@ multOp
     / '/' { return (a, b) => a / b }
 
 powerOp
-    = '^' { return (a, b) => Math.pow(a, b) }
-    / '**' { return (a, b) => Math.pow(a, b) }
+    = '^' { return helpers.safePow }
+    / '**' { return helpers.safePow }
 
 rule 
     = ('<=' / '≤') { return (a, b) => a <= b }
@@ -99,7 +99,7 @@ rule
     / ('>' / '>')  { return (a, b) => a > b }
 
 color 
-    = 'rgb(' _ red:number _ ',' _ green:number _ ',' _ blue:number ')'
+    = 'rgb(' _ red:whole_number _ ',' _ green:whole_number _ ',' _ blue:whole_number ')'
     { return `rgb(${red}, ${green}, ${blue})` }
 
 axis 
@@ -124,6 +124,10 @@ constant
     = ('PI' / 'π') { return Math.PI }
 
 number 
+    = head:([0-9]+)? '.' tail:[0-9]+ { return parseFloat((head || []).join('') + '.' + tail.join('')) }
+    / num:[0-9]+ { return parseInt(num.join('')) }
+
+whole_number
     = num:[0-9]+ { return parseInt(num.join('')) }
 
 lower
